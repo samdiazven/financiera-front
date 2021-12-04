@@ -20,7 +20,7 @@ import {
 const dashRoutes = [
   {
     path: "/dashboard",
-    name: "Dashboard",
+    name: "Inicio",
     rtlName: "لوحة القيادة",
     icon: <HomeIcon color="inherit" />,
     component: Dashboard,
