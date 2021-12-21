@@ -7,7 +7,14 @@ import {
   Flex,
   Text,
 } from "@chakra-ui/react";
-import { FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
+import {
+  FaFacebook,
+  FaInstagram,
+  FaMailBulk,
+  FaMobile,
+  FaTwitter,
+  FaYoutube,
+} from "react-icons/fa";
 
 const SocialButton = ({ children, label, href }) => {
   return (
@@ -35,10 +42,28 @@ const SocialButton = ({ children, label, href }) => {
 
 function Socials() {
   return (
-    <VStack direction={"column"} spacing={6}>
+    <VStack
+      direction={"column"}
+      spacing={6}
+      alignItems={"center"}
+      marginTop={{ base: "12", md: 0 }}
+    >
+      <Flex alignItems={"center"} marginRight={"16"}>
+        <SocialButton label={"Twitter"} href={"#"}>
+          <FaFacebook />
+        </SocialButton>
+        <Text
+          ml={4}
+          style={{
+            color: useColorModeValue("blackAlpha.100", "whiteAlpha.100"),
+          }}
+        >
+          @saludfinancierape
+        </Text>
+      </Flex>
       <Flex alignItems={"center"}>
         <SocialButton label={"Twitter"} href={"#"}>
-          <FaTwitter />
+          <FaMailBulk />
         </SocialButton>
         <Text
           ml={4}
@@ -46,35 +71,7 @@ function Socials() {
             color: useColorModeValue("blackAlpha.100", "whiteAlpha.100"),
           }}
         >
-          @SaludFinanciera
-        </Text>
-      </Flex>
-
-      <Flex alignItems={"center"}>
-        <SocialButton label={"YouTube"} href={"#"}>
-          <FaYoutube />
-        </SocialButton>
-        <Text
-          ml={4}
-          style={{
-            color: useColorModeValue("blackAlpha.100", "whiteAlpha.100"),
-          }}
-        >
-          @SaludFinanciera
-        </Text>
-      </Flex>
-
-      <Flex alignItems={"center"}>
-        <SocialButton label={"Instagram"} href={"#"}>
-          <FaInstagram />
-        </SocialButton>
-        <Text
-          ml={4}
-          style={{
-            color: useColorModeValue("blackAlpha.100", "whiteAlpha.100"),
-          }}
-        >
-          @SaludFinanciera
+          contacto@saludfinanciera.pe{" "}
         </Text>
       </Flex>
     </VStack>

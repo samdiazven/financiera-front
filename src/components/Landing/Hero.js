@@ -37,10 +37,7 @@ export default function Hero() {
                 Financiera
               </Text>{" "}
             </Heading>
-            <Text fontSize={{ base: "md", lg: "lg" }} color={"gray.500"}>
-              The project board is an exclusive resource for contract work. It's
-              perfect for freelancers, agencies, and moonlighters.
-            </Text>
+
             <Stack direction={{ base: "column", md: "row" }} spacing={4}>
               <Button
                 rounded={"full"}

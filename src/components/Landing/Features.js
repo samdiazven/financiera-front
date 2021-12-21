@@ -13,9 +13,11 @@ import {
 import {
   IoAnalyticsSharp,
   IoLogoBitcoin,
+  IoIosTrendingUp,
+  IoAlbums,
   IoSearchSharp,
 } from "react-icons/io5";
-
+import { AiFillDollarCircle } from "react-icons/ai";
 const Feature = ({ text, icon, iconBg }) => {
   return (
     <Stack direction={"row"} align={"center"}>
@@ -65,10 +67,10 @@ export default function Features() {
           >
             Nosotros
           </Text>
-          <Heading>A digital Product design agency</Heading>
+          <Heading>Agencia Financiera</Heading>
           <Text color={"gray.500"} fontSize={"lg"}>
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-            nonumy eirmod tempor invidunt ut labore
+            Somos una empresa peruana que brinda soluciones financieras a
+            emprendedores y empresarios de todo rubro.
           </Text>
           <Stack
             spacing={4}
@@ -79,23 +81,28 @@ export default function Features() {
             }
           >
             <Feature
-              icon={
-                <Icon as={IoAnalyticsSharp} color={"yellow.500"} w={5} h={5} />
-              }
+              icon={<Icon as={IoAlbums} color={"yellow.500"} w={5} h={5} />}
               iconBg={useColorModeValue("yellow.100", "yellow.900")}
-              text={"Business Planning"}
-            />
-            <Feature
-              icon={<Icon as={IoLogoBitcoin} color={"green.500"} w={5} h={5} />}
-              iconBg={useColorModeValue("green.100", "green.900")}
-              text={"Financial Planning"}
+              text={"Asesoriamiento Contable"}
             />
             <Feature
               icon={
-                <Icon as={IoSearchSharp} color={"purple.500"} w={5} h={5} />
+                <Icon as={IoAnalyticsSharp} color={"green.500"} w={5} h={5} />
+              }
+              iconBg={useColorModeValue("green.100", "green.900")}
+              text={"Asesoramiento Financiero"}
+            />
+            <Feature
+              icon={
+                <Icon
+                  as={AiFillDollarCircle}
+                  color={"purple.500"}
+                  w={5}
+                  h={5}
+                />
               }
               iconBg={useColorModeValue("purple.100", "purple.900")}
-              text={"Market Analysis"}
+              text={"Asesoriamiento Tributario"}
             />
           </Stack>
         </Stack>

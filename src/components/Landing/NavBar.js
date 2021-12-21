@@ -13,14 +13,6 @@ import {
 import { AnimatePresence, motion } from "framer-motion";
 import { HamburgerIcon, CloseIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { Link as NextLink } from "react-router-dom";
-const Links = [
-  "Inicio",
-  "Nosotros",
-  "¿Qué hacemos?",
-  "Estadísticas",
-  "Referencias",
-  "Contáctanos",
-];
 
 const NavLink = ({ children }) => (
   <Link
@@ -56,9 +48,21 @@ const Logo = (props) => {
   );
 };
 
-export default function NavBar() {
+export default function NavBar({ onClick }) {
+  const Links = [
+    { name: "Inicio", ref: "hero" },
+    { name: "Nosotros", ref: "features" },
+    { name: "¿Qué hacemos?", ref: "services" },
+    { name: "Estadísticas", ref: "stadistics" },
+    { name: "Referencias", ref: "testimonials" },
+    { name: "Contáctanos", ref: "contacts" },
+  ];
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { colorMode, toggleColorMode } = useColorMode();
+  const handleScroll = (name) => {
+    console.log(name);
+    onClick(name);
+  };
   return (
     <>
       <Box bg={useColorModeValue("gray.100", "gray.900")} px={4}>
@@ -87,7 +91,13 @@ export default function NavBar() {
               display={{ base: "none", md: "flex" }}
             >
               {Links.map((link) => (
-                <NavLink key={link}>{link}</NavLink>
+                <div
+                  style={{ cursor: "pointer" }}
+                  key={link.ref}
+                  onClick={() => handleScroll(link.ref)}
+                >
+                  {link.name}
+                </div>
               ))}
             </HStack>
           </HStack>
@@ -118,7 +128,13 @@ export default function NavBar() {
           <Box pb={4} display={{ md: "none" }}>
             <Stack as={"nav"} spacing={4}>
               {Links.map((link) => (
-                <NavLink key={link}>{link}</NavLink>
+                <div
+                  style={{ cursor: "pointer" }}
+                  key={link.ref}
+                  onClick={() => handleScroll(link.ref)}
+                >
+                  {link.name}
+                </div>
               ))}
             </Stack>
           </Box>
