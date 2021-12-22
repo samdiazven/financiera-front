@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { Flex } from "@chakra-ui/react";
+import { Container, Flex, Text } from "@chakra-ui/react";
 import NavBar from "components/Landing/NavBar";
 import Hero from "components/Landing/Hero";
 import Features from "components/Landing/Features";
@@ -8,6 +8,7 @@ import Statistics from "components/Landing/Statistics";
 import Testimonials from "components/Landing/Testimonials";
 import Contacts from "components/Landing/Contacts";
 import Socials from "components/Landing/Socials";
+import Inversions from "components/Landing/Inversiones";
 import Footer from "components/Landing/Footer";
 function Landing() {
   const scrollIntoView = (ref) => {
@@ -21,11 +22,12 @@ function Landing() {
     stadistics: useRef(null),
     testimonials: useRef(null),
     contacts: useRef(null),
+    inversions: useRef(null),
     footer: useRef(null),
   };
 
   return (
-    <>
+    <Container maxW={"100vh"}>
       <NavBar onClick={scrollIntoView} />
       <div ref={refs.hero}>
         <Hero />
@@ -38,12 +40,17 @@ function Landing() {
       <div ref={refs.services}>
         <Services />
       </div>
-
+      <div ref={refs.inversions}>
+        <Inversions />
+      </div>
       <div ref={refs.stadistics}>
         <Statistics />
       </div>
 
       <div ref={refs.testimonials}>
+        <Text as="h2" marginBottom={10}>
+          Nuestras Inversiones
+        </Text>
         <Testimonials />
       </div>
       <Flex
@@ -58,7 +65,7 @@ function Landing() {
       <div ref={refs.footer}>
         <Footer />
       </div>
-    </>
+    </Container>
   );
 }
 

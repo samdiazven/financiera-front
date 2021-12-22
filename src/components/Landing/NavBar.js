@@ -59,10 +59,8 @@ export default function NavBar({ onClick }) {
   ];
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { colorMode, toggleColorMode } = useColorMode();
-  const handleScroll = (name) => {
-    console.log(name);
-    onClick(name);
-  };
+  const handleScroll = (name) => onClick(name);
+
   return (
     <>
       <Box bg={useColorModeValue("gray.100", "gray.900")} px={4}>
@@ -87,7 +85,7 @@ export default function NavBar({ onClick }) {
               flexGrow={1}
               justifyContent={"center"}
               as={"nav"}
-              spacing={4}
+              spacing={6}
               display={{ base: "none", md: "flex" }}
             >
               {Links.map((link) => (
