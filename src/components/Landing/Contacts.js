@@ -34,16 +34,16 @@ export default function Contacts() {
             fontSize={"3xl"}
             color={useColorModeValue("gray.800", "gray.200")}
           >
-            Subscribe
+            Contactanos
           </Heading>
           <Text fontSize={"lg"} color={"gray.500"}>
-            Subscribe to our newsletter & stay up to date!
+            Envianos tu correo y coordineramos una reunion contigo!
           </Text>
         </Stack>
         <Stack spacing={4} direction={{ base: "column", md: "row" }} w={"full"}>
           <Input
             type={"text"}
-            placeholder={"john@doe.net"}
+            placeholder={"Inversionista@gmail.com"}
             color={useColorModeValue("gray.800", "gray.200")}
             bg={useColorModeValue("gray.100", "gray.600")}
             rounded={"full"}
@@ -61,7 +61,7 @@ export default function Contacts() {
             _hover={{ bg: "blue.500" }}
             _focus={{ bg: "blue.500" }}
           >
-            Subscribe
+            Enviar
           </Button>
         </Stack>
       </Stack>

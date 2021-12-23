@@ -8,7 +8,7 @@ import Statistics from "components/Landing/Statistics";
 import Testimonials from "components/Landing/Testimonials";
 import Contacts from "components/Landing/Contacts";
 import Socials from "components/Landing/Socials";
-import Inversions from "components/Landing/Inversiones";
+import Inversions from "components/Landing/inversions";
 import Footer from "components/Landing/Footer";
 function Landing() {
   const scrollIntoView = (ref) => {
@@ -27,7 +27,7 @@ function Landing() {
   };
 
   return (
-    <Container maxW={"100vh"}>
+    <>
       <NavBar onClick={scrollIntoView} />
       <div ref={refs.hero}>
         <Hero />
@@ -48,9 +48,6 @@ function Landing() {
       </div>
 
       <div ref={refs.testimonials}>
-        <Text as="h2" marginBottom={10}>
-          Nuestras Inversiones
-        </Text>
         <Testimonials />
       </div>
       <Flex
@@ -65,7 +62,7 @@ function Landing() {
       <div ref={refs.footer}>
         <Footer />
       </div>
-    </Container>
+    </>
   );
 }
 

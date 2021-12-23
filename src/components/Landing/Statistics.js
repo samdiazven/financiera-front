@@ -38,12 +38,12 @@ export default function Statitics() {
         py={10}
         fontWeight={"bold"}
       >
-        What is our company doing?
+        A quienes hemos ayudado!
       </chakra.h1>
       <SimpleGrid columns={{ base: 1, md: 3 }} spacing={{ base: 5, lg: 8 }}>
-        <StatsCard title={"We serve"} stat={"50,000 people"} />
-        <StatsCard title={"In"} stat={"30 different countries"} />
-        <StatsCard title={"Who speak"} stat={"100 different languages"} />
+        <StatsCard title={"Emprendedores"} stat={"200 emprendedores"} />
+        <StatsCard title={"En"} stat={"4 paises"} />
+        <StatsCard title={"Crecimiento"} stat={"Hasta del 90%"} />
       </SimpleGrid>
     </Box>
   );

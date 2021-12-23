@@ -45,10 +45,11 @@ function Socials() {
     <VStack
       direction={"column"}
       spacing={6}
-      alignItems={"center"}
+      alignItems={"flex-start"}
       marginTop={{ base: "12", md: 0 }}
+      maxW={"32"}
     >
-      <Flex alignItems={"center"} marginRight={"16"}>
+      <Flex alignItems={"center"}>
         <SocialButton label={"Twitter"} href={"#"}>
           <FaFacebook />
         </SocialButton>
@@ -59,6 +60,19 @@ function Socials() {
           }}
         >
           @saludfinancierape
+        </Text>
+      </Flex>
+      <Flex alignItems={"center"}>
+        <SocialButton label={"Twitter"} href={"#"}>
+          <FaInstagram />
+        </SocialButton>
+        <Text
+          ml={4}
+          style={{
+            color: useColorModeValue("blackAlpha.100", "whiteAlpha.100"),
+          }}
+        >
+          @saludfinanciera.pe
         </Text>
       </Flex>
       <Flex alignItems={"center"}>
