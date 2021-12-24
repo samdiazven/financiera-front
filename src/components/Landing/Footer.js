@@ -5,8 +5,10 @@ import {
   Image,
   Stack,
   Text,
+  VStack,
   useColorModeValue,
   VisuallyHidden,
+  HStack,
 } from "@chakra-ui/react";
 import { FaFacebook, FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
 import LogoImg from "../../assets/img/logo.png";
@@ -56,10 +58,15 @@ export default function Footer() {
         align={{ base: "center", md: "center" }}
       >
         <Logo />
-        <Text>
-          © {new Date().getFullYear()} Salud Financiera. Todos los derechos
-          reservados
-        </Text>
+        <VStack>
+          <Text>
+            {"  "} Av. Carlos Izaguirre 946 - Urb. Las Palmeras - Los Olivos
+          </Text>
+          <Text>
+            © {new Date().getFullYear()} Salud Financiera. Todos los derechos
+            reservados
+          </Text>
+        </VStack>
         <Stack direction={"row"} spacing={6}>
           <SocialButton
             label={"Facebook"}

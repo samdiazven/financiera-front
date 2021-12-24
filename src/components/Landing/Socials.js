@@ -12,8 +12,10 @@ import {
   FaInstagram,
   FaMailBulk,
   FaMobile,
+  FaMapMarker,
   FaTwitter,
   FaYoutube,
+  FaPhone,
 } from "react-icons/fa";
 
 const SocialButton = ({ children, label, href }) => {
@@ -91,7 +93,21 @@ function Socials() {
             color: useColorModeValue("blackAlpha.100", "whiteAlpha.100"),
           }}
         >
-          contacto@saludfinanciera.pe
+          consultas@saludfinanciera.pe
+        </Text>
+      </Flex>
+      <Flex alignItems={"center"}>
+        <SocialButton label={"Twitter"} href={"#"}>
+          <FaPhone />
+        </SocialButton>
+        <Text
+          ml={4}
+          flexGrow={1}
+          style={{
+            color: useColorModeValue("blackAlpha.100", "whiteAlpha.100"),
+          }}
+        >
+          +51938893902
         </Text>
       </Flex>
     </VStack>
