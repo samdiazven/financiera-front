@@ -49,7 +49,13 @@ export default function NavBar({ onClick }) {
 
   return (
     <>
-      <Box bg={useColorModeValue("gray.100", "gray.900")} px={4}>
+      <Box
+        bg={useColorModeValue("gray.100", "gray.900")}
+        px={4}
+        position={"fixed"}
+        zIndex={3}
+        width={"100%"}
+      >
         <Flex
           flexGrow={1}
           h={16}
