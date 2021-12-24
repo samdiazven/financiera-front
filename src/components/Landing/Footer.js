@@ -8,11 +8,11 @@ import {
   useColorModeValue,
   VisuallyHidden,
 } from "@chakra-ui/react";
-import { FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
+import { FaFacebook, FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
 import LogoImg from "../../assets/img/logo.png";
 
 const Logo = (props) => {
-  return <Image src={LogoImg} height={35} width={35} objectFit={"cover"} />;
+  return <Image src={LogoImg} height={39} width={40} objectFit={"contain"} />;
 };
 
 const SocialButton = ({ children, label, href }) => {
@@ -61,13 +61,17 @@ export default function Footer() {
           reservados
         </Text>
         <Stack direction={"row"} spacing={6}>
-          <SocialButton label={"Twitter"} href={"#"}>
-            <FaTwitter />
+          <SocialButton
+            label={"Facebook"}
+            href={"https://www.facebook.com/SaludFinacieraPe"}
+          >
+            <FaFacebook />
           </SocialButton>
-          <SocialButton label={"YouTube"} href={"#"}>
-            <FaYoutube />
-          </SocialButton>
-          <SocialButton label={"Instagram"} href={"#"}>
+
+          <SocialButton
+            label={"Instagram"}
+            href={"#https://www.instagram.com/saludfinanciera.pe/"}
+          >
             <FaInstagram />
           </SocialButton>
         </Stack>

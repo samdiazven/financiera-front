@@ -67,7 +67,6 @@ const contable = [
 ];
 
 export default function Services(props) {
-  const refDiv = props.ref;
   const animationControl = useAnimation();
   const { ref, inView } = useInView();
   useEffect(() => {
@@ -85,7 +84,7 @@ export default function Services(props) {
     }
   }, [inView]);
   return (
-    <Box p={4} ref={refDiv}>
+    <Box p={4}>
       <Stack spacing={4} as={Container} maxW={"3xl"} textAlign={"center"}>
         <Heading fontSize={"3xl"}>Nuestros Servicios</Heading>
       </Stack>

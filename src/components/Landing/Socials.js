@@ -50,7 +50,10 @@ function Socials() {
       maxW={"32"}
     >
       <Flex alignItems={"center"}>
-        <SocialButton label={"Twitter"} href={"#"}>
+        <SocialButton
+          label={"Twitter"}
+          href={"https://www.facebook.com/SaludFinacieraPe"}
+        >
           <FaFacebook />
         </SocialButton>
         <Text
@@ -63,7 +66,10 @@ function Socials() {
         </Text>
       </Flex>
       <Flex alignItems={"center"}>
-        <SocialButton label={"Twitter"} href={"#"}>
+        <SocialButton
+          label={"Twitter"}
+          href={"https://www.instagram.com/saludfinanciera.pe/"}
+        >
           <FaInstagram />
         </SocialButton>
         <Text
@@ -85,7 +91,7 @@ function Socials() {
             color: useColorModeValue("blackAlpha.100", "whiteAlpha.100"),
           }}
         >
-          contacto@saludfinanciera.pe{" "}
+          contacto@saludfinanciera.pe
         </Text>
       </Flex>
     </VStack>

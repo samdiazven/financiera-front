@@ -31,7 +31,7 @@ const NavLink = ({ children }) => (
   </Link>
 );
 const Logo = (props) => {
-  return <Image src={LogoImg} height={35} width={35} objectFit={"cover"} />;
+  return <Image src={LogoImg} height={40} width={40} objectFit={"contain"} />;
 };
 
 export default function NavBar({ onClick }) {
@@ -86,9 +86,9 @@ export default function NavBar({ onClick }) {
             </HStack>
           </HStack>
           <Flex alignItems={"center"}>
-            <NextLink style={{ marginRight: "2rem" }} to="auth/signin">
+            {/* <NextLink style={{ marginRight: "2rem" }} to="auth/signin">
               Login
-            </NextLink>
+            </NextLink> */}
             <AnimatePresence exitBeforeEnter initial={false}>
               <motion.div
                 key={useColorModeValue("light", "dark")}
