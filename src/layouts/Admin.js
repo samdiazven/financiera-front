@@ -5,9 +5,14 @@ import Footer from "components/Footer/Footer.js";
 // Layout components
 import AdminNavbar from "components/Navbars/AdminNavbar.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
-import React, { useState } from "react";
+import useAuth from "hooks/useAuth";
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Redirect, Route, Switch } from "react-router-dom";
 import routes from "routes.js";
+import { getAuthenticationState } from "store/selectors/auth";
+import { getUser } from "store/selectors/auth";
+import { LoadState } from "store/slices/state";
 // Custom Chakra theme
 import theme from "theme/theme.js";
 import FixedPlugin from "../components/FixedPlugin/FixedPlugin";
@@ -15,10 +20,21 @@ import FixedPlugin from "../components/FixedPlugin/FixedPlugin";
 import MainPanel from "../components/Layout/MainPanel";
 import PanelContainer from "../components/Layout/PanelContainer";
 import PanelContent from "../components/Layout/PanelContent";
-import useRoutes from "../routes/index";
+import { authenticate } from "../store/slices/auth";
 export default function Dashboard(props) {
   const { ...rest } = props;
-  useRoutes();
+  const dispatch = useDispatch();
+  useAuth();
+  const user = useSelector(getUser);
+  const authenticationState = useSelector(getAuthenticationState);
+
+  useEffect(() => {
+    if (!user && authenticationState !== LoadState.LOADED_SUCCESS) {
+      dispatch(authenticate());
+    }
+    console.log(user, authenticationState);
+  }, [user, authenticationState]);
+
   // states and functions
   const [sidebarVariant, setSidebarVariant] = useState("transparent");
   const [fixed, setFixed] = useState(false);

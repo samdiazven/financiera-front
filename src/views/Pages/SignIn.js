@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 // Chakra imports
 import {
   Box,
@@ -15,9 +15,35 @@ import {
 } from "@chakra-ui/react";
 // Assets
 import signInImage from "assets/img/signInImage.png";
+import { useDispatch, useSelector } from "react-redux";
+import { getAuthenticationState } from "store/selectors/auth";
+import { authenticate } from "../../store/slices/auth";
+import useAuth from "hooks/useAuth";
 
 function SignIn() {
   // Chakra color mode
+  useAuth();
+  const dispatch = useDispatch();
+  const [form, setForm] = useState({
+    username: "",
+    password: "",
+  });
+  const authState = useSelector(getAuthenticationState);
+  const handleChangeInput = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
+  const handleSubmit = (e) => {
+    if (form.username.trim() === "" && form.password.trim() === "") return;
+    e.preventDefault();
+    try {
+      dispatch(authenticate(form));
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const titleColor = useColorModeValue("teal.300", "teal.200");
   const textColor = useColorModeValue("gray.400", "white");
   return (
@@ -45,7 +71,7 @@ function SignIn() {
             mt={{ md: "150px", lg: "80px" }}
           >
             <Heading color={titleColor} fontSize="32px" mb="10px">
-              Welcome Back
+              Bievenido!
             </Heading>
             <Text
               mb="36px"
@@ -54,42 +80,36 @@ function SignIn() {
               fontWeight="bold"
               fontSize="14px"
             >
-              Enter your email and password to sign in
+              Ingresa tu usuario y contraseña para acceder a la plataforma
             </Text>
-            <FormControl>
+            <FormControl as="form" onSubmit={handleSubmit}>
               <FormLabel ms="4px" fontSize="sm" fontWeight="normal">
-                Email
+                Username
               </FormLabel>
               <Input
+                name="username"
                 borderRadius="15px"
                 mb="24px"
                 fontSize="sm"
                 type="text"
-                placeholder="Your email adress"
+                placeholder="Username"
                 size="lg"
+                onChange={handleChangeInput}
               />
               <FormLabel ms="4px" fontSize="sm" fontWeight="normal">
                 Password
               </FormLabel>
               <Input
+                name="password"
                 borderRadius="15px"
                 mb="36px"
                 fontSize="sm"
                 type="password"
-                placeholder="Your password"
+                placeholder="Tu contraseña"
                 size="lg"
+                onChange={handleChangeInput}
               />
-              <FormControl display="flex" alignItems="center">
-                <Switch id="remember-login" colorScheme="teal" me="10px" />
-                <FormLabel
-                  htmlFor="remember-login"
-                  mb="0"
-                  ms="1"
-                  fontWeight="normal"
-                >
-                  Remember me
-                </FormLabel>
-              </FormControl>
+
               <Button
                 fontSize="10px"
                 type="submit"
@@ -105,6 +125,7 @@ function SignIn() {
                 _active={{
                   bg: "teal.400",
                 }}
+                disabled={authState.isLoading}
               >
                 SIGN IN
               </Button>

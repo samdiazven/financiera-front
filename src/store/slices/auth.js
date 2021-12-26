@@ -1,48 +1,50 @@
 import { createSlice } from "@reduxjs/toolkit";
-
-const AuthenticationState = {
-  NOT_LOADED: "NOT_LOADED",
-  LOADING: "LOADING",
-  LOADED_SUCCESS: "LOADED_SUCCESS",
-  LOADED_FAILURE: "LOADED_FAILURE",
-};
+import { LoadState } from "./state";
 
 const initialState = {
-  user: "sam",
+  user: null,
   error: null,
-  authenticationState: AuthenticationState.NOT_LOADED,
+  authenticationState: LoadState.NOT_LOADED,
+  loginState: LoadState.NOT_LOADED,
+  rol: null,
 };
 
 const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setAuthUser(state, action) {
-      state.user = action.payload;
-      state.authenticationState = action.payload
-        ? AuthenticationState.LOADED_SUCCESS
-        : AuthenticationState.LOADED_FAILURE;
+    login(state) {
+      state.LoadState = LoadState.LOADING;
+    },
+    loginSuccess(state) {
+      state.loginState = LoadState.LoadState.LOADED_SUCCESS;
+    },
+    loginError(state, action) {
+      state.error = action.payload;
+      state.user = null;
+      state.loginState = LoadState.LOADED_FAILURE;
     },
     authenticationSucess(state) {
-      state.authenticationState = AuthenticationState.LOADED_SUCCESS;
-      state.error = null;
+      state.authenticationState = LoadState.LOADED_SUCCESS;
+      state.user = action.payload.user;
+      state.rol = action.payload.rol;
     },
     authenticationError(state, action) {
       state.error = action.payload;
       state.user = null;
-      state.authenticationState = AuthenticationState.LOADED_FAILURE;
+      state.authenticationState = LoadState.LOADED_FAILURE;
     },
-    authenticate(state, action) {
-      state.user = null;
-      state.error = null;
-      state.authenticationState = AuthenticationState.LOADING;
+    authenticate(state) {
+      state.authenticationState = LoadState.LOADING;
     },
   },
 });
 
 export const {
   authenticate,
-  setAuthUser,
+  loginSuccess,
+  login,
+  loginError,
   authenticationError,
   authenticationSucess,
 } = authSlice.actions;
