@@ -216,7 +216,7 @@ At present, we officially aim to support the last two versions of the following 
 
 - Demo: <https://demos.creative-tim.com/purity-ui-dashboard/#/admin/dashboard?ref=readme-pud>
 - Download Page: <https://www.creative-tim.com/product/purity-ui-dashboard?ref=readme-pud>
-- License Agreement: <https://www.creative-tim.com/license?ref=readme-pud>
+- License Agreement: <""?ref=readme-pud>
 - Support: <https://www.creative-tim.com/contact-us?ref=readme-pud>
 - Issues: [Github Issues Page](https://github.com/creativetimofficial/purity-ui-dashboard/issues)
 
@@ -232,7 +232,7 @@ We use GitHub Issues as the official bug tracker for the Purity UI Dashboard. He
 
 - Copyright 2021 Creative Tim (https://www.creative-tim.com/?ref=readme-pud)
 
-- Creative Tim License (https://www.creative-tim.com/license)
+- Creative Tim License ("")
 
 ## Useful Links
 

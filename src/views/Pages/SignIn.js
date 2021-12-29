@@ -17,7 +17,7 @@ import {
 import signInImage from "assets/img/signInImage.png";
 import { useDispatch, useSelector } from "react-redux";
 import { getAuthenticationState } from "store/selectors/auth";
-import { authenticate } from "../../store/slices/auth";
+import { login } from "../../store/slices/auth";
 import useAuth from "hooks/useAuth";
 
 function SignIn() {
@@ -39,7 +39,7 @@ function SignIn() {
     if (form.username.trim() === "" && form.password.trim() === "") return;
     e.preventDefault();
     try {
-      dispatch(authenticate(form));
+      dispatch(login(form));
     } catch (error) {
       console.log(error);
     }

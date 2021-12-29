@@ -14,11 +14,12 @@ function* loginSaga(action) {
     const auth = new Auth();
     yield call(() => auth.login(action.payload));
     yield put(loginSuccess());
+    window.location.href = "/admin/dashboard";
   } catch (error) {
     yield put(loginError(error.response.data.message));
   }
 }
-function* getMe(action) {
+function* getMe() {
   try {
     const auth = new Auth();
     const response = yield call(() => auth.getMe());

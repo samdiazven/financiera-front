@@ -10,5 +10,8 @@ class Base {
   async put(endpoint, data) {
     return await Axios.put(`${endpoint}`, data);
   }
+  async delete(endpoint) {
+    return await Axios.delete(`${endpoint}`);
+  }
 }
 export default Base;

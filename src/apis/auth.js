@@ -12,7 +12,7 @@ class Auth extends Base {
   }
   async getMe() {
     try {
-      const response = await this.get("/me");
+      const response = await this.get("/login/me");
       return response.data;
     } catch (error) {
       throw new Error("Hubo un error obteniendo los datos del usuario");

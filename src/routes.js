@@ -1,6 +1,6 @@
 // import
 import Dashboard from "views/Dashboard/Dashboard.js";
-import Tables from "views/Dashboard/Tables.js";
+import Access from "views/Dashboard/Access.js";
 import Billing from "views/Dashboard/Billing.js";
 import RTLPage from "views/RTL/RTLPage.js";
 import Profile from "views/Dashboard/Profile.js";
@@ -9,13 +9,13 @@ import SignUp from "views/Pages/SignUp.js";
 
 import {
   HomeIcon,
-  StatsIcon,
   CreditIcon,
   PersonIcon,
   DocumentIcon,
   RocketIcon,
   SupportIcon,
 } from "components/Icons/Icons";
+import { UnlockIcon } from "@chakra-ui/icons";
 
 const dashRoutes = [
   {
@@ -27,11 +27,11 @@ const dashRoutes = [
     layout: "/admin",
   },
   {
-    path: "/tables",
-    name: "Tables",
+    path: "/access",
+    name: "Accesos",
     rtlName: "لوحة القيادة",
-    icon: <StatsIcon color="inherit" />,
-    component: Tables,
+    icon: <UnlockIcon color="inherit" />,
+    component: Access,
     layout: "/admin",
   },
   {

@@ -17,14 +17,14 @@ const authSlice = createSlice({
       state.LoadState = LoadState.LOADING;
     },
     loginSuccess(state) {
-      state.loginState = LoadState.LoadState.LOADED_SUCCESS;
+      state.loginState = LoadState.LOADED_SUCCESS;
     },
     loginError(state, action) {
       state.error = action.payload;
       state.user = null;
       state.loginState = LoadState.LOADED_FAILURE;
     },
-    authenticationSucess(state) {
+    authenticationSucess(state, action) {
       state.authenticationState = LoadState.LOADED_SUCCESS;
       state.user = action.payload.user;
       state.rol = action.payload.rol;
