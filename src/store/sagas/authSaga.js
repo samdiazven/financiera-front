@@ -10,13 +10,17 @@ import {
 } from "store/slices/auth";
 
 function* loginSaga(action) {
-  try {
-    const auth = new Auth();
-    yield call(() => auth.login(action.payload));
+  const auth = new Auth();
+  const response = yield call(() => auth.login(action.payload));
+  if (response !== "error") {
     yield put(loginSuccess());
     window.location.href = "/admin/dashboard";
-  } catch (error) {
-    yield put(loginError(error.response.data.message));
+  } else {
+    yield put(
+      loginError({
+        error: "Contraseña o usuario incorrecto",
+      })
+    );
   }
 }
 function* getMe() {

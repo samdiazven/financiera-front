@@ -28,7 +28,7 @@ const rolSlice = createSlice({
     },
     createRolSuccess(state, action) {
       state.rolState = LoadState.LOADED_SUCCESS;
-      state.rols = [...state.rol, action.payload];
+      state.rols = [...state.rols, action.payload];
     },
     createRolError(state, action) {
       state.error = action.payload;
@@ -40,7 +40,7 @@ const rolSlice = createSlice({
     updateRolSuccess(state, action) {
       state.rolState = LoadState.LOADED_SUCCESS;
       state.rols = state.rols.map((rol) =>
-        rol.id === action.payload.id ? action.payload : rol
+        rol.idRol === action.payload.idRol ? action.payload : rol
       );
     },
     updateRolError(state, action) {

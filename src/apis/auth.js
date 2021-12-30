@@ -2,13 +2,12 @@ import Base from "./base";
 
 class Auth extends Base {
   async login(user) {
-    try {
-      const response = await this.post("/login", user);
-      localStorage.setItem("token", response.data.objModel.token);
-      return response.data;
-    } catch (error) {
-      throw new Error("Hubo un error al iniciar sesión");
+    const response = await this.post("/login", user);
+    if (response.status !== 200) {
+      return "error";
     }
+    localStorage.setItem("token", response.data.objModel.token);
+    return response.data.objModel.token;
   }
   async getMe() {
     try {

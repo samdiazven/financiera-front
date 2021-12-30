@@ -1,10 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 // Chakra imports
 import { TabList, Tabs, Tab, TabPanels, TabPanel } from "@chakra-ui/react";
 import Users from "components/Access/Users";
 import Rols from "components/Access/Rols";
 import Permises from "components/Access/Permises";
+import { useDispatch } from "react-redux";
+import { loadUsers } from "store/slices/users";
+import { loadRols } from "store/slices/rols";
 function Tables() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(loadUsers());
+    dispatch(loadRols());
+  }, []);
   return (
     <Tabs
       isFitted

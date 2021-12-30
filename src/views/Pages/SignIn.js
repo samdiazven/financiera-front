@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 // Chakra imports
 import {
   Box,
@@ -12,13 +12,17 @@ import {
   Switch,
   Text,
   useColorModeValue,
+  Spinner,
+  useToast,
 } from "@chakra-ui/react";
 // Assets
 import signInImage from "assets/img/signInImage.png";
 import { useDispatch, useSelector } from "react-redux";
-import { getAuthenticationState } from "store/selectors/auth";
 import { login } from "../../store/slices/auth";
 import useAuth from "hooks/useAuth";
+import { LoadState } from "store/slices/state";
+import { getError } from "store/selectors/auth";
+import { getLoginState } from "store/selectors/auth";
 
 function SignIn() {
   // Chakra color mode
@@ -28,13 +32,27 @@ function SignIn() {
     username: "",
     password: "",
   });
-  const authState = useSelector(getAuthenticationState);
+  const loginState = useSelector(getLoginState);
+  const error = useSelector(getError);
+  const toast = useToast();
+  useEffect(() => {
+    if (error) {
+      toast({
+        title: "Error.",
+        description: "Usuario o contraseña incorrectos.",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+    }
+  }, [error]);
   const handleChangeInput = (e) => {
     setForm({
       ...form,
       [e.target.name]: e.target.value,
     });
   };
+
   const handleSubmit = (e) => {
     if (form.username.trim() === "" && form.password.trim() === "") return;
     e.preventDefault();
@@ -46,6 +64,19 @@ function SignIn() {
   };
   const titleColor = useColorModeValue("teal.300", "teal.200");
   const textColor = useColorModeValue("gray.400", "white");
+  if (loginState === LoadState.LOADING)
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          width: "100%",
+        }}
+      >
+        <Spinner size={"xl"} />{" "}
+      </div>
+    );
   return (
     <Flex position="relative" mb="40px">
       <Flex
@@ -125,25 +156,11 @@ function SignIn() {
                 _active={{
                   bg: "teal.400",
                 }}
-                disabled={authState.isLoading}
+                disabled={loginState === LoadState.LOADING}
               >
-                SIGN IN
+                INICIAR SESIÓN
               </Button>
             </FormControl>
-            <Flex
-              flexDirection="column"
-              justifyContent="center"
-              alignItems="center"
-              maxW="100%"
-              mt="0px"
-            >
-              <Text color={textColor} fontWeight="medium">
-                Don't have an account?
-                <Link color={titleColor} as="span" ms="5px" fontWeight="bold">
-                  Sign Up
-                </Link>
-              </Text>
-            </Flex>
           </Flex>
         </Flex>
         <Box

@@ -14,7 +14,7 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     login(state) {
-      state.LoadState = LoadState.LOADING;
+      state.loginState = LoadState.LOADING;
     },
     loginSuccess(state) {
       state.loginState = LoadState.LOADED_SUCCESS;
@@ -37,6 +37,13 @@ const authSlice = createSlice({
     authenticate(state) {
       state.authenticationState = LoadState.LOADING;
     },
+    signOut(state) {
+      localStorage.removeItem("token");
+      state.authenticationState = LoadState.NOT_LOADED;
+      state.user = null;
+      state.rol = null;
+      state.error = null;
+    },
   },
 });
 
@@ -47,5 +54,6 @@ export const {
   loginError,
   authenticationError,
   authenticationSucess,
+  signOut,
 } = authSlice.actions;
 export default authSlice.reducer;

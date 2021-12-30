@@ -96,7 +96,19 @@ export default function Permises() {
         onClose();
       });
   }
-  if (rolState === LoadState.LOADING) return <Spinner size={"lg"} />;
+  if (rolState === LoadState.LOADING)
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          width: "100%",
+        }}
+      >
+        <Spinner size={"xl"} />{" "}
+      </div>
+    );
   if (rolState === LoadState.NOT_LOADED && rols.length === 0) return null;
   return (
     <>

@@ -18,12 +18,8 @@ class Users extends Base {
     }
   }
   async updateUser(data) {
-    try {
-      const response = await this.put("/users", data);
-      return response.data;
-    } catch (error) {
-      throw new Error("Hubo un error actualizando los usuarios", error);
-    }
+    const response = await this.put("/users", data);
+    return response.data;
   }
   async deleteUser(id) {
     try {

@@ -1,43 +1,63 @@
+import React from "react";
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import { useSelector } from "react-redux";
 import {
-  Avatar,
   Badge,
   Button,
   Flex,
-  ListIcon,
+  Spinner,
   Td,
   Text,
   Tr,
   useColorModeValue,
 } from "@chakra-ui/react";
-import React from "react";
+import { getRols } from "../../store/selectors/rols";
 
 function RolsTable(props) {
-  const { rolName, rolDescription, permissionList } = props.data;
+  const { name, username, lastname, idRol, idUser } = props.data;
   const { handleUpdate, handleDelete } = props;
   const textColor = useColorModeValue("gray.700", "white");
-  const bgStatus = useColorModeValue("gray.400", "#1a202c");
-  const colorStatus = useColorModeValue("white", "gray.400");
 
+  const rols = useSelector(getRols);
+  console.log(rols.find((rol) => rol.idRol === idRol));
+  const rolName = rols.find((rol) => rol.idRol === idRol)?.rolName ?? "No rol";
   return (
     <Tr>
       <Td textAlign={"center"}>
         <Flex direction="column">
           <Text fontSize="md" color={textColor} fontWeight="bold">
-            {rolName}
+            {username}
           </Text>
         </Flex>
       </Td>
       <Td textAlign={"center"}>
         <Flex direction="column">
-          <Text fontSize="sm" color="gray.400" fontWeight="normal">
-            {rolDescription}
+          <Text fontSize="sm" color={textColor} fontWeight="normal">
+            {name}
           </Text>
         </Flex>
       </Td>
       <Td textAlign={"center"}>
-        <Badge fontSize="16px" p="3px 10px" borderRadius="8px">
-          {permissionList?.length ?? 0}
+        <Flex direction="column">
+          <Text fontSize="sm" color={textColor} fontWeight="normal">
+            {lastname}
+          </Text>
+        </Flex>
+      </Td>
+      <Td textAlign={"center"}>
+        <Badge
+          fontSize="16px"
+          p="3px 10px"
+          borderRadius="8px"
+          backgroundColor={"green.500"}
+        >
+          {rols.length !== 0 ? (
+            <Text fontSize="sm" color={textColor} fontWeight="normal">
+              {rolName}
+            </Text>
+          ) : (
+            <Spinner size="sm" />
+          )}
         </Badge>
       </Td>
       <Td textAlign={"center"}>
@@ -49,7 +69,7 @@ function RolsTable(props) {
         >
           <Text
             fontSize="md"
-            color="gray.400"
+            color={textColor}
             fontWeight="bold"
             cursor="pointer"
           >
@@ -66,7 +86,7 @@ function RolsTable(props) {
         >
           <Text
             fontSize="md"
-            color="gray.400"
+            color={textColor}
             fontWeight="bold"
             cursor="pointer"
           >

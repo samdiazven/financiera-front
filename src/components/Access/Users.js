@@ -26,6 +26,7 @@ import {
   AlertDialogOverlay,
   FormLabel,
   Spinner,
+  Select,
 } from "@chakra-ui/react";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
@@ -35,22 +36,26 @@ import { useDispatch, useSelector } from "react-redux";
 import { LoadState } from "store/slices/state";
 import { getUsers, getUsersState } from "store/selectors/users";
 import { loadUsers } from "store/slices/users";
-import RolsTable from "components/Tables/Rols";
-import { createRol } from "store/slices/rols";
-import { updateRol, deleteRol } from "store/slices/rols";
+import { updateUser } from "store/slices/users";
+import { createUser } from "store/slices/users";
+import { deleteUser } from "store/slices/users";
+import UsersTable from "components/Tables/Users";
+import { getRols } from "../../store/selectors/rols";
 
 export default function Users() {
   const dispatch = useDispatch();
   const stateUsers = useSelector(getUsersState);
   const users = useSelector(getUsers);
+  const rols = useSelector(getRols);
   const textColor = useColorModeValue("gray.700", "white");
-  const [rolSelected, setRolSelected] = useState(null);
+  const [userSelected, setUserSelected] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [form, setForm] = useState({
     username: "",
     name: "",
+    lastname: "",
     password: "",
-    idRol: 0,
+    idRol: userSelected ? userSelected.idRol : 1,
   });
   const [isOpenDelete, setIsOpenDelete] = React.useState(false);
   const onCloseDelete = () => setIsOpenDelete(false);
@@ -59,13 +64,16 @@ export default function Users() {
     if (stateUsers === LoadState.NOT_LOADED) {
       dispatch(loadUsers());
     }
-  }, [rolState]);
+  }, [stateUsers]);
 
   const handleOpen = () => {
-    setRolSelected(null);
+    setUserSelected(null);
     setForm({
-      rolName: "",
-      rolDescription: "",
+      username: "",
+      lastname: "",
+      name: "",
+      password: "",
+      idRol: 1,
     });
     onOpen();
   };
@@ -74,6 +82,7 @@ export default function Users() {
     setForm({
       username: user.username,
       name: user.name,
+      lastname: user.lastname,
       password: user.password,
       idRol: user.idRol,
     });
@@ -87,12 +96,17 @@ export default function Users() {
     });
   };
   const handleCreateData = () => {
-    if (form.rolName.trim() === "" && form.rolDescription.trim() === "") return;
     try {
-      if (rolSelected) {
-        dispatch(updateRol({ ...form, idRol: rolSelected.idRol }));
+      if (userSelected) {
+        dispatch(
+          updateUser({
+            ...form,
+            idUser: userSelected.idUser,
+            password: form.password.length > 0 ? form.password : undefined,
+          })
+        );
       } else {
-        dispatch(createRol(form));
+        dispatch(createUser(form));
       }
       onClose();
     } catch (error) {
@@ -100,15 +114,15 @@ export default function Users() {
     }
   };
   const openDialogDelete = (rol) => {
-    setRolSelected(rol);
+    setUserSelected(rol);
     setIsOpenDelete(true);
   };
   const handleDelete = () => {
-    dispatch(deleteRol(rolSelected.idRol));
+    dispatch(deleteUser(userSelected.idUser));
     onCloseDelete();
   };
 
-  if (rolState === LoadState.LOADING)
+  if (stateUsers === LoadState.LOADING)
     return (
       <div
         style={{
@@ -118,11 +132,15 @@ export default function Users() {
           width: "100%",
         }}
       >
-        {" "}
         <Spinner size={"xl"} />{" "}
       </div>
     );
-  if (rols.length === 0) return <div> No Data </div>;
+
+  if (stateUsers === LoadState.ERROR) {
+    return <div>Error</div>;
+  }
+
+  if (users.length === 0) return <div> No Data </div>;
   return (
     <Flex width={"100%"} flexDirection={"column"}>
       <Button
@@ -136,34 +154,80 @@ export default function Users() {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Crear Rol</ModalHeader>
+          <ModalHeader>Crear Usuario</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <FormLabel ms="4px" fontSize="sm" fontWeight="normal">
-              Nombre de Rol
+              Nombre de Usuario
             </FormLabel>
             <Input
-              value={form.rolName}
-              name="rolName"
+              value={form.username}
+              name="username"
               borderRadius="15px"
               mb="24px"
               fontSize="sm"
               type="text"
-              placeholder="Nombre del rol"
+              placeholder="Usuario"
               size="lg"
               onChange={handleChangeInput}
             />
             <FormLabel ms="4px" fontSize="sm" fontWeight="normal">
-              Descripci&oacute;n
+              Nombre
             </FormLabel>
             <Input
-              value={form.rolDescription}
-              name="rolDescription"
+              value={form.name}
+              name="name"
               borderRadius="15px"
               mb="36px"
               fontSize="sm"
               type="text"
-              placeholder="Descripcion"
+              placeholder="Nombre del Usuario"
+              size="lg"
+              onChange={handleChangeInput}
+            />
+            <FormLabel ms="4px" fontSize="sm" fontWeight="normal">
+              Apellido
+            </FormLabel>
+            <Input
+              value={form.lastname}
+              name="lastname"
+              borderRadius="15px"
+              mb="36px"
+              fontSize="sm"
+              type="text"
+              placeholder="Apellido del Usuario"
+              size="lg"
+              onChange={handleChangeInput}
+            />
+            <FormLabel ms="4px" fontSize="sm" fontWeight="normal">
+              Rol
+            </FormLabel>
+            <Select
+              variant="outline"
+              value={form.idRol}
+              name="idRol"
+              borderRadius="15px"
+              size="lg"
+              mb="36px"
+              fontSize="sm"
+              onChange={handleChangeInput}
+            >
+              {rols.map((rol) => (
+                <option key={rol.idRol} value={rol.idRol}>
+                  {rol.rolName}
+                </option>
+              ))}
+            </Select>
+            <FormLabel ms="4px" fontSize="sm" fontWeight="normal">
+              Contrase&ntilde;a
+            </FormLabel>
+            <Input
+              name="password"
+              borderRadius="15px"
+              mb="36px"
+              fontSize="sm"
+              type="text"
+              placeholder="Contraseña"
               size="lg"
               onChange={handleChangeInput}
             />
@@ -187,10 +251,12 @@ export default function Users() {
         <AlertDialogOverlay>
           <AlertDialogContent>
             <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              Borrar Rol
+              Borrar Usuario
             </AlertDialogHeader>
 
-            <AlertDialogBody>Estas Seguro de borrar el rol?</AlertDialogBody>
+            <AlertDialogBody>
+              Estas Seguro de borrar el usuario?
+            </AlertDialogBody>
 
             <AlertDialogFooter>
               <Button ref={cancelRef} onClick={onCloseDelete}>
@@ -217,13 +283,16 @@ export default function Users() {
             <Thead>
               <Tr my=".8rem" pl="0px" color="gray.400">
                 <Th textAlign={"center"} pl="0px" color="gray.400">
+                  Usuario
+                </Th>
+                <Th textAlign={"center"} pl="0px" color="gray.400">
                   Nombre
                 </Th>
                 <Th textAlign={"center"} color="gray.400">
-                  Descripci&oacute;n
+                  Apellido
                 </Th>
                 <Th textAlign={"center"} color="gray.400">
-                  Numero de Permisos
+                  Nombre de Rol
                 </Th>
                 <Th textAlign={"center"} color="gray.400">
                   Editar
@@ -235,11 +304,11 @@ export default function Users() {
               </Tr>
             </Thead>
             <Tbody>
-              {rols.map((row) => {
+              {users.map((row) => {
                 return (
-                  <RolsTable
+                  <UsersTable
                     data={row}
-                    handleUpdate={handleSelectRole}
+                    handleUpdate={handleSelectUser}
                     handleDelete={openDialogDelete}
                   />
                 );

@@ -24,6 +24,8 @@ import PropTypes from "prop-types";
 import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 
+import LogoImg from "../../assets/img/logo.png";
+
 // FUNCTIONS
 
 function Sidebar(props) {
@@ -223,8 +225,7 @@ function Sidebar(props) {
         alignItems="center"
         fontSize="11px"
       >
-        <CreativeTimLogo w="32px" h="32px" me="10px" />
-        <Text fontSize="sm" mt="3px">
+        <Text fontSize="xl" mt="3px">
           {logoText}
         </Text>
       </Link>
@@ -492,6 +493,7 @@ export function SidebarResponsive(props) {
           <DrawerCloseButton
             _focus={{ boxShadow: "none" }}
             _hover={{ boxShadow: "none" }}
+            a
           />
           <DrawerBody maxW="250px" px="1rem">
             <Box maxW="100%" h="100vh">

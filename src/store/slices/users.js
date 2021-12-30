@@ -28,7 +28,7 @@ const userSlice = createSlice({
     },
     createUserSuccess(state, action) {
       state.state = LoadState.LOADED_SUCCESS;
-      state.users = [...state.rol, action.payload];
+      state.users = [...state.users, action.payload];
     },
     createUserError(state, action) {
       state.error = action.payload;
@@ -39,8 +39,8 @@ const userSlice = createSlice({
     },
     updateUserSuccess(state, action) {
       state.state = LoadState.LOADED_SUCCESS;
-      state.users = state.users.map((rol) =>
-        rol.id === action.payload.id ? action.payload : rol
+      state.users = state.users.map((user) =>
+        user.idUser === action.payload.idUser ? action.payload : user
       );
     },
     updateUserError(state, action) {
@@ -53,7 +53,7 @@ const userSlice = createSlice({
     deleteUserSuccess(state, action) {
       state.state = LoadState.LOADED_SUCCESS;
       state.users = state.users.filter(
-        (rol) => rol.idRol !== action.payload.id
+        (user) => user.idUser !== action.payload.id
       );
     },
     deleteUserError(state, action) {
