@@ -130,6 +130,7 @@ export default function Users() {
           justifyContent: "center",
           alignItems: "center",
           width: "100%",
+          height: "100vh",
         }}
       >
         <Spinner size={"xl"} />{" "}
@@ -142,7 +143,11 @@ export default function Users() {
 
   if (users.length === 0) return <div> No Data </div>;
   return (
-    <Flex width={"100%"} flexDirection={"column"}>
+    <Flex
+      width={"100%"}
+      flexDirection={"column"}
+      pt={{ base: "120px", md: "100px" }}
+    >
       <Button
         alignSelf={"flex-end"}
         leftIcon={<AddIcon />}

@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import {
   Badge,
   Button,
@@ -11,16 +11,26 @@ import {
   Tr,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { getRols } from "../../store/selectors/rols";
+import { getRols, getRolState } from "../../store/selectors/rols";
+import { LoadState } from "store/slices/state";
+import { loadRols } from "store/slices/rols";
 
 function RolsTable(props) {
   const { name, username, lastname, idRol, idUser } = props.data;
   const { handleUpdate, handleDelete } = props;
   const textColor = useColorModeValue("gray.700", "white");
-
+  const dispatch = useDispatch();
   const rols = useSelector(getRols);
-  console.log(rols.find((rol) => rol.idRol === idRol));
+  const getStateRol = useSelector(getRolState);
+
+  useEffect(() => {
+    if (getStateRol === LoadState.NOT_LOADED) {
+      dispatch(loadRols());
+    }
+  });
+
   const rolName = rols.find((rol) => rol.idRol === idRol)?.rolName ?? "No rol";
+
   return (
     <Tr>
       <Td textAlign={"center"}>

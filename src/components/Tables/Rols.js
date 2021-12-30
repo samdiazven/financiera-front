@@ -30,7 +30,7 @@ function RolsTable(props) {
       </Td>
       <Td textAlign={"center"}>
         <Flex direction="column">
-          <Text fontSize="sm" color="gray.400" fontWeight="normal">
+          <Text fontSize="sm" color={textColor} fontWeight="normal">
             {rolDescription}
           </Text>
         </Flex>
@@ -49,7 +49,7 @@ function RolsTable(props) {
         >
           <Text
             fontSize="md"
-            color="gray.400"
+            color={textColor}
             fontWeight="bold"
             cursor="pointer"
           >
@@ -66,7 +66,7 @@ function RolsTable(props) {
         >
           <Text
             fontSize="md"
-            color="gray.400"
+            color={textColor}
             fontWeight="bold"
             cursor="pointer"
           >

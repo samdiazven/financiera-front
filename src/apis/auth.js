@@ -3,7 +3,7 @@ import Base from "./base";
 class Auth extends Base {
   async login(user) {
     const response = await this.post("/login", user);
-    if (response.status !== 200) {
+    if (response.data.status !== 1) {
       return "error";
     }
     localStorage.setItem("token", response.data.objModel.token);

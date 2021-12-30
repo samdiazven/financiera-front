@@ -1,8 +1,9 @@
 // import
 import Dashboard from "views/Dashboard/Dashboard.js";
 import Access from "views/Dashboard/Access.js";
+import Users from "views/Dashboard/Users";
 
-import { HomeIcon } from "components/Icons/Icons";
+import { HomeIcon, PersonIcon } from "components/Icons/Icons";
 import { UnlockIcon } from "@chakra-ui/icons";
 
 const dashRoutes = [
@@ -12,6 +13,14 @@ const dashRoutes = [
     rtlName: "لوحة القيادة",
     icon: <HomeIcon color="inherit" />,
     component: Dashboard,
+    layout: "/admin",
+  },
+  {
+    path: "/users",
+    name: "Usuarios",
+    rtlName: "لوحة القيادة",
+    icon: <PersonIcon color="inherit" />,
+    component: Users,
     layout: "/admin",
   },
   {
