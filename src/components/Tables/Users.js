@@ -62,7 +62,7 @@ function RolsTable(props) {
           backgroundColor={"green.500"}
         >
           {rols.length !== 0 ? (
-            <Text fontSize="sm" color={textColor} fontWeight="normal">
+            <Text fontSize="sm" color={"white"} fontWeight="normal">
               {rolName}
             </Text>
           ) : (
@@ -79,7 +79,7 @@ function RolsTable(props) {
         >
           <Text
             fontSize="md"
-            color={textColor}
+            color={"white"}
             fontWeight="bold"
             cursor="pointer"
           >
@@ -96,7 +96,7 @@ function RolsTable(props) {
         >
           <Text
             fontSize="md"
-            color={textColor}
+            color={"white"}
             fontWeight="bold"
             cursor="pointer"
           >

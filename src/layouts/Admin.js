@@ -5,6 +5,7 @@ import Configurator from "components/Configurator/Configurator";
 import AdminNavbar from "components/Navbars/AdminNavbar.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
 import useAuth from "hooks/useAuth";
+import useRedirect from "hooks/useRedirect";
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Redirect, Route, Switch } from "react-router-dom";
@@ -26,7 +27,7 @@ export default function Dashboard(props) {
   useAuth();
   const user = useSelector(getUser);
   const authenticationState = useSelector(getAuthenticationState);
-
+  useRedirect();
   useEffect(() => {
     if (!user && authenticationState !== LoadState.LOADED_SUCCESS) {
       dispatch(authenticate());

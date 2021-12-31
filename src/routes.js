@@ -5,6 +5,7 @@ import Users from "views/Dashboard/Users";
 
 import { HomeIcon, PersonIcon } from "components/Icons/Icons";
 import { UnlockIcon } from "@chakra-ui/icons";
+import ComingSoon from "views/Dashboard/ComingSoon";
 
 const dashRoutes = [
   {
@@ -12,7 +13,7 @@ const dashRoutes = [
     name: "Dashboard",
     rtlName: "لوحة القيادة",
     icon: <HomeIcon color="inherit" />,
-    component: Dashboard,
+    component: ComingSoon,
     layout: "/admin",
   },
   {

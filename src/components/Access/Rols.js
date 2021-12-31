@@ -88,12 +88,35 @@ export default function Rols() {
     try {
       if (rolSelected) {
         dispatch(updateRol({ ...form, idRol: rolSelected.idRol }));
+        toast({
+          title: "Transaccion Finalizada.",
+          description: "Rol actualizado correctamente.",
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+        });
       } else {
         dispatch(createRol(form));
+        toast({
+          title: "Transaccion Finalizada.",
+          description: "Rol creado correctamente.",
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+        });
       }
       onClose();
     } catch (error) {
       console.log(error);
+      toast({
+        title: "Error.",
+        description: "Hubo un error.",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+
+      onClose();
     }
   };
   const openDialogDelete = (rol) => {
@@ -101,8 +124,28 @@ export default function Rols() {
     setIsOpenDelete(true);
   };
   const handleDelete = () => {
-    dispatch(deleteRol(rolSelected.idRol));
-    onCloseDelete();
+    try {
+      dispatch(deleteRol(rolSelected.idRol));
+      onCloseDelete();
+      toast({
+        title: "Transaccion Finalizada.",
+        description: "Rol eliminado correctamente.",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      });
+    } catch (error) {
+      console.log(error);
+      toast({
+        title: "Error.",
+        description: "Hubo un error.",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+
+      onCloseDelete();
+    }
   };
 
   if (rolState === LoadState.LOADING)

@@ -27,6 +27,7 @@ import {
   FormLabel,
   Spinner,
   Select,
+  useToast,
 } from "@chakra-ui/react";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
@@ -60,6 +61,7 @@ export default function Users() {
   const [isOpenDelete, setIsOpenDelete] = React.useState(false);
   const onCloseDelete = () => setIsOpenDelete(false);
   const cancelRef = React.useRef();
+  const toast = useToast();
   useEffect(() => {
     if (stateUsers === LoadState.NOT_LOADED) {
       dispatch(loadUsers());
@@ -105,12 +107,35 @@ export default function Users() {
             password: form.password.length > 0 ? form.password : undefined,
           })
         );
+        toast({
+          title: "Transaccion Finalizada.",
+          description: "Usuario actualizado correctamente.",
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+        });
       } else {
         dispatch(createUser(form));
+        toast({
+          title: "Transaccion Finalizada.",
+          description: "Usuario creado correctamente.",
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+        });
       }
       onClose();
     } catch (error) {
       console.log(error);
+
+      onClose();
+      toast({
+        title: "Error.",
+        description: "Hubo un error.",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
     }
   };
   const openDialogDelete = (rol) => {
@@ -118,8 +143,27 @@ export default function Users() {
     setIsOpenDelete(true);
   };
   const handleDelete = () => {
-    dispatch(deleteUser(userSelected.idUser));
-    onCloseDelete();
+    try {
+      dispatch(deleteUser(userSelected.idUser));
+      onCloseDelete();
+      toast({
+        title: "Transaccion Finalizada.",
+        description: "Usuario eliminado correctamente.",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      });
+    } catch (error) {
+      toast({
+        title: "Error.",
+        description: "Hubo un error.",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+
+      onCloseDelete();
+    }
   };
 
   if (stateUsers === LoadState.LOADING)
@@ -280,7 +324,7 @@ export default function Users() {
       >
         <CardHeader p="6px 0px 22px 0px">
           <Text fontSize="xl" color={textColor} fontWeight="bold">
-            Tabla de roles
+            Tabla de usuarios
           </Text>
         </CardHeader>
         <CardBody>
