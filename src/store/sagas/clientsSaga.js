@@ -48,10 +48,10 @@ function* updateClientSaga(action) {
 function* deleteClientSaga(action) {
   try {
     const clients = new Clients();
-    yield call(() => clients.deleteClient(action.payload));
+    yield call(() => clients.desactiveClient(action.payload));
     yield put(deleteClientSuccess({ id: action.payload }));
   } catch (error) {
-    yield put(deleteClientError(error.response.data.description));
+    yield put(deleteClientError(error.response));
   }
 }
 

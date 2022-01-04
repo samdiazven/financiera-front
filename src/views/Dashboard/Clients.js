@@ -41,6 +41,7 @@ import { loadClients } from "store/slices/clients";
 import { updateClient } from "store/slices/clients";
 import { createClient } from "store/slices/clients";
 import { deleteClient } from "store/slices/clients";
+import ClientsTable from "components/Tables/Clients";
 
 export default function Clients() {
   const dispatch = useDispatch();
@@ -51,10 +52,15 @@ export default function Clients() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [form, setForm] = useState({
-    username: "",
-    name: "",
-    lastname: "",
-    password: "",
+    clientName: "",
+    clientLastname: "",
+    documentNumber: "",
+    clientAddress: "",
+    clientPhoneNumber: "",
+    idDocumentType: 1,
+    clientDateOfBirth: "",
+    idFinancialState: 1,
+    idClientState: 1,
   });
   const [isOpenDelete, setIsOpenDelete] = React.useState(false);
   const onCloseDelete = () => setIsOpenDelete(false);
@@ -69,20 +75,22 @@ export default function Clients() {
   const handleOpen = () => {
     setClientSelected(null);
     setForm({
-      username: "",
-      lastname: "",
-      name: "",
-      password: "",
+      clientName: "",
+      clientLastname: "",
+      clientAddress: "",
+      documentNumber: "",
+      clientPhoneNumber: "",
+      idDocumentType: 1,
+      clientDateOfBirth: "",
+      idFinancialState: 1,
+      idClientState: 1,
     });
     onOpen();
   };
   const handleSelectUser = (client) => {
-    setClienteSelected(client);
+    setClientSelected(client);
     setForm({
-      username: client.username,
-      name: client.name,
-      lastname: client.lastname,
-      password: client.password,
+      ...client,
     });
     onOpen();
   };
@@ -95,12 +103,11 @@ export default function Clients() {
   };
   const handleCreateData = () => {
     try {
-      if (userSelected) {
+      if (clientSelected) {
         dispatch(
           updateClient({
             ...form,
-            idUser: userSelected.idUser,
-            password: form.password.length > 0 ? form.password : undefined,
+            idUser: clientSelected.idClient,
           })
         );
         toast({
@@ -144,7 +151,7 @@ export default function Clients() {
       onCloseDelete();
       toast({
         title: "Transaccion Finalizada.",
-        description: "Cliente eliminado correctamente.",
+        description: "Cliente modificado correctamente.",
         status: "success",
         duration: 9000,
         isClosable: true,
@@ -220,27 +227,13 @@ export default function Clients() {
               Nombre de Usuario
             </FormLabel>
             <Input
-              value={form.username}
-              name="username"
+              value={form.clientName}
+              name="clientName"
               borderRadius="15px"
               mb="24px"
               fontSize="sm"
               type="text"
-              placeholder="Usuario"
-              size="lg"
-              onChange={handleChangeInput}
-            />
-            <FormLabel ms="4px" fontSize="sm" fontWeight="normal">
-              Nombre
-            </FormLabel>
-            <Input
-              value={form.name}
-              name="name"
-              borderRadius="15px"
-              mb="36px"
-              fontSize="sm"
-              type="text"
-              placeholder="Nombre del Usuario"
+              placeholder="Nombre"
               size="lg"
               onChange={handleChangeInput}
             />
@@ -248,29 +241,103 @@ export default function Clients() {
               Apellido
             </FormLabel>
             <Input
-              value={form.lastname}
-              name="lastname"
+              value={form.clientLastname}
+              name="clientLastname"
               borderRadius="15px"
               mb="36px"
               fontSize="sm"
               type="text"
-              placeholder="Apellido del Usuario"
+              placeholder="Apellido del Cliente"
               size="lg"
               onChange={handleChangeInput}
             />
             <FormLabel ms="4px" fontSize="sm" fontWeight="normal">
-              Contrase&ntilde;a
+              Direccion
             </FormLabel>
             <Input
-              name="password"
+              value={form.clientAddress}
+              name="clientAddress"
               borderRadius="15px"
               mb="36px"
               fontSize="sm"
               type="text"
-              placeholder="Contraseña"
+              placeholder="Direccion del Cliente"
               size="lg"
               onChange={handleChangeInput}
             />
+            <FormLabel ms="4px" fontSize="sm" fontWeight="normal">
+              N&uacute;mero de Tel&eacute;fono
+            </FormLabel>
+            <Input
+              name="clientPhoneNumber"
+              value={form.clientPhoneNumber}
+              borderRadius="15px"
+              mb="36px"
+              fontSize="sm"
+              type="text"
+              placeholder="Numero de Telefono"
+              size="lg"
+              onChange={handleChangeInput}
+            />
+            <FormLabel ms="4px" fontSize="sm" fontWeight="normal">
+              Tipo de documento
+            </FormLabel>
+            <Select
+              variant="outline"
+              value={form.idDocumentType}
+              name="idDocumentType"
+              borderRadius="15px"
+              size="lg"
+              mb="36px"
+              fontSize="sm"
+              onChange={handleChangeInput}
+            >
+              <option value={1}>DNI</option>
+              <option value={2}>Carnet de extranjer&iacute;a</option>
+            </Select>
+            <FormLabel ms="4px" fontSize="sm" fontWeight="normal">
+              N&uacute;mero de Documento
+            </FormLabel>
+            <Input
+              name="documentNumber"
+              value={form.documentNumber}
+              borderRadius="15px"
+              mb="36px"
+              fontSize="sm"
+              type="text"
+              placeholder="Numero de Documento"
+              size="lg"
+              onChange={handleChangeInput}
+            />
+            <FormLabel ms="4px" fontSize="sm" fontWeight="normal">
+              Fecha de nacimiento
+            </FormLabel>
+            <Input
+              name="clientDateOfBirth"
+              borderRadius="15px"
+              mb="36px"
+              fontSize="sm"
+              type="date"
+              placeholder="Fecha de nacimiento"
+              size="lg"
+              onChange={handleChangeInput}
+            />
+            <FormLabel ms="4px" fontSize="sm" fontWeight="normal">
+              Estado financiero
+            </FormLabel>
+            <Select
+              variant="outline"
+              value={form.idFinancialState}
+              name="idFinancialState"
+              borderRadius="15px"
+              size="lg"
+              mb="36px"
+              fontSize="sm"
+              onChange={handleChangeInput}
+            >
+              <option value={1}>Solvente</option>
+              <option value={2}>En mora</option>
+            </Select>
           </ModalBody>
 
           <ModalFooter>
@@ -291,11 +358,11 @@ export default function Clients() {
         <AlertDialogOverlay>
           <AlertDialogContent>
             <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              Borrar Cliente
+              Cambiar estado del cliente
             </AlertDialogHeader>
 
             <AlertDialogBody>
-              Estas Seguro de borrar el cliente?
+              Estas Seguro de actualizar el cliente?
             </AlertDialogBody>
 
             <AlertDialogFooter>
@@ -303,7 +370,7 @@ export default function Clients() {
                 Cancelar
               </Button>
               <Button colorScheme="red" onClick={handleDelete} ml={3}>
-                Borrar
+                Actualizar
               </Button>
             </AlertDialogFooter>
           </AlertDialogContent>
@@ -323,19 +390,29 @@ export default function Clients() {
             <Thead>
               <Tr my=".8rem" pl="0px" color="gray.400">
                 <Th textAlign={"center"} pl="0px" color="gray.400">
-                  Usuario
-                </Th>
-                <Th textAlign={"center"} pl="0px" color="gray.400">
                   Nombre
                 </Th>
                 <Th textAlign={"center"} color="gray.400">
                   Apellido
                 </Th>
                 <Th textAlign={"center"} color="gray.400">
+                  Direccion
+                </Th>
+                <Th textAlign={"center"} color="gray.400">
+                  Nro. Telefono
+                </Th>
+                <Th textAlign={"center"} color="gray.400">
+                  Fecha de Nacimiento
+                </Th>
+                <Th textAlign={"center"} color="gray.400">
+                  Estado Financiero
+                </Th>
+
+                <Th textAlign={"center"} color="gray.400">
                   Editar
                 </Th>
                 <Th textAlign={"center"} color="gray.400">
-                  Eliminar
+                  Cambiar Estado
                 </Th>
                 <Th></Th>
               </Tr>

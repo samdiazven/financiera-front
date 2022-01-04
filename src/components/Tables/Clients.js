@@ -5,6 +5,7 @@ import {
   Button,
   Flex,
   Spinner,
+  Switch,
   Td,
   Text,
   Tr,
@@ -12,30 +13,63 @@ import {
 } from "@chakra-ui/react";
 
 function ClientsTable(props) {
-  const { name, username, lastname, idUser } = props.data;
+  const {
+    clientName,
+    clientLastname,
+    clientAddress,
+    clientPhoneNumber,
+    clientDateOfBirth,
+    idFinancialState,
+    idClientState,
+  } = props.data;
   const { handleUpdate, handleDelete } = props;
   const textColor = useColorModeValue("gray.700", "white");
 
   return (
-    <Tr>
+    <Tr
+      style={{
+        backgroundColor: idClientState !== 1 ? "rgba(0,0,0,0.2)" : "",
+      }}
+    >
       <Td textAlign={"center"}>
         <Flex direction="column">
           <Text fontSize="md" color={textColor} fontWeight="bold">
-            {username}
+            {clientName}
           </Text>
         </Flex>
       </Td>
       <Td textAlign={"center"}>
         <Flex direction="column">
           <Text fontSize="sm" color={textColor} fontWeight="normal">
-            {name}
+            {clientLastname}
           </Text>
         </Flex>
       </Td>
       <Td textAlign={"center"}>
         <Flex direction="column">
           <Text fontSize="sm" color={textColor} fontWeight="normal">
-            {lastname}
+            {clientAddress}
+          </Text>
+        </Flex>
+      </Td>
+      <Td textAlign={"center"}>
+        <Flex direction="column">
+          <Text fontSize="md" color={textColor} fontWeight="bold">
+            {clientPhoneNumber}
+          </Text>
+        </Flex>
+      </Td>
+      <Td textAlign={"center"}>
+        <Flex direction="column">
+          <Text fontSize="sm" color={textColor} fontWeight="normal">
+            {clientDateOfBirth}
+          </Text>
+        </Flex>
+      </Td>
+      <Td textAlign={"center"}>
+        <Flex direction="column">
+          <Text fontSize="sm" color={textColor} fontWeight="normal">
+            {idFinancialState === 1 ? "Solvente" : "En mora"}
           </Text>
         </Flex>
       </Td>
@@ -57,21 +91,10 @@ function ClientsTable(props) {
         </Button>
       </Td>
       <Td textAlign={"center"}>
-        <Button
-          p="10px"
-          bg="red.500"
-          variant="no-hover"
-          onClick={() => handleDelete(props.data)}
-        >
-          <Text
-            fontSize="md"
-            color={"white"}
-            fontWeight="bold"
-            cursor="pointer"
-          >
-            <DeleteIcon />
-          </Text>
-        </Button>
+        <Switch
+          isChecked={idClientState === 1 ? true : false}
+          onChange={() => handleDelete(props.data)}
+        />
       </Td>
     </Tr>
   );

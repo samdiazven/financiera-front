@@ -2,6 +2,7 @@
 import Dashboard from "views/Dashboard/Dashboard.js";
 import Access from "views/Dashboard/Access.js";
 import Users from "views/Dashboard/Users";
+import Clients from "views/Dashboard/Clients";
 
 import { HomeIcon, PersonIcon, GlobeIcon } from "components/Icons/Icons";
 import { UnlockIcon } from "@chakra-ui/icons";
@@ -37,7 +38,7 @@ const dashRoutes = [
     name: "Clientes",
     rtlName: "لوحة القيادة",
     icon: <GlobeIcon color="inherit" />,
-    component: Users,
+    component: Clients,
     layout: "/admin",
   },
 ];

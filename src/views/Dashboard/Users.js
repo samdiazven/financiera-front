@@ -144,7 +144,7 @@ export default function Users() {
   };
   const handleDelete = () => {
     try {
-      dispatch(deleteUser(userSelected.idUser));
+      dispatch(deleteUser(userSelected.idClient));
       onCloseDelete();
       toast({
         title: "Transaccion Finalizada.",

@@ -24,12 +24,13 @@ function* loginSaga(action) {
   }
 }
 function* getMe() {
-  try {
-    const auth = new Auth();
-    const response = yield call(() => auth.getMe());
-    yield put(authenticationSucess(response.objModel));
-  } catch (error) {
-    yield put(authenticationError(error.response.data.message));
+  const auth = new Auth();
+  const response = yield call(() => auth.getMe());
+  if (response) {
+    yield put(authenticationSucess(response.data.objModel));
+  } else {
+    yield put(authenticationError("Lo sentimos, no se pudo autenticar"));
+    yield put(signOut());
   }
 }
 

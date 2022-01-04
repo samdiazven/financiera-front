@@ -26,7 +26,7 @@ const clientSlice = createSlice({
     createClient(state, action) {
       state.state = LoadState.LOADING;
     },
-    createClientsuccess(state, action) {
+    createClientSuccess(state, action) {
       state.state = LoadState.LOADED_SUCCESS;
       state.clients = [...state.clients, action.payload];
     },
@@ -40,7 +40,7 @@ const clientSlice = createSlice({
     updateClientSuccess(state, action) {
       state.state = LoadState.LOADED_SUCCESS;
       state.clients = state.clients.map((user) =>
-        user.idUser === action.payload.idUser ? action.payload : user
+        user.idClient === action.payload.idClient ? action.payload : user
       );
     },
     updateClientError(state, action) {
@@ -52,8 +52,10 @@ const clientSlice = createSlice({
     },
     deleteClientSuccess(state, action) {
       state.state = LoadState.LOADED_SUCCESS;
-      state.clients = state.clients.filter(
-        (user) => user.idUser !== action.payload.id
+      state.clients = state.clients.map((user) =>
+        user.idClient === action.payload.id
+          ? { ...user, idClientState: user.idClientState === 1 ? 2 : 1 }
+          : user
       );
     },
     deleteClientError(state, action) {
@@ -64,15 +66,15 @@ const clientSlice = createSlice({
 });
 
 export const {
-  loadclients,
+  loadClients,
   loadClientsSuccess,
   loadClientsError,
   createClient,
   createClientError,
-  createClientsuccess,
+  createClientSuccess,
   updateClient,
   updateClientError,
-  updateClientSucess,
+  updateClientSuccess,
   deleteClient,
   deleteClientError,
   deleteClientSuccess,
