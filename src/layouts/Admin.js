@@ -1,5 +1,10 @@
 // Chakra imports
-import { ChakraProvider, Portal, useDisclosure } from "@chakra-ui/react";
+import {
+  ChakraProvider,
+  Portal,
+  Spinner,
+  useDisclosure,
+} from "@chakra-ui/react";
 import Configurator from "components/Configurator/Configurator";
 // Layout components
 import AdminNavbar from "components/Navbars/AdminNavbar.js";
@@ -27,7 +32,7 @@ export default function Dashboard(props) {
   useAuth();
   const user = useSelector(getUser);
   const authenticationState = useSelector(getAuthenticationState);
-  useRedirect();
+  const { rols } = useRedirect();
   useEffect(() => {
     if (!user && authenticationState !== LoadState.LOADED_SUCCESS) {
       dispatch(authenticate());
@@ -112,10 +117,27 @@ export default function Dashboard(props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   document.documentElement.dir = "ltr";
   // Chakra Color Mode
+  if (!rols)
+    return (
+      <div
+        style={{
+          height: "100vh",
+          width: "100vw",
+          display: "grid",
+          placeItems: "center",
+        }}
+      >
+        {" "}
+        <Spinner />
+      </div>
+    );
+  const routesByUser = routes.filter((route) => {
+    return rols.permissionList.find((rol) => rol.urlName === route.name);
+  });
   return (
     <ChakraProvider theme={theme} resetCss={false}>
       <Sidebar
-        routes={routes}
+        routes={rols ? routesByUser : []}
         logoText={"Salud Financiera"}
         display="none"
         sidebarVariant={sidebarVariant}

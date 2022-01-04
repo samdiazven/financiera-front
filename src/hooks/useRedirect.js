@@ -17,5 +17,9 @@ export default function useRedirect() {
         history.replace("/auth");
       }
     }
-  }, [rols]);
+  }, [url]);
+
+  return {
+    rols,
+  };
 }
