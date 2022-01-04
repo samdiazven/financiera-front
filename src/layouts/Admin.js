@@ -127,7 +127,6 @@ export default function Dashboard(props) {
           placeItems: "center",
         }}
       >
-        {" "}
         <Spinner />
       </div>
     );
