@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import {
   Badge,
@@ -24,7 +24,6 @@ function ClientsTable(props) {
   } = props.data;
   const { handleUpdate, handleDelete } = props;
   const textColor = useColorModeValue("gray.700", "white");
-
   return (
     <Tr
       style={{
@@ -61,14 +60,14 @@ function ClientsTable(props) {
       </Td>
       <Td textAlign={"center"}>
         <Flex direction="column">
-          <Text fontSize="sm" color={textColor} fontWeight="normal">
-            {clientDateOfBirth}
+          <Text fontSize="sm" color={textColor} fontWeight="bold">
+            {new Date(clientDateOfBirth).toLocaleDateString()}
           </Text>
         </Flex>
       </Td>
       <Td textAlign={"center"}>
         <Flex direction="column">
-          <Text fontSize="sm" color={textColor} fontWeight="normal">
+          <Text fontSize="sm" color={textColor} fontWeight="bold">
             {idFinancialState === 1 ? "Solvente" : "En mora"}
           </Text>
         </Flex>

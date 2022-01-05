@@ -13,7 +13,7 @@ import useAuth from "hooks/useAuth";
 import useRedirect from "hooks/useRedirect";
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Redirect, Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch, useHistory } from "react-router-dom";
 import routes from "routes.js";
 import { getAuthenticationState } from "store/selectors/auth";
 import { getUser } from "store/selectors/auth";
@@ -25,19 +25,22 @@ import FixedPlugin from "../components/FixedPlugin/FixedPlugin";
 import MainPanel from "../components/Layout/MainPanel";
 import PanelContainer from "../components/Layout/PanelContainer";
 import PanelContent from "../components/Layout/PanelContent";
-import { authenticate } from "../store/slices/auth";
+import { authenticate, signOut } from "../store/slices/auth";
 export default function Dashboard(props) {
   const { ...rest } = props;
   const dispatch = useDispatch();
   useAuth();
+  const history = useHistory();
   const user = useSelector(getUser);
   const authenticationState = useSelector(getAuthenticationState);
   const { rols } = useRedirect();
   useEffect(() => {
     if (!user && authenticationState !== LoadState.LOADED_SUCCESS) {
       dispatch(authenticate());
+    } else if (authenticationState === LoadState.LOADED_FAILURE) {
+      dispatch(signOut());
+      history.replace("/auth/signin");
     }
-    console.log(user, authenticationState);
   }, [user, authenticationState]);
 
   // states and functions

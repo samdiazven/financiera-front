@@ -42,15 +42,22 @@ import { updateClient } from "store/slices/clients";
 import { createClient } from "store/slices/clients";
 import { deleteClient } from "store/slices/clients";
 import ClientsTable from "components/Tables/Clients";
-
+import { usePagination } from "../../hooks/usePagination";
+import Pagination from "components/Tables/Pagination";
 export default function Clients() {
   const dispatch = useDispatch();
   const stateClients = useSelector(getClientsState);
   const clients = useSelector(getClients);
   const textColor = useColorModeValue("gray.700", "white");
   const [clientSelected, setClientSelected] = useState(null);
+  const [searchText, setSearchText] = useState("");
   const { isOpen, onOpen, onClose } = useDisclosure();
-
+  const {
+    filteredData,
+    handleIncrease,
+    handleDecrease,
+    currentPage,
+  } = usePagination(clients, searchText);
   const [form, setForm] = useState({
     clientName: "",
     clientLastname: "",
@@ -381,9 +388,24 @@ export default function Clients() {
         overflowX={{ sm: "scroll", xl: "hidden" }}
       >
         <CardHeader p="6px 0px 22px 0px">
-          <Text fontSize="xl" color={textColor} fontWeight="bold">
-            Tabla de Clientes
-          </Text>
+          <Flex
+            flexGrow={1}
+            justifyContent={"space-between"}
+            alignItems={"center"}
+          >
+            <Text fontSize="xl" color={textColor} fontWeight="bold">
+              Tabla de Clientes
+            </Text>
+            <Input
+              width={{ sm: "100%", md: "50%" }}
+              name="search"
+              borderRadius="15px"
+              size="lg"
+              type="text"
+              placeholder="Buscar"
+              onChange={(e) => setSearchText(e.target.value)}
+            />
+          </Flex>
         </CardHeader>
         <CardBody>
           <Table variant="simple" color={textColor}>
@@ -418,7 +440,7 @@ export default function Clients() {
               </Tr>
             </Thead>
             <Tbody>
-              {clients.map((row) => {
+              {filteredData().map((row) => {
                 return (
                   <ClientsTable
                     data={row}
@@ -430,6 +452,12 @@ export default function Clients() {
             </Tbody>
           </Table>
         </CardBody>
+        <Pagination
+          length={filteredData().length}
+          handlePrev={handleDecrease}
+          currentPage={currentPage}
+          handleNext={handleIncrease}
+        />
       </Card>
     </Flex>
   );

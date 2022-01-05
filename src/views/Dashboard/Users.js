@@ -42,7 +42,8 @@ import { createUser } from "store/slices/users";
 import { deleteUser } from "store/slices/users";
 import UsersTable from "components/Tables/Users";
 import { getRols } from "../../store/selectors/rols";
-
+import { usePagination } from "hooks/usePagination";
+import Pagination from "components/Tables/Pagination";
 export default function Users() {
   const dispatch = useDispatch();
   const stateUsers = useSelector(getUsersState);
@@ -51,6 +52,14 @@ export default function Users() {
   const textColor = useColorModeValue("gray.700", "white");
   const [userSelected, setUserSelected] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [searchText, setSearchText] = useState("");
+  const {
+    filteredData,
+    handleIncrease,
+    handleDecrease,
+    currentPage,
+  } = usePagination(users, searchText);
+
   const [form, setForm] = useState({
     username: "",
     name: "",
@@ -144,7 +153,7 @@ export default function Users() {
   };
   const handleDelete = () => {
     try {
-      dispatch(deleteUser(userSelected.idClient));
+      dispatch(deleteUser(userSelected.idUser));
       onCloseDelete();
       toast({
         title: "Transaccion Finalizada.",
@@ -323,9 +332,24 @@ export default function Users() {
         overflowX={{ sm: "scroll", xl: "hidden" }}
       >
         <CardHeader p="6px 0px 22px 0px">
-          <Text fontSize="xl" color={textColor} fontWeight="bold">
-            Tabla de usuarios
-          </Text>
+          <Flex
+            flexGrow={1}
+            justifyContent={"space-between"}
+            alignItems={"center"}
+          >
+            <Text fontSize="xl" color={textColor} fontWeight="bold">
+              Tabla de Usuarios
+            </Text>
+            <Input
+              width={{ sm: "100%", md: "50%" }}
+              name="search"
+              borderRadius="15px"
+              size="lg"
+              type="text"
+              placeholder="Buscar"
+              onChange={(e) => setSearchText(e.target.value)}
+            />
+          </Flex>
         </CardHeader>
         <CardBody>
           <Table variant="simple" color={textColor}>
@@ -353,7 +377,7 @@ export default function Users() {
               </Tr>
             </Thead>
             <Tbody>
-              {users.map((row) => {
+              {filteredData().map((row) => {
                 return (
                   <UsersTable
                     data={row}
@@ -365,6 +389,12 @@ export default function Users() {
             </Tbody>
           </Table>
         </CardBody>
+        <Pagination
+          length={filteredData().length}
+          handlePrev={handleDecrease}
+          currentPage={currentPage}
+          handleNext={handleIncrease}
+        />
       </Card>
     </Flex>
   );

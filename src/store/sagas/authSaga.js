@@ -26,11 +26,10 @@ function* loginSaga(action) {
 function* getMe() {
   const auth = new Auth();
   const response = yield call(() => auth.getMe());
-  if (response) {
-    yield put(authenticationSucess(response.data.objModel));
-  } else {
+  try {
+    yield put(authenticationSucess(response));
+  } catch {
     yield put(authenticationError("Lo sentimos, no se pudo autenticar"));
-    yield put(signOut());
   }
 }
 

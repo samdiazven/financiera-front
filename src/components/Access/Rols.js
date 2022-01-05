@@ -39,7 +39,8 @@ import { loadRols } from "store/slices/rols";
 import RolsTable from "components/Tables/Rols";
 import { createRol } from "store/slices/rols";
 import { updateRol, deleteRol } from "store/slices/rols";
-
+import { usePagination } from "hooks/usePagination";
+import Pagination from "components/Tables/Pagination";
 export default function Rols() {
   const dispatch = useDispatch();
   const rolState = useSelector(getRolState);
@@ -51,6 +52,13 @@ export default function Rols() {
     rolName: "",
     rolDescription: "",
   });
+  const [searchText, setSearchText] = useState("");
+  const {
+    filteredData,
+    handleIncrease,
+    handleDecrease,
+    currentPage,
+  } = usePagination(rols, searchText);
   const [isOpenDelete, setIsOpenDelete] = React.useState(false);
   const onCloseDelete = () => setIsOpenDelete(false);
   const cancelRef = React.useRef();
@@ -248,9 +256,24 @@ export default function Rols() {
         overflowX={{ sm: "scroll", xl: "hidden" }}
       >
         <CardHeader p="6px 0px 22px 0px">
-          <Text fontSize="xl" color={textColor} fontWeight="bold">
-            Tabla de roles
-          </Text>
+          <Flex
+            flexGrow={1}
+            justifyContent={"space-between"}
+            alignItems={"center"}
+          >
+            <Text fontSize="xl" color={textColor} fontWeight="bold">
+              Tabla de roles
+            </Text>
+            <Input
+              width={{ sm: "100%", md: "50%" }}
+              name="search"
+              borderRadius="15px"
+              size="lg"
+              type="text"
+              placeholder="Buscar"
+              onChange={(e) => setSearchText(e.target.value)}
+            />
+          </Flex>
         </CardHeader>
         <CardBody>
           <Table variant="simple" color={textColor}>
@@ -275,7 +298,7 @@ export default function Rols() {
               </Tr>
             </Thead>
             <Tbody>
-              {rols.map((row) => {
+              {filteredData().map((row) => {
                 return (
                   <RolsTable
                     data={row}
@@ -287,6 +310,12 @@ export default function Rols() {
             </Tbody>
           </Table>
         </CardBody>
+        <Pagination
+          length={filteredData().length}
+          handlePrev={handleDecrease}
+          currentPage={currentPage}
+          handleNext={handleIncrease}
+        />
       </Card>
     </Flex>
   );

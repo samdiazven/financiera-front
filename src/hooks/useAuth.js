@@ -1,7 +1,6 @@
 import authToken from "apis/token";
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
-
 export default function useAuth() {
   const token = localStorage.getItem("token");
   authToken(token);
