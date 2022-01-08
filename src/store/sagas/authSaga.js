@@ -7,6 +7,7 @@ import {
   login,
   loginSuccess,
   loginError,
+  signOut
 } from "store/slices/auth";
 
 function* loginSaga(action) {
@@ -26,6 +27,10 @@ function* loginSaga(action) {
 function* getMe() {
   const auth = new Auth();
   const response = yield call(() => auth.getMe());
+  if(!response) { 
+    yield put(signOut())
+    window.location.href = '/auth'
+  }
   try {
     yield put(authenticationSucess(response));
   } catch {

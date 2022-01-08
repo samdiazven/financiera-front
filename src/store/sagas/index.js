@@ -4,6 +4,7 @@ import authSaga from "store/sagas/authSaga";
 import rolsSaga from "store/sagas/rolsSaga";
 import clientsSaga from "./clientsSaga";
 import usersSaga from "./usersSaga";
+import loansSaga from "./loanSaga";
 
 function* rootSaga() {
   yield all([
@@ -11,6 +12,7 @@ function* rootSaga() {
     fork(rolsSaga),
     fork(usersSaga),
     fork(clientsSaga),
+    fork(loansSaga),
   ]);
 }
 

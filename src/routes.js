@@ -3,10 +3,13 @@ import Dashboard from "views/Dashboard/Dashboard.js";
 import Access from "views/Dashboard/Access.js";
 import Users from "views/Dashboard/Users";
 import Clients from "views/Dashboard/Clients";
+import Loans from "views/Dashboard/Loans";
 
 import { HomeIcon, PersonIcon, GlobeIcon } from "components/Icons/Icons";
 import { UnlockIcon } from "@chakra-ui/icons";
 import ComingSoon from "views/Dashboard/ComingSoon";
+import { CreditIcon } from "components/Icons/Icons";
+import Control from "views/Dashboard/Control";
 
 const dashRoutes = [
   {
@@ -39,6 +42,22 @@ const dashRoutes = [
     rtlName: "لوحة القيادة",
     icon: <GlobeIcon color="inherit" />,
     component: Clients,
+    layout: "/admin",
+  },
+  {
+    path: "/loans",
+    name: "Prestamos",
+    rtlName: "لوحة القيادة",
+    icon: <CreditIcon color="inherit" />,
+    component: Loans,
+    layout: "/admin",
+  },
+  {
+    path: "/control",
+    name: "Control",
+    rtlName: "لوحة القيادة",
+    icon: <CreditIcon color="inherit" />,
+    component: Control,
     layout: "/admin",
   },
 ];
