@@ -4,6 +4,7 @@ import rols from "./slices/rols";
 import users from "./slices/users";
 import clients from "./slices/clients";
 import loans from "./slices/loan";
+import messages from "./slices/messages";
 const createRootReducer = () =>
   combineReducers({
     // add reducers here
@@ -12,6 +13,7 @@ const createRootReducer = () =>
     users,
     clients,
     loans,
+    messages,
   });
 
 export default createRootReducer;

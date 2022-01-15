@@ -72,29 +72,33 @@ function ClientsTable(props) {
           </Text>
         </Flex>
       </Td>
-      <Td textAlign={"center"}>
-        <Button
-          p="10px"
-          bg="blue.500"
-          variant="no-hover"
-          onClick={() => handleUpdate(props.data)}
-        >
-          <Text
-            fontSize="md"
-            color={"white"}
-            fontWeight="bold"
-            cursor="pointer"
-          >
-            <EditIcon />
-          </Text>
-        </Button>
-      </Td>
-      <Td textAlign={"center"}>
-        <Switch
-          isChecked={idClientState === 1 ? true : false}
-          onChange={() => handleDelete(props.data)}
-        />
-      </Td>
+      {handleDelete && handleUpdate && (
+        <>
+          <Td textAlign={"center"}>
+            <Button
+              p="10px"
+              bg="blue.500"
+              variant="no-hover"
+              onClick={() => handleUpdate(props.data)}
+            >
+              <Text
+                fontSize="md"
+                color={"white"}
+                fontWeight="bold"
+                cursor="pointer"
+              >
+                <EditIcon />
+              </Text>
+            </Button>
+          </Td>
+          <Td textAlign={"center"}>
+            <Switch
+              isChecked={idClientState === 1 ? true : false}
+              onChange={() => handleDelete(props.data)}
+            />
+          </Td>
+        </>
+      )}
     </Tr>
   );
 }

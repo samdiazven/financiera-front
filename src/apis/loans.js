@@ -4,7 +4,7 @@ class Loan extends Base {
   async getLoans() {
     try {
       const loans = await this.get("/loan");
-      return loans.data.objModel;
+      return loans.data.objModel || [];
     } catch (error) {
       throw new Error("Hubo un error obteniendo los prestamos", error);
     }
@@ -23,6 +23,14 @@ class Loan extends Base {
       return loan.data.objModel;
     } catch (error) {
       throw new Error("Hubo un error actualizando el prestamo", error);
+    }
+  }
+  async getFullLoan(id) {
+    try {
+      const res = await this.get(`/loan/fullInformation/${id}`);
+      return res.data.objModel;
+    } catch (error) {
+      throw new Error("Hubo un error obteniendo el prestamo", error);
     }
   }
 }

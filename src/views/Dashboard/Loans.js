@@ -19,15 +19,10 @@ import {
   ModalContent,
   useDisclosure,
   Input,
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogFooter,
-  AlertDialogOverlay,
   FormLabel,
   Spinner,
   useToast,
+  Checkbox,
 } from "@chakra-ui/react";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
@@ -62,6 +57,8 @@ export default function Rols() {
     guaranteeAmount: 0,
     idGuaranteeState: 1,
     idLoanState: 0,
+    startPaymentDate: "",
+    noDate: false,
   });
   const [searchText, setSearchText] = useState("");
   const {
@@ -84,11 +81,12 @@ export default function Rols() {
     setForm({
       loanName: "",
       capital: 0,
-      idAmortization: 1,
       percentage: 0,
       guaranteeAmount: 0,
       idGuaranteeState: 1,
       idLoanState: 0,
+      startPaymentDate: "",
+      noDate: false,
     });
     onOpen();
   };
@@ -97,11 +95,13 @@ export default function Rols() {
     setForm({
       loanName: loan.loanName,
       capital: loan.capital,
-      idAmortization: loan.idAmortization,
       percentage: loan.percentage,
       guaranteeAmount: loan.guaranteeAmount,
       idGuaranteeState: loan.idGuaranteeState,
       idLoanState: loan.idLoanState,
+      startPaymentDate: loan.startPaymentDate
+        ? new Date(loan.startPaymentDate)
+        : "",
     });
     onOpen();
   };
@@ -113,7 +113,6 @@ export default function Rols() {
     });
   };
   const handleCreateData = () => {
-    if (Object.values(form).some((value) => value.length === 0)) return;
     try {
       if (loanSelected) {
         dispatch(updateLoan({ ...form, idLoan: loanSelected.idLoan }));
@@ -125,7 +124,15 @@ export default function Rols() {
           isClosable: true,
         });
       } else {
-        dispatch(createLoan(form));
+        const date = form.startPaymentDate
+          ? new Date(form.startPaymentDate)
+          : null;
+        dispatch(
+          createLoan({
+            ...form,
+            startPaymentDate: form.noDate ? date : null,
+          })
+        );
         toast({
           title: "Transaccion Finalizada.",
           description: "Prestamo creado correctamente.",
@@ -167,7 +174,6 @@ export default function Rols() {
         <Spinner size={"xl"} />
       </div>
     );
-  if (loans.length === 0) return <div> No Data </div>;
   return (
     <Flex
       width={"100%"}
@@ -244,6 +250,31 @@ export default function Rols() {
               size="lg"
               onChange={handleChangeInput}
             />
+            <Flex alignItems={"center"} justifyContent={"flex-end"}>
+              <FormLabel paddingLeft={5}> Habilitar Fecha de pago </FormLabel>
+              <Checkbox
+                marginBottom={2}
+                onChange={() => setForm({ ...form, noDate: !form.noDate })}
+              />
+            </Flex>
+            {form.noDate && (
+              <>
+                <FormLabel ms="4px" fontSize="sm" fontWeight="normal">
+                  Fecha de inicio de pago
+                </FormLabel>
+                <Input
+                  value={form.startPaymentDate}
+                  name="startPaymentDate"
+                  borderRadius="15px"
+                  mb="36px"
+                  fontSize="sm"
+                  type="date"
+                  placeholder="Fecha de inicio de pago"
+                  size="lg"
+                  onChange={handleChangeInput}
+                />
+              </>
+            )}
             <FormLabel ms="4px" fontSize="sm" fontWeight="normal">
               Estado de garat&iacute;a
             </FormLabel>

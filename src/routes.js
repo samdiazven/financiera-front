@@ -9,7 +9,9 @@ import { HomeIcon, PersonIcon, GlobeIcon } from "components/Icons/Icons";
 import { UnlockIcon } from "@chakra-ui/icons";
 import ComingSoon from "views/Dashboard/ComingSoon";
 import { CreditIcon } from "components/Icons/Icons";
+import { DocumentIcon } from "components/Icons/Icons";
 import Control from "views/Dashboard/Control";
+import Messages from "views/Dashboard/Messages";
 
 const dashRoutes = [
   {
@@ -58,6 +60,14 @@ const dashRoutes = [
     rtlName: "لوحة القيادة",
     icon: <CreditIcon color="inherit" />,
     component: Control,
+    layout: "/admin",
+  },
+  {
+    path: "/messages",
+    name: "Mensajes",
+    rtlName: "لوحة القيادة",
+    icon: <DocumentIcon color="inherit" />,
+    component: Messages,
     layout: "/admin",
   },
 ];
