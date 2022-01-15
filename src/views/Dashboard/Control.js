@@ -12,7 +12,23 @@ function Control() {
   const [loanInformation, setLoanInformation] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [random, setRandom] = useState(null);
+  const handleAddUserToLoan = async (userId) => {
+    const loanInstance = new Loan();
+    try {
+      await loanInstance.addUserToLoan([
+        {
+          idLoan: loan.idLoan,
+          idClient: userId,
+        },
+      ]);
+      setRandom(Math.random() * 100);
+    } catch (error) {
+      setError(error);
+    }
+  };
   useEffect(() => {
+    setIsLoading(true);
     async function getData() {
       try {
         const loanInstance = new Loan();
@@ -24,7 +40,7 @@ function Control() {
       setIsLoading(false);
     }
     getData();
-  }, [loan]);
+  }, [loan, random]);
 
   if (isLoading)
     return (
@@ -58,8 +74,10 @@ function Control() {
     <Stack>
       <Stats stats={loanInformation.amortization} />
       <Divider paddingTop={5} />
-      <Clients clients={loanInformation.clientList} />
-
+      <Clients
+        clients={loanInformation.clientList}
+        addToLoan={handleAddUserToLoan}
+      />
       <Divider paddingBottom={5} />
       <Dates dates={loanInformation.paymentSchedule} />
     </Stack>

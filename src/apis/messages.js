@@ -35,6 +35,15 @@ class Messages extends Base {
       throw new Error("Hubo un error eliminando el mensaje", error);
     }
   }
+
+  async sendSmsToGroup(data) {
+    try {
+      const message = await this.post("/SMS/sendNotificationToGroup", data);
+      return message.data.objModel;
+    } catch (error) {
+      throw new Error("Hubo un error enviando el mensaje", error);
+    }
+  }
 }
 
 export default Messages;

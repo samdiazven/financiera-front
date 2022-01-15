@@ -11,7 +11,7 @@ import ComingSoon from "views/Dashboard/ComingSoon";
 import { CreditIcon } from "components/Icons/Icons";
 import { DocumentIcon } from "components/Icons/Icons";
 import Control from "views/Dashboard/Control";
-import Messages from "views/Dashboard/Messages";
+import LayoutMessages from "views/Dashboard/MessageLayout";
 
 const dashRoutes = [
   {
@@ -67,7 +67,7 @@ const dashRoutes = [
     name: "Mensajes",
     rtlName: "لوحة القيادة",
     icon: <DocumentIcon color="inherit" />,
-    component: Messages,
+    component: LayoutMessages,
     layout: "/admin",
   },
 ];

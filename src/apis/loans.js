@@ -33,6 +33,22 @@ class Loan extends Base {
       throw new Error("Hubo un error obteniendo el prestamo", error);
     }
   }
+  async getClientsByLoan(id) {
+    try {
+      const res = await this.get(`/client/byIdLoan/${id}`);
+      return res.data.objModel;
+    } catch (error) {
+      throw new Error("Hubo un error obteniendo los clientes", error);
+    }
+  }
+
+  async addUserToLoan(data) {
+    try {
+      await this.post("/client/addToLoanList", data);
+    } catch (error) {
+      throw new Error("Hubo un error agregando el usuario", error);
+    }
+  }
 }
 
 export default Loan;

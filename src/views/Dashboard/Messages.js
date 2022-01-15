@@ -206,11 +206,7 @@ export default function Messages() {
       </div>
     );
   return (
-    <Flex
-      width={"100%"}
-      flexDirection={"column"}
-      pt={{ base: "120px", md: "100px" }}
-    >
+    <Flex width={"100%"} flexDirection={"column"}>
       <Button
         alignSelf={"flex-end"}
         leftIcon={<AddIcon />}
@@ -222,7 +218,9 @@ export default function Messages() {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Crear Cliente</ModalHeader>
+          <ModalHeader>
+            {messageSelected ? "Editar Mensaje" : "Crear Mensaje"}
+          </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <FormLabel ms="4px" fontSize="sm" fontWeight="normal">
