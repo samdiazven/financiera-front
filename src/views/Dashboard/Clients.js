@@ -46,6 +46,9 @@ import { deleteClient } from "store/slices/clients";
 import ClientsTable from "components/Tables/Clients";
 import { usePagination } from "../../hooks/usePagination";
 import Pagination from "components/Tables/Pagination";
+import Dropzone from "components/Dropzone/Dropzone";
+import ClientsClass from "apis/clients";
+
 export default function Clients() {
   const dispatch = useDispatch();
   const stateClients = useSelector(getClientsState);
@@ -72,6 +75,8 @@ export default function Clients() {
     idClientState: 1,
   });
   const [isOpenDelete, setIsOpenDelete] = React.useState(false);
+  const [isOpenUpload, setIsOpenUpload] = React.useState(false);
+  const [file, setFile] = React.useState(null);
   const onCloseDelete = () => setIsOpenDelete(false);
   const cancelRef = React.useRef();
   const toast = useToast();
@@ -183,6 +188,43 @@ export default function Clients() {
       onCloseDelete();
     }
   };
+  const handleUpload = (client) => {
+    setClientSelected(client);
+    setIsOpenUpload(true);
+  };
+  const sendFile = async () => {
+    console.log({
+      files: file,
+      idClient: clientSelected.idClient,
+    });
+    try {
+      const clients = new ClientsClass();
+      console.log("before");
+      await clients.uploadFile({
+        files: file,
+        idClient: clientSelected.idClient,
+      });
+      console.log("after");
+      toast({
+        title: "Transaccion Finalizada.",
+        description: "Archivo subido correctamente.",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      });
+      setIsOpenUpload(false);
+    } catch (error) {
+      toast({
+        title: "Error.",
+        description: "Hubo un error.",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+      console.log(error);
+      setIsOpenUpload(false);
+    }
+  };
 
   if (stateClients === LoadState.LOADING)
     return (
@@ -237,6 +279,12 @@ export default function Clients() {
       flexDirection={"column"}
       pt={{ base: "120px", md: "100px" }}
     >
+      <Dropzone
+        openModal={isOpenUpload}
+        setOpenModal={setIsOpenUpload}
+        sendFile={sendFile}
+        handleChangeFile={(file) => setFile(file)}
+      />
       <Button
         alignSelf={"flex-end"}
         leftIcon={<AddIcon />}
@@ -460,6 +508,9 @@ export default function Clients() {
                 <Th textAlign={"center"} color="gray.400">
                   Cambiar Estado
                 </Th>
+                <Th textAlign={"center"} color="gray.400">
+                  Reporte Sentinel
+                </Th>
                 <Th></Th>
               </Tr>
             </Thead>
@@ -470,6 +521,7 @@ export default function Clients() {
                     data={row}
                     handleUpdate={handleSelectUser}
                     handleDelete={openDialogDelete}
+                    handleUpload={handleUpload}
                   />
                 );
               })}

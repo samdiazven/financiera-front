@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import { AttachmentIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import {
   Badge,
   Button,
@@ -22,7 +22,7 @@ function ClientsTable(props) {
     idFinancialState,
     idClientState,
   } = props.data;
-  const { handleUpdate, handleDelete } = props;
+  const { handleUpdate, handleDelete, handleUpload } = props;
   const textColor = useColorModeValue("gray.700", "white");
   return (
     <Tr
@@ -109,6 +109,27 @@ function ClientsTable(props) {
               cursor="pointer"
             >
               <DeleteIcon />
+            </Text>
+          </Button>
+        </Td>
+      )}
+      {handleUpload && (
+        <Td textAlign={"center"}>
+          <Button
+            p="10px"
+            bg="green.500"
+            variant="no-hover"
+            onClick={() => {
+              handleUpload(props.data);
+            }}
+          >
+            <Text
+              fontSize="md"
+              color={"white"}
+              fontWeight="bold"
+              cursor="pointer"
+            >
+              <AttachmentIcon />
             </Text>
           </Button>
         </Td>

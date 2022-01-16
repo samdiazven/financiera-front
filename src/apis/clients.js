@@ -1,4 +1,5 @@
 import Base from "./base";
+import Axios from "./axios";
 
 class Clients extends Base {
   async getClients() {
@@ -27,6 +28,29 @@ class Clients extends Base {
       return response.data;
     } catch (error) {
       throw new Error("Hubo un error eliminando el cliente", error);
+    }
+  }
+  async uploadFile(data) {
+    try {
+      const body = new FormData();
+      const bodyToSend = Object.entries(data).map((obj) => {
+        let [key, value] = obj;
+        return { key, value };
+      });
+      for (let i = 0; i < bodyToSend.length; i++) {
+        body.append(bodyToSend[i].key, bodyToSend[i].value);
+      }
+      const uploadData = await Axios.post(`/client/uploadSentinelPdf`, body, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Accept: "application/json",
+          type: "formData",
+        },
+      });
+      return uploadData.data.objModel;
+    } catch (error) {
+      console.log(error);
+      throw new Error("Hubo un error subiendo el archivo", error);
     }
   }
 }
