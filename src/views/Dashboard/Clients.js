@@ -28,6 +28,8 @@ import {
   Spinner,
   Select,
   useToast,
+  InputGroup,
+  InputLeftAddon,
 } from "@chakra-ui/react";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
@@ -115,6 +117,7 @@ export default function Clients() {
           updateClient({
             ...form,
             idUser: clientSelected.idClient,
+            clientPhoneNumber: form.clientPhoneNumber.trim(),
           })
         );
         toast({
@@ -125,7 +128,12 @@ export default function Clients() {
           isClosable: true,
         });
       } else {
-        dispatch(createClient(form));
+        dispatch(
+          createClient({
+            ...form,
+            clientPhoneNumber: form.clientPhoneNumber.trim(),
+          })
+        );
         toast({
           title: "Transaccion Finalizada.",
           description: "Cliente creado correctamente.",
@@ -200,14 +208,27 @@ export default function Clients() {
       <div
         style={{
           display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
           width: "100%",
-          height: "100vh",
         }}
       >
-        {" "}
-        No Data{" "}
+        <Flex flexDirection={"column"} flexGrow={1}>
+          <Button
+            alignSelf={"flex-start"}
+            leftIcon={<AddIcon />}
+            onClick={handleOpen}
+          >
+            Agregar
+          </Button>
+          <Text
+            pt={6}
+            fontSize={"xl"}
+            textAlign={"center"}
+            alignSelf={"center"}
+            color={textColor}
+          >
+            No hay Clientes
+          </Text>
+        </Flex>
       </div>
     );
   return (
@@ -275,17 +296,20 @@ export default function Clients() {
             <FormLabel ms="4px" fontSize="sm" fontWeight="normal">
               N&uacute;mero de Tel&eacute;fono
             </FormLabel>
-            <Input
-              name="clientPhoneNumber"
-              value={form.clientPhoneNumber}
-              borderRadius="15px"
-              mb="36px"
-              fontSize="sm"
-              type="text"
-              placeholder="Numero de Telefono"
-              size="lg"
-              onChange={handleChangeInput}
-            />
+            <InputGroup size={"lg"}>
+              <InputLeftAddon children="+51" size={"lg"} p={4} />
+              <Input
+                name="clientPhoneNumber"
+                value={form.clientPhoneNumber}
+                borderRadius="15px"
+                mb="36px"
+                fontSize="sm"
+                type="text"
+                placeholder="Numero de Telefono"
+                onChange={handleChangeInput}
+                maxLength={9}
+              />
+            </InputGroup>
             <FormLabel ms="4px" fontSize="sm" fontWeight="normal">
               Tipo de documento
             </FormLabel>

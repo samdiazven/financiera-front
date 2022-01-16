@@ -21,6 +21,13 @@ import {
   ModalContent,
   useDisclosure,
   FormLabel,
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogFooter,
+  AlertDialogOverlay,
+  useToast,
 } from "@chakra-ui/react";
 import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
@@ -34,14 +41,17 @@ import { getClients } from "store/selectors/clients";
 import { getClientsState } from "store/selectors/clients";
 import { loadClients } from "store/slices/clients";
 import { LoadState } from "store/slices/state";
+import Loan from "apis/loans";
 
-function Clients({ clients, addToLoan }) {
+function Clients({ clients, addToLoan, setRandom }) {
   const dispatch = useDispatch();
   const [searchText, setSearchText] = useState("");
   const [selectedClient, setSelectedClient] = useState(null);
   const { onClose, onOpen, isOpen } = useDisclosure();
   const clientsApp = useSelector(getClients);
   const clientsAppState = useSelector(getClientsState);
+  const [stateNumber, setStateNumber] = useState(0);
+  const toast = useToast();
   const {
     filteredData,
     handleIncrease,
@@ -49,17 +59,82 @@ function Clients({ clients, addToLoan }) {
     currentPage,
   } = usePagination(clients, searchText);
   const textColor = useColorModeValue("gray.700", "white");
+  const [isOpenDelete, setIsOpenDelete] = React.useState(false);
+  const onCloseDelete = () => setIsOpenDelete(false);
+  const cancelRef = React.useRef();
   useEffect(() => {
-    if (clientsAppState === LoadState.NOT_LOADED) {
-      dispatch(loadClients());
+    dispatch(loadClients());
+  }, []);
+  const handleDelete = async () => {
+    const loanInstance = new Loan();
+    try {
+      await loanInstance.removeUserFromLoan(selectedClient.idClient);
+      toast({
+        title: "Cliente eliminado",
+        description: "El cliente ha sido eliminado del grupo",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      });
+      setRandom(Math.random() * 100);
+      setStateNumber(stateNumber + 1);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "No se pudo eliminar el cliente del grupo",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+      console.log(error);
     }
+    onCloseDelete();
+  };
+  const openDialogDelete = (client) => {
+    setIsOpenDelete(true);
+    console.log(client);
+    setSelectedClient(client);
+  };
+  const arrFilter = clientsApp.map((client) => {
+    const find = clients
+      ? clients.find((c) => c.idClient === client.idClient)
+      : [];
+    if (find) {
+      return null;
+    }
+    return {
+      value: client.idClient,
+      label: client.clientName,
+    };
   });
+  const arrSearch = arrFilter.reduce((acc, curr) => {
+    if (curr) {
+      acc.push(curr);
+    }
+    return acc;
+  }, []);
   if (!clients)
     return (
-      <>
-        <Button alignSelf={"flex-start"} onClick={onOpen}>
-          Agregar Cliente <AddIcon ml={4} />
-        </Button>
+      <div
+        style={{
+          display: "flex",
+          width: "100%",
+        }}
+      >
+        <Flex flexDirection={"column"} flexGrow={1}>
+          <Button alignSelf={"flex-start"} onClick={onOpen}>
+            Agregar Cliente <AddIcon ml={4} />
+          </Button>
+          <Text
+            pt={6}
+            fontSize={"xl"}
+            textAlign={"center"}
+            alignSelf={"center"}
+          >
+            No hay Clientes
+          </Text>
+        </Flex>
+
         <Modal onClose={onClose} isOpen={isOpen}>
           <ModalOverlay />
           <ModalContent>
@@ -81,10 +156,7 @@ function Clients({ clients, addToLoan }) {
                 isMulti={false}
                 options={
                   clientsApp
-                    ? clientsApp.map((client) => ({
-                        value: client.idClient,
-                        label: client.clientName,
-                      }))
+                    ? arrSearch
                     : [
                         {
                           value: 0,
@@ -111,28 +183,36 @@ function Clients({ clients, addToLoan }) {
             </ModalFooter>
           </ModalContent>
         </Modal>
-      </>
+      </div>
     );
-  console.log(clients);
-  console.log(clientsApp);
-  const arrFilter = clientsApp.map((client) => {
-    const find = clients.find((c) => c.idClient === client.idClient);
-    if (find) {
-      return null;
-    }
-    return {
-      value: client.idClient,
-      label: client.clientName,
-    };
-  });
-  const arrSearch = arrFilter.reduce((acc, curr) => {
-    if (curr) {
-      acc.push(curr);
-    }
-    return acc;
-  }, []);
+
   return (
     <Flex>
+      <AlertDialog
+        isOpen={isOpenDelete}
+        leastDestructiveRef={cancelRef}
+        onClose={onCloseDelete}
+      >
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader fontSize="lg" fontWeight="bold">
+              Cambiar estado del cliente
+            </AlertDialogHeader>
+
+            <AlertDialogBody>
+              Estas Seguro de actualizar el cliente?
+            </AlertDialogBody>
+
+            <AlertDialogFooter>
+              <Button onClick={onCloseDelete}>Cancelar</Button>
+              <Button colorScheme="red" onClick={handleDelete} ml={3}>
+                Actualizar
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
+
       <Modal onClose={onClose} isOpen={isOpen}>
         <ModalOverlay />
         <ModalContent>
@@ -227,12 +307,17 @@ function Clients({ clients, addToLoan }) {
                 <Th textAlign={"center"} color="gray.400">
                   Estado Financiero
                 </Th>
+                <Th textAlign={"center"} color="gray.400">
+                  Eliminar
+                </Th>
                 <Th></Th>
               </Tr>
             </Thead>
             <Tbody>
               {filteredData().map((row) => {
-                return <ClientsTable data={row} />;
+                return (
+                  <ClientsTable data={row} handleDelete={openDialogDelete} />
+                );
               })}
             </Tbody>
           </Table>

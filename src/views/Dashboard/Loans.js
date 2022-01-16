@@ -131,6 +131,7 @@ export default function Rols() {
           createLoan({
             ...form,
             startPaymentDate: form.noDate ? date : null,
+            idLoanState: form.noDate ? 1 : 0,
           })
         );
         toast({
@@ -191,7 +192,7 @@ export default function Rols() {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Crear Rol</ModalHeader>
+          <ModalHeader>Crear Prestamo</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <FormLabel ms="4px" fontSize="sm" fontWeight="normal">

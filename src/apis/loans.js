@@ -49,6 +49,14 @@ class Loan extends Base {
       throw new Error("Hubo un error agregando el usuario", error);
     }
   }
+
+  async removeUserFromLoan(id) {
+    try {
+      await this.delete(`/client/deleteFromLoan/${id}`);
+    } catch (error) {
+      throw new Error("Hubo un error removiendo el usuario", error);
+    }
+  }
 }
 
 export default Loan;

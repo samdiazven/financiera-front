@@ -44,6 +44,14 @@ class Messages extends Base {
       throw new Error("Hubo un error enviando el mensaje", error);
     }
   }
+  async sendSmsIndividual(data) {
+    try {
+      const message = await this.post("/SMS/sendNotificationIndividual", data);
+      return message.data.objModel;
+    } catch (error) {
+      throw new Error("Hubo un error enviando el mensaje", error);
+    }
+  }
 }
 
 export default Messages;

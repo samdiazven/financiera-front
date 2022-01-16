@@ -72,32 +72,46 @@ function ClientsTable(props) {
           </Text>
         </Flex>
       </Td>
-      {handleDelete && handleUpdate && (
-        <>
-          <Td textAlign={"center"}>
-            <Button
-              p="10px"
-              bg="blue.500"
-              variant="no-hover"
-              onClick={() => handleUpdate(props.data)}
+      {handleUpdate && (
+        <Td textAlign={"center"}>
+          <Button
+            p="10px"
+            bg="blue.500"
+            variant="no-hover"
+            onClick={() => handleUpdate(props.data)}
+          >
+            <Text
+              fontSize="md"
+              color={"white"}
+              fontWeight="bold"
+              cursor="pointer"
             >
-              <Text
-                fontSize="md"
-                color={"white"}
-                fontWeight="bold"
-                cursor="pointer"
-              >
-                <EditIcon />
-              </Text>
-            </Button>
-          </Td>
-          <Td textAlign={"center"}>
-            <Switch
-              isChecked={idClientState === 1 ? true : false}
-              onChange={() => handleDelete(props.data)}
-            />
-          </Td>
-        </>
+              <EditIcon />
+            </Text>
+          </Button>
+        </Td>
+      )}
+      {handleDelete && (
+        <Td textAlign={"center"}>
+          <Button
+            p="10px"
+            bg="red.500"
+            variant="no-hover"
+            onClick={() => {
+              console.log("delete");
+              handleDelete(props.data);
+            }}
+          >
+            <Text
+              fontSize="md"
+              color={"white"}
+              fontWeight="bold"
+              cursor="pointer"
+            >
+              <DeleteIcon />
+            </Text>
+          </Button>
+        </Td>
       )}
     </Tr>
   );

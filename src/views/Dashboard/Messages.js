@@ -196,13 +196,27 @@ export default function Messages() {
       <div
         style={{
           display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
           width: "100%",
-          height: "100vh",
         }}
       >
-        No Data
+        <Flex flexDirection={"column"} flexGrow={1}>
+          <Button
+            alignSelf={"flex-start"}
+            leftIcon={<AddIcon />}
+            onClick={handleOpen}
+          >
+            Agregar
+          </Button>
+          <Text
+            pt={6}
+            fontSize={"xl"}
+            textAlign={"center"}
+            alignSelf={"center"}
+            color={textColor}
+          >
+            No hay mensajes
+          </Text>
+        </Flex>
       </div>
     );
   return (

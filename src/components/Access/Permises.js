@@ -11,13 +11,13 @@ import {
   Flex,
   Switch,
   Spinner,
-  Text,
   AlertDialog,
   AlertDialogBody,
   AlertDialogContent,
   AlertDialogHeader,
   AlertDialogFooter,
   AlertDialogOverlay,
+  Text,
   useToast,
 } from "@chakra-ui/react";
 import { useSelector, useDispatch } from "react-redux";
@@ -109,7 +109,26 @@ export default function Permises() {
         <Spinner size={"xl"} />{" "}
       </div>
     );
-  if (rolState === LoadState.NOT_LOADED && rols.length === 0) return null;
+  if (rolState === LoadState.NOT_LOADED && rols.length === 0)
+    return (
+      <div
+        style={{
+          display: "flex",
+          width: "100%",
+        }}
+      >
+        <Flex flexDirection={"column"} flexGrow={1}>
+          <Text
+            pt={6}
+            fontSize={"xl"}
+            textAlign={"center"}
+            alignSelf={"center"}
+          >
+            No hay Roles
+          </Text>
+        </Flex>
+      </div>
+    );
   return (
     <>
       <AlertDialog

@@ -12,6 +12,8 @@ import { CreditIcon } from "components/Icons/Icons";
 import { DocumentIcon } from "components/Icons/Icons";
 import Control from "views/Dashboard/Control";
 import LayoutMessages from "views/Dashboard/MessageLayout";
+import Payments from "views/Dashboard/Payments";
+import ControlPayment from "views/Dashboard/ControlPayment";
 
 const dashRoutes = [
   {
@@ -68,6 +70,22 @@ const dashRoutes = [
     rtlName: "لوحة القيادة",
     icon: <DocumentIcon color="inherit" />,
     component: LayoutMessages,
+    layout: "/admin",
+  },
+  {
+    path: "/payment",
+    name: "Pagos",
+    rtlName: "لوحة القيادة",
+    icon: <CreditIcon color="inherit" />,
+    component: Payments,
+    layout: "/admin",
+  },
+  {
+    path: "/controlPayment",
+    name: "control de pagos",
+    rtlName: "لوحة القيادة",
+    icon: <CreditIcon color="inherit" />,
+    component: ControlPayment,
     layout: "/admin",
   },
 ];

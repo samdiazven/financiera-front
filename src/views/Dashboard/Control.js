@@ -77,6 +77,7 @@ function Control() {
       <Clients
         clients={loanInformation.clientList}
         addToLoan={handleAddUserToLoan}
+        setRandom={setRandom}
       />
       <Divider paddingBottom={5} />
       <Dates dates={loanInformation.paymentSchedule} />

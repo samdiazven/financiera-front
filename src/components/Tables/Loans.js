@@ -53,23 +53,25 @@ function LoansTable(props) {
           {idGuaranteeState === 1 ? "Abonado" : "No abonado"}
         </Badge>
       </Td>
-      <Td textAlign={"center"}>
-        <Button
-          p="10px"
-          bg="blue.500"
-          variant="no-hover"
-          onClick={() => handleUpdate(props.data)}
-        >
-          <Text
-            fontSize="md"
-            color={textColor}
-            fontWeight="bold"
-            cursor="pointer"
+      {handleUpdate && (
+        <Td textAlign={"center"}>
+          <Button
+            p="10px"
+            bg="blue.500"
+            variant="no-hover"
+            onClick={() => handleUpdate(props.data)}
           >
-            <EditIcon />
-          </Text>
-        </Button>
-      </Td>
+            <Text
+              fontSize="md"
+              color={textColor}
+              fontWeight="bold"
+              cursor="pointer"
+            >
+              <EditIcon />
+            </Text>
+          </Button>
+        </Td>
+      )}
       <Td textAlign={"center"}>
         <Button
           p="10px"

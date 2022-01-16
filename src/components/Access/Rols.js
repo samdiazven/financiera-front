@@ -170,7 +170,34 @@ export default function Rols() {
         <Spinner size={"xl"} />{" "}
       </div>
     );
-  if (rols.length === 0) return <div> No Data </div>;
+  if (rols.length === 0)
+    return (
+      <div
+        style={{
+          display: "flex",
+          width: "100%",
+        }}
+      >
+        <Flex flexDirection={"column"} flexGrow={1}>
+          <Button
+            alignSelf={"flex-start"}
+            leftIcon={<AddIcon />}
+            onClick={handleOpen}
+          >
+            Agregar
+          </Button>
+          <Text
+            pt={6}
+            fontSize={"xl"}
+            textAlign={"center"}
+            alignSelf={"center"}
+            color={textColor}
+          >
+            No hay Roles
+          </Text>
+        </Flex>
+      </div>
+    );
   return (
     <Flex width={"100%"} flexDirection={"column"}>
       <Button

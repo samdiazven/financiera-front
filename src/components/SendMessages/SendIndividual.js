@@ -1,30 +1,23 @@
 import React from "react";
+import { Select } from "chakra-react-select";
 import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
   useDisclosure,
   Button,
   useToast,
-  Select,
   Textarea,
   FormLabel,
   RadioGroup,
   Stack,
-  ListItem,
   Radio,
-  List,
   Text,
-  Checkbox,
-  Flex,
   useColorModeValue,
+  Spinner,
 } from "@chakra-ui/react";
 import Messages from "apis/messages";
 import Loan from "apis/loans";
+import Card from "components/Card/Card";
+import CardHeader from "components/Card/CardHeader";
+import CardBody from "components/Card/CardBody";
 
 function SendIndividual({ groups, messages }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -55,14 +48,17 @@ function SendIndividual({ groups, messages }) {
       return;
     }
     try {
-      const message = new Messages();
+      const messageInstance = new Messages();
       const data = {
-        clientList: clientsSelected,
+        clientList: clientsSelected.map((client) => {
+          return {
+            idClient: client.value,
+          };
+        }),
         idChannel: Number(channel),
         message: messageText,
       };
-      console.log(data);
-      await message.sendSmsToGroup(data);
+      await messageInstance.sendSmsIndividual(data);
       toast({
         title: "Mensaje enviado",
         description: "El mensaje se ha enviado correctamente",
@@ -82,28 +78,22 @@ function SendIndividual({ groups, messages }) {
       });
       onClose();
     }
+    setClientsSelected([]);
+    setMessage("");
+    setChannel("1");
+    setClients([]);
   }
   const textColor = useColorModeValue("white");
   return (
-    <Stack spacing={4}>
-      <Button
-        backgroundColor={"red.500"}
-        width={{ base: "60%", md: "50%" }}
-        alignSelf={"center"}
-        onClick={() => {
-          setClientsSelected([]);
-          setClients([]);
-          onOpen();
-        }}
-      >
-        Enviar individualmente
-      </Button>
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Enviar mensaje</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
+    <Stack alignSelf={"center"} flexGrow={1} p={6}>
+      <Card maxW={"xl"} alignSelf="center" paddingTop={4}>
+        <CardHeader>
+          <Text fontSize="xl" fontWeight="bold" color={textColor}>
+            Envios individuales
+          </Text>
+        </CardHeader>
+        <CardBody>
+          <Stack flexGrow={1}>
             <FormLabel marginTop={5}>Canal de envio</FormLabel>
             <RadioGroup onChange={setChannel} value={channel}>
               <Stack direction="row" justifyContent={"space-between"}>
@@ -113,73 +103,53 @@ function SendIndividual({ groups, messages }) {
             </RadioGroup>
             <FormLabel marginTop={5}>Grupos</FormLabel>
             <Select
+              placeholder="Seleccione un grupo"
               onChange={(e) => {
                 setClientsSelected([]);
-                getClients(e.target.value);
+                setClients([]);
+                getClients(e.value);
               }}
+              options={groups.map((group) => ({
+                value: group.idLoan,
+                label: group.loanName,
+              }))}
               borderRadius={"15px"}
               size={"lg"}
-            >
-              <option value="0">Seleccione un grupo</option>
-              {groups.map((group) => (
-                <option key={group.idLoan} value={group.idLoan}>
-                  {group.loanName}
-                </option>
-              ))}
-            </Select>
-            <List>
-              <FormLabel marginTop={5}>Clientes</FormLabel>
-              {loadClients ? (
-                <ListItem>Cargando...</ListItem>
-              ) : clients && clients.length ? (
-                clients.map((client) => (
-                  <ListItem key={client.idClient}>
-                    <Flex
-                      backgroundColor={"gray.600"}
-                      p={4}
-                      alignItems={"center"}
-                      justifyContent={"space-between"}
-                    >
-                      <Text color={textColor}>{client.clientName}</Text>
-                      <Text color={textColor}>{client.clientLastName}</Text>
-                      <Text color={textColor}>{client.clientPhoneNumber}</Text>
-                      <Checkbox
-                        onChange={(e) => {
-                          if (e.target.checked) {
-                            setClientsSelected([
-                              ...clientsSelected,
-                              client.idClient,
-                            ]);
-                          } else {
-                            setClientsSelected(
-                              clientsSelected.filter(
-                                (clientId) => clientId !== client.idClient
-                              )
-                            );
-                          }
-                        }}
-                      />
-                    </Flex>
-                  </ListItem>
-                ))
-              ) : (
-                <ListItem>No hay clientes</ListItem>
-              )}
-            </List>
+            />
+            <FormLabel marginTop={5}>Clientes</FormLabel>
+            {loadClients ? (
+              <Spinner />
+            ) : clients && clients.length ? (
+              <Select
+                isMulti={true}
+                onChange={(e) => {
+                  setClientsSelected(e);
+                }}
+                placeholder="Seleccione un cliente"
+                options={clients.map((client) => ({
+                  value: client.idClient,
+                  label: `${client.clientName} ${client.clientLastname}`,
+                }))}
+                borderRadius={"15px"}
+                size={"lg"}
+              />
+            ) : (
+              <Text>No hay clientes</Text>
+            )}
 
             <FormLabel marginTop={5}>Mensajes predeterminados</FormLabel>
             <Select
-              onChange={(e) => setMessage(e.target.value)}
+              placeholder="Seleccione un mensaje"
+              onChange={(e) => {
+                setMessage(e.value);
+              }}
+              options={messages.map((message) => ({
+                value: message.message,
+                label: message.titleMessage,
+              }))}
               borderRadius={"15px"}
               size={"lg"}
-            >
-              <option value="">Seleccione un mensaje</option>
-              {messages.map(({ titleMessage, message }, idx) => (
-                <option key={idx} value={message}>
-                  {titleMessage}
-                </option>
-              ))}
-            </Select>
+            />
 
             <FormLabel marginTop={5}>Mensaje </FormLabel>
             <Textarea
@@ -191,15 +161,10 @@ function SendIndividual({ groups, messages }) {
               placeholder="Mensaje"
               onChange={(e) => setMessage(e.target.value)}
             />
-          </ModalBody>
-          <ModalFooter>
-            <Button marginRight={4} onClick={onClose}>
-              Cancel
-            </Button>
             <Button onClick={sendMessages}>Enviar mensaje</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+          </Stack>
+        </CardBody>
+      </Card>
     </Stack>
   );
 }

@@ -1,32 +1,33 @@
 import React from "react";
+import { Select } from "chakra-react-select";
 import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
   useDisclosure,
   Button,
   useToast,
-  Select,
   Textarea,
   FormLabel,
   RadioGroup,
   Stack,
   Radio,
+  Text,
+  Spinner,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import Messages from "apis/messages";
+import Card from "components/Card/Card";
+import CardHeader from "components/Card/CardHeader";
+import CardBody from "components/Card/CardBody";
 
 function SendToGroup({ groups, messages }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
   const [selectedGroup, setSelectedGroup] = React.useState(null);
   const [channel, setChannel] = React.useState("1");
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const [messageText, setMessage] = React.useState("");
   async function sendMessages() {
+    setIsLoading(true);
     if (selectedGroup === null || messageText === "") {
       toast({
         title: "Error",
@@ -64,24 +65,24 @@ function SendToGroup({ groups, messages }) {
       });
       onClose();
     }
+    setMessage("");
+    setSelectedGroup(null);
+    setChannel("1");
+    setIsLoading(false);
   }
 
+  const textColor = useColorModeValue("white");
+  if (isLoading) return <Spinner />;
   return (
-    <Stack spacing={4}>
-      <Button
-        onClick={onOpen}
-        backgroundColor={"blue.500"}
-        width={"50%"}
-        alignSelf={"center"}
-      >
-        Enviar al grupo
-      </Button>
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Enviar mensaje</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
+    <Stack alignSelf={"center"} flexGrow={1} p={6}>
+      <Card maxW={"xl"} alignSelf="center" paddingTop={4}>
+        <CardHeader>
+          <Text fontSize="xl" fontWeight="bold" color={textColor}>
+            Envios Grupales
+          </Text>
+        </CardHeader>
+        <CardBody>
+          <Stack flexGrow={1}>
             <FormLabel marginTop={5}>Canal de envio</FormLabel>
             <RadioGroup onChange={setChannel} value={channel}>
               <Stack direction="row" justifyContent={"space-between"}>
@@ -91,31 +92,25 @@ function SendToGroup({ groups, messages }) {
             </RadioGroup>
             <FormLabel marginTop={5}>Grupos</FormLabel>
             <Select
-              onChange={(e) => setSelectedGroup(e.target.value)}
+              onChange={(e) => setSelectedGroup(e.value)}
+              isMulti={false}
+              options={groups.map((group) => ({
+                value: group.idLoan,
+                label: group.loanName,
+              }))}
               borderRadius={"15px"}
-              size={"lg"}
-            >
-              <option>Seleccione un grupo</option>
-              {groups.map((group) => (
-                <option key={group.idLoan} value={group.idLoan}>
-                  {group.loanName}
-                </option>
-              ))}
-            </Select>
+            />
 
             <FormLabel marginTop={5}>Mensajes predeterminados</FormLabel>
             <Select
-              onChange={(e) => setMessage(e.target.value)}
+              onChange={(e) => setMessage(e.value)}
+              isMulti={false}
+              options={messages.map((message) => ({
+                value: message.message,
+                label: message.titleMessage,
+              }))}
               borderRadius={"15px"}
-              size={"lg"}
-            >
-              <option value="">Seleccione un mensaje</option>
-              {messages.map(({ titleMessage, message }, idx) => (
-                <option key={idx} value={message}>
-                  {titleMessage}
-                </option>
-              ))}
-            </Select>
+            />
 
             <FormLabel marginTop={5}>Mensaje </FormLabel>
             <Textarea
@@ -127,15 +122,11 @@ function SendToGroup({ groups, messages }) {
               placeholder="Mensaje"
               onChange={(e) => setMessage(e.target.value)}
             />
-          </ModalBody>
-          <ModalFooter>
-            <Button marginRight={4} onClick={onClose}>
-              Cancel
-            </Button>
+
             <Button onClick={sendMessages}>Enviar mensaje</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+          </Stack>
+        </CardBody>
+      </Card>
     </Stack>
   );
 }
