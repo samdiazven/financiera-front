@@ -253,7 +253,7 @@ export default function Clients() {
           width: "100%",
         }}
       >
-        <Flex flexDirection={"column"} flexGrow={1}>
+        <Flex flexDirection={"column"} pt={20} flexGrow={1}>
           <Button
             alignSelf={"flex-start"}
             leftIcon={<AddIcon />}
