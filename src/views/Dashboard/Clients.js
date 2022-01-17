@@ -270,6 +270,142 @@ export default function Clients() {
           >
             No hay Clientes
           </Text>
+          <Modal isOpen={isOpen} onClose={onClose}>
+            <ModalOverlay />
+            <ModalContent>
+              <ModalHeader>Crear Cliente</ModalHeader>
+              <ModalCloseButton />
+              <ModalBody>
+                <FormLabel ms="4px" fontSize="sm" fontWeight="normal">
+                  Nombre de Usuario
+                </FormLabel>
+                <Input
+                  value={form.clientName}
+                  name="clientName"
+                  borderRadius="15px"
+                  mb="24px"
+                  fontSize="sm"
+                  type="text"
+                  placeholder="Nombre"
+                  size="lg"
+                  onChange={handleChangeInput}
+                />
+                <FormLabel ms="4px" fontSize="sm" fontWeight="normal">
+                  Apellido
+                </FormLabel>
+                <Input
+                  value={form.clientLastname}
+                  name="clientLastname"
+                  borderRadius="15px"
+                  mb="36px"
+                  fontSize="sm"
+                  type="text"
+                  placeholder="Apellido del Cliente"
+                  size="lg"
+                  onChange={handleChangeInput}
+                />
+                <FormLabel ms="4px" fontSize="sm" fontWeight="normal">
+                  Direccion
+                </FormLabel>
+                <Input
+                  value={form.clientAddress}
+                  name="clientAddress"
+                  borderRadius="15px"
+                  mb="36px"
+                  fontSize="sm"
+                  type="text"
+                  placeholder="Direccion del Cliente"
+                  size="lg"
+                  onChange={handleChangeInput}
+                />
+                <FormLabel ms="4px" fontSize="sm" fontWeight="normal">
+                  N&uacute;mero de Tel&eacute;fono
+                </FormLabel>
+                <InputGroup size={"lg"}>
+                  <InputLeftAddon children="+51" size={"lg"} p={4} />
+                  <Input
+                    name="clientPhoneNumber"
+                    value={form.clientPhoneNumber}
+                    borderRadius="15px"
+                    mb="36px"
+                    fontSize="sm"
+                    type="text"
+                    placeholder="Numero de Telefono"
+                    onChange={handleChangeInput}
+                    maxLength={9}
+                  />
+                </InputGroup>
+                <FormLabel ms="4px" fontSize="sm" fontWeight="normal">
+                  Tipo de documento
+                </FormLabel>
+                <Select
+                  variant="outline"
+                  value={form.idDocumentType}
+                  name="idDocumentType"
+                  borderRadius="15px"
+                  size="lg"
+                  mb="36px"
+                  fontSize="sm"
+                  onChange={handleChangeInput}
+                >
+                  <option value={1}>DNI</option>
+                  <option value={2}>Carnet de extranjer&iacute;a</option>
+                </Select>
+                <FormLabel ms="4px" fontSize="sm" fontWeight="normal">
+                  N&uacute;mero de Documento
+                </FormLabel>
+                <Input
+                  name="documentNumber"
+                  value={form.documentNumber}
+                  borderRadius="15px"
+                  mb="36px"
+                  fontSize="sm"
+                  type="text"
+                  placeholder="Numero de Documento"
+                  size="lg"
+                  onChange={handleChangeInput}
+                />
+                <FormLabel ms="4px" fontSize="sm" fontWeight="normal">
+                  Fecha de nacimiento
+                </FormLabel>
+                <Input
+                  name="clientDateOfBirth"
+                  borderRadius="15px"
+                  mb="36px"
+                  fontSize="sm"
+                  type="date"
+                  placeholder="Fecha de nacimiento"
+                  size="lg"
+                  onChange={handleChangeInput}
+                />
+                <FormLabel ms="4px" fontSize="sm" fontWeight="normal">
+                  Estado financiero
+                </FormLabel>
+                <Select
+                  variant="outline"
+                  value={form.idFinancialState}
+                  name="idFinancialState"
+                  borderRadius="15px"
+                  size="lg"
+                  mb="36px"
+                  fontSize="sm"
+                  onChange={handleChangeInput}
+                >
+                  <option value={1}>Solvente</option>
+                  <option value={2}>En mora</option>
+                </Select>
+              </ModalBody>
+
+              <ModalFooter>
+                <Button colorScheme="blue" mr={3} onClick={onClose}>
+                  Cerrar
+                </Button>
+                <Button variant="ghost" onClick={handleCreateData}>
+                  Guardar Datos
+                </Button>
+              </ModalFooter>
+            </ModalContent>
+          </Modal>
         </Flex>
       </div>
     );
