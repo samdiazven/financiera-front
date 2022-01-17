@@ -156,7 +156,12 @@ function Clients({ clients, addToLoan, setRandom }) {
                 isMulti={false}
                 options={
                   clientsApp
-                    ? arrSearch
+                    ? clientsApp.map((client) => {
+                        return {
+                          value: client.idClient,
+                          label: `${client.clientName} ${client.clientLastname}`,
+                        };
+                      })
                     : [
                         {
                           value: 0,
