@@ -62,6 +62,7 @@ export default function Clients() {
     handleIncrease,
     handleDecrease,
     currentPage,
+    total,
   } = usePagination(clients, searchText);
   const [form, setForm] = useState({
     clientName: "",
@@ -280,12 +281,17 @@ export default function Clients() {
                   Nombre de Usuario
                 </FormLabel>
                 <Input
+                  style={{
+                    textTransform: "capitalize",
+                  }}
+                  autoCapitalize="on"
                   value={form.clientName}
                   name="clientName"
                   borderRadius="15px"
                   mb="24px"
                   fontSize="sm"
                   type="text"
+                  required
                   placeholder="Nombre"
                   size="lg"
                   onChange={handleChangeInput}
@@ -300,6 +306,7 @@ export default function Clients() {
                   mb="36px"
                   fontSize="sm"
                   type="text"
+                  required
                   placeholder="Apellido del Cliente"
                   size="lg"
                   onChange={handleChangeInput}
@@ -314,6 +321,7 @@ export default function Clients() {
                   mb="36px"
                   fontSize="sm"
                   type="text"
+                  required
                   placeholder="Direccion del Cliente"
                   size="lg"
                   onChange={handleChangeInput}
@@ -330,6 +338,7 @@ export default function Clients() {
                     mb="36px"
                     fontSize="sm"
                     type="text"
+                    required
                     placeholder="Numero de Telefono"
                     onChange={handleChangeInput}
                     maxLength={9}
@@ -361,6 +370,7 @@ export default function Clients() {
                   mb="36px"
                   fontSize="sm"
                   type="text"
+                  required
                   placeholder="Numero de Documento"
                   size="lg"
                   onChange={handleChangeInput}
@@ -374,6 +384,7 @@ export default function Clients() {
                   mb="36px"
                   fontSize="sm"
                   type="date"
+                  required
                   placeholder="Fecha de nacimiento"
                   size="lg"
                   onChange={handleChangeInput}
@@ -439,12 +450,16 @@ export default function Clients() {
               Nombre de Usuario
             </FormLabel>
             <Input
+              style={{
+                textTransform: "capitalize",
+              }}
               value={form.clientName}
               name="clientName"
               borderRadius="15px"
               mb="24px"
               fontSize="sm"
               type="text"
+              required
               placeholder="Nombre"
               size="lg"
               onChange={handleChangeInput}
@@ -459,6 +474,7 @@ export default function Clients() {
               mb="36px"
               fontSize="sm"
               type="text"
+              required
               placeholder="Apellido del Cliente"
               size="lg"
               onChange={handleChangeInput}
@@ -473,6 +489,7 @@ export default function Clients() {
               mb="36px"
               fontSize="sm"
               type="text"
+              required
               placeholder="Direccion del Cliente"
               size="lg"
               onChange={handleChangeInput}
@@ -489,6 +506,7 @@ export default function Clients() {
                 mb="36px"
                 fontSize="sm"
                 type="text"
+                required
                 placeholder="Numero de Telefono"
                 onChange={handleChangeInput}
                 maxLength={9}
@@ -520,6 +538,7 @@ export default function Clients() {
               mb="36px"
               fontSize="sm"
               type="text"
+              required
               placeholder="Numero de Documento"
               size="lg"
               onChange={handleChangeInput}
@@ -533,6 +552,7 @@ export default function Clients() {
               mb="36px"
               fontSize="sm"
               type="date"
+              required
               placeholder="Fecha de nacimiento"
               size="lg"
               onChange={handleChangeInput}
@@ -610,6 +630,7 @@ export default function Clients() {
               borderRadius="15px"
               size="lg"
               type="text"
+              required
               placeholder="Buscar"
               onChange={(e) => setSearchText(e.target.value)}
             />
@@ -665,7 +686,7 @@ export default function Clients() {
           </Table>
         </CardBody>
         <Pagination
-          length={filteredData().length}
+          length={total}
           handlePrev={handleDecrease}
           currentPage={currentPage}
           handleNext={handleIncrease}

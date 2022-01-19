@@ -58,6 +58,7 @@ export default function Users() {
     handleIncrease,
     handleDecrease,
     currentPage,
+    total,
   } = usePagination(users, searchText);
 
   const [form, setForm] = useState({
@@ -417,7 +418,7 @@ export default function Users() {
           </Table>
         </CardBody>
         <Pagination
-          length={filteredData().length}
+          length={total}
           handlePrev={handleDecrease}
           currentPage={currentPage}
           handleNext={handleIncrease}

@@ -10,7 +10,7 @@ function Pagination({ length, handlePrev, handleNext, currentPage }) {
     >
       <Button onClick={handlePrev}>Anterior</Button>
       <Text mx={{ base: 0, md: 2 }}>
-        Pagina: {currentPage + 1}/{Math.max(Math.round(length / 10), 1)}
+        Pagina: {currentPage}/{Math.max(Math.floor(length / 10) + 1, 1)}
       </Text>
       <Text mx={{ base: 0, md: 6 }}>Registros Total: {length} </Text>
       <Button onClick={handleNext}>Siguiente</Button>

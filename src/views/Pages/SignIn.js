@@ -14,7 +14,10 @@ import {
   useColorModeValue,
   Spinner,
   useToast,
+  InputGroup,
+  InputRightElement,
 } from "@chakra-ui/react";
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 // Assets
 import signInImage from "assets/img/signInImage.png";
 import { useDispatch, useSelector } from "react-redux";
@@ -28,6 +31,7 @@ function SignIn() {
   // Chakra color mode
   useAuth();
   const dispatch = useDispatch();
+  const [showPassword, setShowPassword] = useState(false);
   const [form, setForm] = useState({
     username: "",
     password: "",
@@ -126,20 +130,30 @@ function SignIn() {
                 placeholder="Username"
                 size="lg"
                 onChange={handleChangeInput}
+                required
               />
               <FormLabel ms="4px" fontSize="sm" fontWeight="normal">
                 Password
               </FormLabel>
-              <Input
-                name="password"
-                borderRadius="15px"
-                mb="36px"
-                fontSize="sm"
-                type="password"
-                placeholder="Tu contraseña"
-                size="lg"
-                onChange={handleChangeInput}
-              />
+              <InputGroup size="lg">
+                <Input
+                  name="password"
+                  borderRadius="15px"
+                  mb="36px"
+                  fontSize="sm"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Tu contraseña"
+                  onChange={handleChangeInput}
+                  required
+                />
+                <InputRightElement width={"2.5rem"}>
+                  {showPassword ? (
+                    <ViewOffIcon onClick={() => setShowPassword(false)} />
+                  ) : (
+                    <ViewIcon onClick={() => setShowPassword(true)} />
+                  )}
+                </InputRightElement>
+              </InputGroup>
 
               <Button
                 fontSize="10px"

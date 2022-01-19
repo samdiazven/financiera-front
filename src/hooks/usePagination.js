@@ -9,23 +9,27 @@ const filterData = (arr1, value) => {
 };
 
 export const usePagination = (arr, inputText) => {
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [countPage, setCountPage] = useState(0);
 
   const filteredData = () => {
-    if (inputText.length === 0) return arr.slice(currentPage, currentPage + 10);
+    if (inputText.length === 0) return arr.slice(countPage, countPage + 10);
     const filter = filterData(arr, inputText);
-    return filter.slice(currentPage, currentPage + 10);
+    return filter.slice(countPage, countPage + 10);
   };
 
   const handleIncrease = () => {
-    if (filterData(arr, inputText).length > currentPage + 10) {
-      setCurrentPage(currentPage + 10);
+    if (filterData(arr, inputText).length > countPage + 10) {
+      setCountPage(countPage + 10);
+      setCurrentPage(currentPage + 1);
     }
   };
 
   const handleDecrease = () => {
-    if (currentPage > 0) {
-      setCurrentPage(currentPage - 10);
+    if (countPage > 0) {
+      setCountPage(countPage - 10);
+
+      setCurrentPage(currentPage - 1);
     }
   };
 
@@ -34,5 +38,6 @@ export const usePagination = (arr, inputText) => {
     handleDecrease,
     filteredData,
     currentPage,
+    total: arr.length,
   };
 };

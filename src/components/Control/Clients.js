@@ -239,10 +239,7 @@ function Clients({ clients, addToLoan, setRandom }) {
               isMulti={false}
               options={
                 clientsApp
-                  ? clientsApp.map((client) => ({
-                      value: client.idClient,
-                      label: `${client.clientName} ${client.clientLastname}`,
-                    }))
+                  ? arrSearch
                   : [
                       {
                         value: 0,
