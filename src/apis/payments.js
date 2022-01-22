@@ -25,6 +25,29 @@ class Payments extends Base {
       throw new Error("Hubo un error subiendo los pagos", error);
     }
   }
+  async updatePayment(data) {
+    try {
+      const body = new FormData();
+      const bodyToSend = Object.entries(data).map((obj) => {
+        let [key, value] = obj;
+        return { key, value };
+      });
+      for (let i = 0; i < bodyToSend.length; i++) {
+        body.append(bodyToSend[i].key, bodyToSend[i].value);
+      }
+      const payments = await Axios.put(`/payment`, body, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Accept: "application/json",
+          type: "formData",
+        },
+      });
+      return payments.data.objModel;
+    } catch (error) {
+      console.log(error);
+      throw new Error("Hubo un error subiendo los pagos", error);
+    }
+  }
 
   async getPayments(idLoan) {
     try {

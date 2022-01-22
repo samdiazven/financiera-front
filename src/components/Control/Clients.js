@@ -28,6 +28,7 @@ import {
   AlertDialogFooter,
   AlertDialogOverlay,
   useToast,
+  Spinner,
 } from "@chakra-ui/react";
 import Card from "components/Card/Card";
 import CardBody from "components/Card/CardBody";
@@ -42,6 +43,7 @@ import { getClientsState } from "store/selectors/clients";
 import { loadClients } from "store/slices/clients";
 import { LoadState } from "store/slices/state";
 import Loan from "apis/loans";
+import Axios from "apis/axios";
 
 function Clients({ clients, addToLoan, setRandom }) {
   const dispatch = useDispatch();
@@ -60,10 +62,20 @@ function Clients({ clients, addToLoan, setRandom }) {
   } = usePagination(clients, searchText);
   const textColor = useColorModeValue("gray.700", "white");
   const [isOpenDelete, setIsOpenDelete] = React.useState(false);
+  const [loanAmounts, setLoanAmounts] = React.useState([]);
+  const [selectedAmount, setSelectedAmount] = useState(null);
   const onCloseDelete = () => setIsOpenDelete(false);
   const cancelRef = React.useRef();
   useEffect(() => {
     dispatch(loadClients());
+  }, []);
+
+  useEffect(() => {
+    async function getLoanAmount() {
+      const response = await Axios.get("/loanAmount");
+      setLoanAmounts(response.data.objModel);
+    }
+    getLoanAmount();
   }, []);
   const handleDelete = async () => {
     const loanInstance = new Loan();
@@ -113,6 +125,9 @@ function Clients({ clients, addToLoan, setRandom }) {
     }
     return acc;
   }, []);
+  if (loanAmounts.length === 0) {
+    return <Spinner size={"lg"} alignSelf={"center"} />;
+  }
   if (!clients)
     return (
       <div
@@ -170,6 +185,22 @@ function Clients({ clients, addToLoan, setRandom }) {
                       ]
                 }
               />
+              <FormLabel>
+                <Text
+                  fontWeight="bold"
+                  color={useColorModeValue("gray.700", "white")}
+                >
+                  Monto del prestamo
+                </Text>
+              </FormLabel>
+              <Select
+                onChange={(e) => setSelectedAmount(e.value)}
+                isMulti={false}
+                options={loanAmounts.map((item) => ({
+                  value: item.idLoanAmount,
+                  label: item.amount,
+                }))}
+              />
             </ModalBody>
             <ModalFooter>
               <Button variantColor="blue" mr={3} onClick={onClose}>
@@ -177,7 +208,7 @@ function Clients({ clients, addToLoan, setRandom }) {
               </Button>
               <Button
                 onClick={() => {
-                  addToLoan(selectedClient);
+                  addToLoan(selectedClient, selectedAmount);
                   onClose();
                   setSelectedClient(null);
                 }}
@@ -248,6 +279,23 @@ function Clients({ clients, addToLoan, setRandom }) {
                     ]
               }
             />
+            <FormLabel>
+              <Text
+                fontWeight="bold"
+                color={useColorModeValue("gray.700", "white")}
+                mt={4}
+              >
+                Monto del prestamo
+              </Text>
+            </FormLabel>
+            <Select
+              onChange={(e) => setSelectedAmount(e.value)}
+              isMulti={false}
+              options={loanAmounts.map((item) => ({
+                value: item.idLoanAmount,
+                label: item.amount,
+              }))}
+            />
           </ModalBody>
           <ModalFooter>
             <Button variantColor="blue" mr={3} onClick={onClose}>
@@ -255,7 +303,7 @@ function Clients({ clients, addToLoan, setRandom }) {
             </Button>
             <Button
               onClick={() => {
-                addToLoan(selectedClient);
+                addToLoan(selectedClient, selectedAmount);
                 onClose();
                 setSelectedClient(null);
               }}
@@ -301,7 +349,7 @@ function Clients({ clients, addToLoan, setRandom }) {
                   Apellido
                 </Th>
                 <Th textAlign={"center"} color="gray.400">
-                  Direccion
+                  Monto del prestamo
                 </Th>
                 <Th textAlign={"center"} color="gray.400">
                   Nro. Telefono
@@ -321,7 +369,11 @@ function Clients({ clients, addToLoan, setRandom }) {
             <Tbody>
               {filteredData().map((row) => {
                 return (
-                  <ClientsTable data={row} handleDelete={openDialogDelete} />
+                  <ClientsTable
+                    data={row}
+                    handleDelete={openDialogDelete}
+                    hasAmount
+                  />
                 );
               })}
             </Tbody>

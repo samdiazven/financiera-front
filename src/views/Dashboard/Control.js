@@ -13,13 +13,14 @@ function Control() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [random, setRandom] = useState(null);
-  const handleAddUserToLoan = async (userId) => {
+  const handleAddUserToLoan = async (userId, idLoanAmount) => {
     const loanInstance = new Loan();
     try {
       await loanInstance.addUserToLoan([
         {
           idLoan: loan.idLoan,
           idClient: userId,
+          idLoanAmount,
         },
       ]);
       setRandom(Math.random() * 100);

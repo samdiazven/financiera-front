@@ -34,7 +34,7 @@ function LoansTable(props) {
       <Td textAlign={"center"}>
         <Flex direction="column">
           <Text fontSize="sm" color={textColor} fontWeight="bold">
-            {capital}
+            S/.{capital}
           </Text>
         </Flex>
       </Td>
@@ -45,7 +45,7 @@ function LoansTable(props) {
       </Td>
       <Td textAlign={"center"}>
         <Text fontSize="sm" color={textColor} fontWeight="bold">
-          {guaranteeAmount}
+          S/.{guaranteeAmount}
         </Text>
       </Td>
       <Td textAlign={"center"}>

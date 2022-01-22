@@ -117,6 +117,16 @@ export default function Clients() {
     });
   };
   const handleCreateData = () => {
+    if (Object.values(form).some((value) => value === "")) {
+      toast({
+        title: "Error",
+        description: "Debe llenar todos los campos",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+      return;
+    }
     try {
       if (clientSelected) {
         dispatch(
@@ -653,7 +663,7 @@ export default function Clients() {
                   Nro. Telefono
                 </Th>
                 <Th textAlign={"center"} color="gray.400">
-                  Fecha de Nacimiento
+                  Edad
                 </Th>
                 <Th textAlign={"center"} color="gray.400">
                   Estado Financiero

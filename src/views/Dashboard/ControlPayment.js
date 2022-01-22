@@ -51,6 +51,7 @@ function ControlPayment() {
   const toast = useToast();
   const [banks, setBanks] = useState([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [paymentSelected, setPaymentSelected] = useState(null);
   const [form, setForm] = useState({
     idPayment: 1,
     idLoan: loan.idLoan,
@@ -61,9 +62,24 @@ function ControlPayment() {
     depositor: "",
     canal: 1,
     files: null,
-    payConstancy: "",
     paymentObservation: "",
   });
+  const handleOpen = () => {
+    setPaymentSelected(null);
+    setForm({
+      idPayment: 1,
+      idLoan: loan.idLoan,
+      paymentDate: "",
+      grupalFee: 0,
+      paymentState: 1,
+      operationNumber: "",
+      depositor: "",
+      canal: 1,
+      files: null,
+      paymentObservation: "",
+    });
+    onOpen();
+  };
   const handleChangeForm = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -92,27 +108,60 @@ function ControlPayment() {
     getBanks();
   }, [loan, ramdon]);
 
+  const handleUpdate = (payment) => {
+    setPaymentSelected(payment);
+    setForm(payment);
+    onOpen();
+  };
+
   const handleCreateData = async () => {
     onClose();
-    try {
-      const paymentInstance = new Payment();
-      await paymentInstance.uploadPayments(form);
-      toast({
-        title: "Exito",
-        description: "Pago creado con exito",
-        status: "success",
-        duration: 9000,
-        isClosable: true,
-      });
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Error al crear el pago",
-        status: "error",
-        duration: 9000,
-        isClosable: true,
-      });
-      console.log(error);
+    if (paymentSelected) {
+      try {
+        const paymentInstance = new Payment();
+        await paymentInstance.updatePayment({
+          ...form,
+          idPayment: paymentSelected.idPayment,
+        });
+        toast({
+          title: "Exito",
+          description: "Pago actualizado con exito",
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+        });
+      } catch (error) {
+        toast({
+          title: "Error",
+          description: "Error al actualizar el pago",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+        console.log(error);
+      }
+    } else {
+      try {
+        const paymentInstance = new Payment();
+        await paymentInstance.uploadPayments(form);
+        toast({
+          title: "Exito",
+          description: "Pago creado con exito",
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+        });
+      } catch (error) {
+        toast({
+          title: "Error",
+          description: "Error al crear el pago",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+        console.log(error);
+      }
+      console.log(form);
     }
     setRamdon(Math.random() * 100);
   };
@@ -220,21 +269,6 @@ function ControlPayment() {
               <Text
                 fontWeight="bold"
                 color={useColorModeValue("gray.700", "white")}
-              >
-                Constancia de pago
-              </Text>
-            </FormLabel>
-            <Input
-              type="text"
-              name="payConstancy"
-              value={form.payConstancy}
-              onChange={handleChangeForm}
-              placeholder="Constancia de pago"
-            />
-            <FormLabel pt={2}>
-              <Text
-                fontWeight="bold"
-                color={useColorModeValue("gray.700", "white")}
                 pt={1}
                 size={"xl"}
               >
@@ -274,26 +308,7 @@ function ControlPayment() {
         </ModalContent>
       </Modal>
       <Card>
-        <Button
-          p={4}
-          alignSelf={"flex-start"}
-          onClick={() => {
-            onOpen();
-            setForm({
-              idPayment: 1,
-              idLoan: loan.idLoan,
-              paymentDate: "",
-              grupalFee: 0,
-              paymentState: 1,
-              operationNumber: "",
-              depositor: "",
-              canal: 1,
-              files: null,
-              payConstancy: "",
-              paymentObservation: "",
-            });
-          }}
-        >
+        <Button p={4} alignSelf={"flex-start"} onClick={handleOpen}>
           Agregar Pago <AddIcon ml={4} />
         </Button>
         <CardHeader p="6px 0px 22px 0px">
@@ -341,13 +356,21 @@ function ControlPayment() {
                 <Th textAlign={"center"} color="gray.400">
                   Observacion
                 </Th>
+                <Th textAlign={"center"} color="gray.400">
+                  Editar
+                </Th>
                 <Th></Th>
               </Tr>
             </Thead>
             <Tbody>
               {filteredData().map((row) => {
                 return (
-                  <PayTable key={row.idPayment} data={row} banks={banks} />
+                  <PayTable
+                    key={row.idPayment}
+                    data={row}
+                    banks={banks}
+                    handleUpdate={handleUpdate}
+                  />
                 );
               })}
             </Tbody>

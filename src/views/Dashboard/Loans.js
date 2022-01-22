@@ -219,7 +219,7 @@ export default function Rols() {
               mb="36px"
               fontSize="sm"
               type="number"
-              placeholder="Descripcion"
+              placeholder="Capital"
               size="lg"
               onChange={handleChangeInput}
             />
@@ -233,7 +233,7 @@ export default function Rols() {
               mb="36px"
               fontSize="sm"
               type="number"
-              placeholder="Descripcion"
+              placeholder="Porcentaje"
               size="lg"
               onChange={handleChangeInput}
             />
@@ -241,13 +241,14 @@ export default function Rols() {
               Garant&iacute;a
             </FormLabel>
             <Input
-              value={form.guaranteeAmount}
+              value={form.capital / form.percentage}
+              disabled
               name="guaranteeAmount"
               borderRadius="15px"
               mb="36px"
               fontSize="sm"
               type="number"
-              placeholder="Descripcion"
+              placeholder="Garantia"
               size="lg"
               onChange={handleChangeInput}
             />

@@ -21,8 +21,10 @@ function ClientsTable(props) {
     clientDateOfBirth,
     idFinancialState,
     idClientState,
+    amount,
+    age,
   } = props.data;
-  const { handleUpdate, handleDelete, handleUpload } = props;
+  const { handleUpdate, handleDelete, handleUpload, hasAmount } = props;
   const textColor = useColorModeValue("gray.700", "white");
   return (
     <Tr
@@ -46,9 +48,15 @@ function ClientsTable(props) {
       </Td>
       <Td textAlign={"center"}>
         <Flex direction="column">
-          <Text fontSize="sm" color={textColor} fontWeight="normal">
-            {clientAddress}
-          </Text>
+          {hasAmount ? (
+            <Text fontSize="sm" color={textColor} fontWeight="normal">
+              S/.{amount}
+            </Text>
+          ) : (
+            <Text fontSize="sm" color={textColor} fontWeight="normal">
+              {clientAddress}
+            </Text>
+          )}
         </Flex>
       </Td>
       <Td textAlign={"center"}>
@@ -61,7 +69,7 @@ function ClientsTable(props) {
       <Td textAlign={"center"}>
         <Flex direction="column">
           <Text fontSize="sm" color={textColor} fontWeight="bold">
-            {new Date(clientDateOfBirth).toLocaleDateString()}
+            {age || 0}
           </Text>
         </Flex>
       </Td>
