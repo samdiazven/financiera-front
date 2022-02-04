@@ -14,13 +14,13 @@ import {
 
 function ClientsTable(props) {
   const {
-    clientName,
-    clientLastname,
-    clientAddress,
-    clientPhoneNumber,
-    clientDateOfBirth,
+    name,
+    lastname,
+    address,
+    phoneNumber,
+    dateOfBirth,
     idFinancialState,
-    idClientState,
+    idPersonState,
     amount,
     age,
   } = props.data;
@@ -29,20 +29,20 @@ function ClientsTable(props) {
   return (
     <Tr
       style={{
-        backgroundColor: idClientState !== 1 ? "rgba(0,0,0,0.2)" : "",
+        backgroundColor: idPersonState !== 1 ? "rgba(0,0,0,0.2)" : "",
       }}
     >
       <Td textAlign={"center"}>
         <Flex direction="column">
           <Text fontSize="md" color={textColor} fontWeight="bold">
-            {clientName}
+            {name}
           </Text>
         </Flex>
       </Td>
       <Td textAlign={"center"}>
         <Flex direction="column">
           <Text fontSize="sm" color={textColor} fontWeight="normal">
-            {clientLastname}
+            {lastname}
           </Text>
         </Flex>
       </Td>
@@ -54,7 +54,7 @@ function ClientsTable(props) {
             </Text>
           ) : (
             <Text fontSize="sm" color={textColor} fontWeight="normal">
-              {clientAddress}
+              {address}
             </Text>
           )}
         </Flex>
@@ -62,14 +62,14 @@ function ClientsTable(props) {
       <Td textAlign={"center"}>
         <Flex direction="column">
           <Text fontSize="md" color={textColor} fontWeight="bold">
-            {clientPhoneNumber}
+            {phoneNumber}
           </Text>
         </Flex>
       </Td>
       <Td textAlign={"center"}>
         <Flex direction="column">
           <Text fontSize="sm" color={textColor} fontWeight="bold">
-            {age || 0}
+            {age || ""}
           </Text>
         </Flex>
       </Td>

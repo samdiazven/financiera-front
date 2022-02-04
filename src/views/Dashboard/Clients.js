@@ -48,6 +48,9 @@ import { usePagination } from "../../hooks/usePagination";
 import Pagination from "components/Tables/Pagination";
 import Dropzone from "components/Dropzone/Dropzone";
 import ClientsClass from "apis/clients";
+import { useHistory } from "react-router-dom";
+import { cleanClientSelected } from "store/slices/clients";
+import { selectClient } from "store/slices/clients";
 
 export default function Clients() {
   const dispatch = useDispatch();
@@ -56,6 +59,7 @@ export default function Clients() {
   const textColor = useColorModeValue("gray.700", "white");
   const [clientSelected, setClientSelected] = useState(null);
   const [searchText, setSearchText] = useState("");
+  const history = useHistory();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
     filteredData,
@@ -82,10 +86,8 @@ export default function Clients() {
   const cancelRef = React.useRef();
   const toast = useToast();
   useEffect(() => {
-    if (stateClients === LoadState.NOT_LOADED) {
-      dispatch(loadClients());
-    }
-  }, [stateClients]);
+    dispatch(loadClients());
+  }, []);
 
   const handleOpen = () => {
     setClientSelected(null);
@@ -103,11 +105,8 @@ export default function Clients() {
     onOpen();
   };
   const handleSelectUser = (client) => {
-    setClientSelected(client);
-    setForm({
-      ...client,
-    });
-    onOpen();
+    dispatch(selectClient(client.idPerson));
+    history.push("/admin/addClient");
   };
 
   const handleChangeInput = (e) => {
@@ -268,7 +267,10 @@ export default function Clients() {
           <Button
             alignSelf={"flex-start"}
             leftIcon={<AddIcon />}
-            onClick={handleOpen}
+            onClick={() => {
+              dispatch(cleanClientSelected());
+              history.push("/admin/addClient");
+            }}
           >
             Agregar
           </Button>
@@ -430,6 +432,7 @@ export default function Clients() {
         </Flex>
       </div>
     );
+
   return (
     <Flex
       width={"100%"}
@@ -445,7 +448,10 @@ export default function Clients() {
       <Button
         alignSelf={"flex-end"}
         leftIcon={<AddIcon />}
-        onClick={handleOpen}
+        onClick={() => {
+          dispatch(cleanClientSelected());
+          history.push("/admin/addClient");
+        }}
       >
         Agregar
       </Button>

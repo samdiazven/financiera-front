@@ -6,9 +6,7 @@ export default function useAuth() {
   authToken(token);
   const history = useHistory();
   useEffect(() => {
-    if (token) {
-      history.push("/admin/dashboard");
-    } else {
+    if (!token) {
       history.replace("/auth/signin");
     }
   }, [token]);

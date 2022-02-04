@@ -35,8 +35,10 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import Pagination from "components/Tables/Pagination.js";
 import PayTable from "components/Tables/Payments";
+import { useHistory } from "react-router-dom";
 
 function ControlPayment() {
+  const history = useHistory();
   const loan = useSelector(getLoanSelected);
   const [payments, setPayments] = useState([]);
   const [ramdon, setRamdon] = useState(0);
@@ -48,13 +50,14 @@ function ControlPayment() {
     handleIncrease,
     currentPage,
   } = usePagination(payments, searchText);
+
   const toast = useToast();
   const [banks, setBanks] = useState([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [paymentSelected, setPaymentSelected] = useState(null);
   const [form, setForm] = useState({
     idPayment: 1,
-    idLoan: loan.idLoan,
+    idLoan: loan ? loan.idLoan : 0,
     paymentDate: "",
     grupalFee: 0,
     paymentState: 1,

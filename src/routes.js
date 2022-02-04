@@ -13,6 +13,7 @@ import { DocumentIcon } from "components/Icons/Icons";
 import Control from "views/Dashboard/Control";
 import LayoutMessages from "views/Dashboard/MessageLayout";
 import Payments from "views/Dashboard/Payments";
+import AddClients from "components/Clients/AddClients";
 import ControlPayment from "views/Dashboard/ControlPayment";
 
 const dashRoutes = [
@@ -89,6 +90,14 @@ const dashRoutes = [
     rtlName: "لوحة القيادة",
     icon: <CreditIcon color="inherit" />,
     component: ControlPayment,
+    layout: "/admin",
+  },
+  {
+    path: "/addClient",
+    name: "Agregar clientes",
+    rtlName: "لوحة القيادة",
+    icon: <PersonIcon color="inherit" />,
+    component: AddClients,
     layout: "/admin",
   },
 ];

@@ -3,6 +3,7 @@ import { LoadState } from "./state";
 
 const initialState = {
   clients: [],
+  clientSelected: null,
   error: null,
   state: LoadState.NOT_LOADED,
 };
@@ -62,6 +63,12 @@ const clientSlice = createSlice({
       state.error = action.payload;
       state.state = LoadState.LOADED_FAILURE;
     },
+    selectClient(state, action) {
+      state.clientSelected = action.payload;
+    },
+    cleanClientSelected(state) {
+      state.clientSelected = null;
+    },
   },
 });
 
@@ -78,5 +85,7 @@ export const {
   deleteClient,
   deleteClientError,
   deleteClientSuccess,
+  selectClient,
+  cleanClientSelected,
 } = clientSlice.actions;
 export default clientSlice.reducer;

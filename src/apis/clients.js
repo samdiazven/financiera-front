@@ -4,7 +4,7 @@ import Axios from "./axios";
 class Clients extends Base {
   async getClients() {
     try {
-      const response = await this.get("/client");
+      const response = await this.get("person/clientList");
       return response.data;
     } catch (error) {
       throw new Error("Hubo un error obteniendo los clientes", error);
@@ -12,7 +12,7 @@ class Clients extends Base {
   }
   async createClient(data) {
     try {
-      const response = await this.post("/client", data);
+      const response = await this.post("/person", data);
       return response.data;
     } catch (error) {
       throw new Error("Hubo un error creando los cliente", error);
@@ -51,6 +51,15 @@ class Clients extends Base {
     } catch (error) {
       console.log(error);
       throw new Error("Hubo un error subiendo el archivo", error);
+    }
+  }
+
+  async getFullClient(id) {
+    try {
+      const response = await this.get(`/person/fullInformation/${id}`);
+      return response.data.objModel;
+    } catch (error) {
+      throw new Error("Hubo un error obteniendo el cliente", error);
     }
   }
 }

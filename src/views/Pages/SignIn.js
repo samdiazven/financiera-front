@@ -26,10 +26,12 @@ import useAuth from "hooks/useAuth";
 import { LoadState } from "store/slices/state";
 import { getError } from "store/selectors/auth";
 import { getLoginState } from "store/selectors/auth";
+import { useHistory } from "react-router-dom";
 
 function SignIn() {
   // Chakra color mode
-  useAuth();
+  const history = useHistory();
+  const token = localStorage.getItem("token");
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
   const [form, setForm] = useState({
@@ -39,6 +41,11 @@ function SignIn() {
   const loginState = useSelector(getLoginState);
   const error = useSelector(getError);
   const toast = useToast();
+  useEffect(() => {
+    if (token) {
+      history.replace("/admin/dashboard");
+    }
+  }, [token]);
   useEffect(() => {
     if (error) {
       toast({
