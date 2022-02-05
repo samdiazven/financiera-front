@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { AttachmentIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import {
+  AttachmentIcon,
+  DeleteIcon,
+  EditIcon,
+  HamburgerIcon,
+} from "@chakra-ui/icons";
 import {
   Badge,
   Button,
@@ -24,12 +29,18 @@ function ClientsTable(props) {
     amount,
     age,
   } = props.data;
-  const { handleUpdate, handleDelete, handleUpload, hasAmount } = props;
+  const {
+    handleUpdate,
+    handleDelete,
+    handleUpload,
+    hasAmount,
+    handleSeeReports,
+  } = props;
   const textColor = useColorModeValue("gray.700", "white");
   return (
     <Tr
       style={{
-        backgroundColor: idPersonState !== 1 ? "rgba(0,0,0,0.2)" : "",
+        backgroundColor: idFinancialState !== 1 ? "rgba(0,0,0,0.2)" : "",
       }}
     >
       <Td textAlign={"center"}>
@@ -138,6 +149,27 @@ function ClientsTable(props) {
               cursor="pointer"
             >
               <AttachmentIcon />
+            </Text>
+          </Button>
+        </Td>
+      )}
+      {handleSeeReports && (
+        <Td textAlign={"center"}>
+          <Button
+            p="10px"
+            bg="pink.500"
+            variant="no-hover"
+            onClick={() => {
+              handleSeeReports(props.data);
+            }}
+          >
+            <Text
+              fontSize="md"
+              color={"white"}
+              fontWeight="bold"
+              cursor="pointer"
+            >
+              <HamburgerIcon />
             </Text>
           </Button>
         </Td>

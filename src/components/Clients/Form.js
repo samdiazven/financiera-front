@@ -100,7 +100,6 @@ function Form({ handleChange, values, setForm, validate }) {
               <Spinner size={"sm"} />
             ) : (
               <Text py={2}>
-                {" "}
                 {!clientName ? `` : `Este usuario ya existe ${clientName}`}
               </Text>
             )}
@@ -141,6 +140,35 @@ function Form({ handleChange, values, setForm, validate }) {
               name="citizenship"
               onChange={handleChange}
               value={values.citizenship}
+            />
+          </Flex>
+
+          <Flex flexDir={"column"} width={"45%"}>
+            <FormLabel> Estado financiero </FormLabel>
+            <Select
+              defaultValue={{
+                label: !values.idFinancialState
+                  ? "Seleccione un estado"
+                  : values.idFinancialState === 1
+                  ? "Solvente"
+                  : "En mora",
+                value: !values.idFinancialState
+                  ? null
+                  : values.idFinancialState,
+              }}
+              options={[
+                { value: 1, label: "Solvente" },
+                { value: 2, label: "En mora" },
+              ]}
+              name="idFinancialState"
+              onChange={(e) =>
+                setForm((prev) => ({
+                  ...prev,
+                  idFinancialState: e.value,
+                }))
+              }
+              size={"lg"}
+              borderRadius={"6px"}
             />
           </Flex>
         </Flex>

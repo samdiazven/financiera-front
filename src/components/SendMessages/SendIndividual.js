@@ -127,8 +127,8 @@ function SendIndividual({ groups, messages }) {
                 }}
                 placeholder="Seleccione un cliente"
                 options={clients.map((client) => ({
-                  value: client.idClient,
-                  label: `${client.clientName} ${client.clientLastname}`,
+                  value: client.idPerson,
+                  label: `${client.name} ${client.lastname}`,
                 }))}
                 borderRadius={"15px"}
                 size={"lg"}

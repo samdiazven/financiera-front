@@ -40,7 +40,7 @@ class Clients extends Base {
       for (let i = 0; i < bodyToSend.length; i++) {
         body.append(bodyToSend[i].key, bodyToSend[i].value);
       }
-      const uploadData = await Axios.post(`/client/uploadSentinelPdf`, body, {
+      const uploadData = await Axios.post(`/person/uploadSentinelPdf`, body, {
         headers: {
           "Content-Type": "multipart/form-data",
           Accept: "application/json",
@@ -69,6 +69,15 @@ class Clients extends Base {
       return response.data.objModel;
     } catch (error) {
       throw new Error("Hubo un error validando el documento", error);
+    }
+  }
+
+  async getFiles(id) {
+    try {
+      const response = await this.get(`/person/historicalSentinelReport/${id}`);
+      return response.data.objModel;
+    } catch (error) {
+      throw new Error("Hubo un error obteniendo los archivos", error);
     }
   }
 }

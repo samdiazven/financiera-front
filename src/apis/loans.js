@@ -35,7 +35,7 @@ class Loan extends Base {
   }
   async getClientsByLoan(id) {
     try {
-      const res = await this.get(`/client/byIdLoan/${id}`);
+      const res = await this.get(`/person/byIdLoan/${id}`);
       return res.data.objModel;
     } catch (error) {
       throw new Error("Hubo un error obteniendo los clientes", error);

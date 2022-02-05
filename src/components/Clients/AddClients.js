@@ -58,18 +58,18 @@ function AddClients() {
     dateOfBirth: null,
     gender: null,
     citizenship: null,
-    idCivilState: 0,
+    idCivilState: null,
     phoneNumber: null,
     email: null,
     address: null,
-    idFinancialState: 0,
+    idFinancialState: null,
     extraClientData: {
-      idDegreeOfInstruction: 0,
-      idLaboralSituation: 0,
+      idDegreeOfInstruction: null,
+      idLaboralSituation: null,
       otherLaboralSituation: null,
       profession: null,
       occupation: null,
-      dependents: 0,
+      dependents: null,
     },
   });
   const [clientLaboralData, setClientLaboralData] = useState({
@@ -180,7 +180,6 @@ function AddClients() {
   const handleSubmit = async () => {
     const { extraClientData, ...rest } = clientData;
     const { referenceRelation, ...r } = rest;
-    if (Object.keys(rest).some((key) => r[key] === null)) return;
     const data = {
       client: rest,
       extraClientData,

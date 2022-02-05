@@ -51,6 +51,7 @@ import ClientsClass from "apis/clients";
 import { useHistory } from "react-router-dom";
 import { cleanClientSelected } from "store/slices/clients";
 import { selectClient } from "store/slices/clients";
+import ListReports from "components/Clients/ListReports";
 
 export default function Clients() {
   const dispatch = useDispatch();
@@ -81,6 +82,7 @@ export default function Clients() {
   });
   const [isOpenDelete, setIsOpenDelete] = React.useState(false);
   const [isOpenUpload, setIsOpenUpload] = React.useState(false);
+  const [reportsOpen, setReportsOpen] = React.useState(false);
   const [file, setFile] = React.useState(null);
   const onCloseDelete = () => setIsOpenDelete(false);
   const cancelRef = React.useRef();
@@ -88,6 +90,10 @@ export default function Clients() {
   useEffect(() => {
     dispatch(loadClients());
   }, []);
+  const seeReports = (client) => {
+    setClientSelected(client);
+    setReportsOpen(true);
+  };
 
   const handleOpen = () => {
     setClientSelected(null);
@@ -205,14 +211,14 @@ export default function Clients() {
   const sendFile = async () => {
     console.log({
       files: file,
-      idClient: clientSelected.idClient,
+      idPerson: clientSelected.idPerson,
     });
     try {
       const clients = new ClientsClass();
       console.log("before");
       await clients.uploadFile({
         files: file,
-        idClient: clientSelected.idClient,
+        idPerson: clientSelected.idPerson,
       });
       console.log("after");
       toast({
@@ -444,6 +450,11 @@ export default function Clients() {
         setOpenModal={setIsOpenUpload}
         sendFile={sendFile}
         handleChangeFile={(file) => setFile(file)}
+      />
+      <ListReports
+        isOpen={reportsOpen}
+        setOpenModal={setReportsOpen}
+        idPerson={clientSelected ? clientSelected.idPerson : null}
       />
       <Button
         alignSelf={"flex-end"}
@@ -684,6 +695,9 @@ export default function Clients() {
                 <Th textAlign={"center"} color="gray.400">
                   Reporte Sentinel
                 </Th>
+                <Th textAlign={"center"} color="gray.400">
+                  Lista de Reportes
+                </Th>
                 <Th></Th>
               </Tr>
             </Thead>
@@ -695,6 +709,7 @@ export default function Clients() {
                     handleUpdate={handleSelectUser}
                     handleDelete={openDialogDelete}
                     handleUpload={handleUpload}
+                    handleSeeReports={seeReports}
                   />
                 );
               })}

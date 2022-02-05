@@ -233,17 +233,17 @@ function Clients({ clients, addToLoan, setRandom, idLoan }) {
         <AlertDialogOverlay>
           <AlertDialogContent>
             <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              Cambiar estado del cliente
+              Eliminar cliente del prestamo
             </AlertDialogHeader>
 
             <AlertDialogBody>
-              Estas Seguro de actualizar el cliente?
+              Estas seguro que deseas eliminar el cliente?
             </AlertDialogBody>
 
             <AlertDialogFooter>
               <Button onClick={onCloseDelete}>Cancelar</Button>
               <Button colorScheme="red" onClick={handleDelete} ml={3}>
-                Actualizar
+                Eliminar
               </Button>
             </AlertDialogFooter>
           </AlertDialogContent>
