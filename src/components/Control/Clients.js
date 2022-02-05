@@ -233,7 +233,7 @@ function Clients({ clients, addToLoan, setRandom, idLoan }) {
         <AlertDialogOverlay>
           <AlertDialogContent>
             <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              Eliminar cliente del prestamo
+              Eliminar cliente del Prestamo
             </AlertDialogHeader>
 
             <AlertDialogBody>
