@@ -44,15 +44,15 @@ class Loan extends Base {
 
   async addUserToLoan(data) {
     try {
-      await this.post("/client/addToLoanList", data);
+      await this.post("/person/addToLoanList", data);
     } catch (error) {
       throw new Error("Hubo un error agregando el usuario", error);
     }
   }
 
-  async removeUserFromLoan(id) {
+  async removeUserFromLoan(idClient, idLoan) {
     try {
-      await this.delete(`/client/deleteFromLoan/${id}`);
+      await this.delete(`/person/fromLoan/${idClient}/${idLoan}`);
     } catch (error) {
       throw new Error("Hubo un error removiendo el usuario", error);
     }

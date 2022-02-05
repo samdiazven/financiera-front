@@ -19,7 +19,7 @@ class Clients extends Base {
     }
   }
   async updateClient(data) {
-    const response = await this.put("/client", data);
+    const response = await this.put("/person", data);
     return response.data;
   }
   async desactiveClient(id) {
@@ -60,6 +60,15 @@ class Clients extends Base {
       return response.data.objModel;
     } catch (error) {
       throw new Error("Hubo un error obteniendo el cliente", error);
+    }
+  }
+
+  async validateDocumentNumber(number) {
+    try {
+      const response = await this.get(`/person/check/${number}`);
+      return response.data.objModel;
+    } catch (error) {
+      throw new Error("Hubo un error validando el documento", error);
     }
   }
 }

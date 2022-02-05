@@ -45,7 +45,8 @@ import { LoadState } from "store/slices/state";
 import Loan from "apis/loans";
 import Axios from "apis/axios";
 
-function Clients({ clients, addToLoan, setRandom }) {
+function Clients({ clients, addToLoan, setRandom, idLoan }) {
+  console.log(clients);
   const dispatch = useDispatch();
   const [searchText, setSearchText] = useState("");
   const [selectedClient, setSelectedClient] = useState(null);
@@ -80,7 +81,7 @@ function Clients({ clients, addToLoan, setRandom }) {
   const handleDelete = async () => {
     const loanInstance = new Loan();
     try {
-      await loanInstance.removeUserFromLoan(selectedClient.idClient);
+      await loanInstance.removeUserFromLoan(selectedClient.idPerson, idLoan);
       toast({
         title: "Cliente eliminado",
         description: "El cliente ha sido eliminado del grupo",
@@ -109,14 +110,14 @@ function Clients({ clients, addToLoan, setRandom }) {
   };
   const arrFilter = clientsApp.map((client) => {
     const find = clients
-      ? clients.find((c) => c.idClient === client.idClient)
+      ? clients.find((c) => c.idPerson === client.idPerson)
       : [];
     if (find) {
       return null;
     }
     return {
-      value: client.idClient,
-      label: client.clientName,
+      value: client.idPerson,
+      label: client.name,
     };
   });
   const arrSearch = arrFilter.reduce((acc, curr) => {
@@ -173,8 +174,8 @@ function Clients({ clients, addToLoan, setRandom }) {
                   clientsApp
                     ? clientsApp.map((client) => {
                         return {
-                          value: client.idClient,
-                          label: `${client.clientName} ${client.clientLastname}`,
+                          value: client.idPerson,
+                          label: `${client.name} ${client.lastname}`,
                         };
                       })
                     : [

@@ -22,6 +22,7 @@ function AddClients() {
   const history = useHistory();
 
   const client = useSelector(getClientSelected);
+  const [validateData, setValidateData] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     if (client) {
@@ -175,9 +176,11 @@ function AddClients() {
       [e.target.name]: e.target.value,
     });
   };
+
   const handleSubmit = async () => {
     const { extraClientData, ...rest } = clientData;
-    if (Object.keys(rest).some((key) => rest[key] === null)) return;
+    const { referenceRelation, ...r } = rest;
+    if (Object.keys(rest).some((key) => r[key] === null)) return;
     const data = {
       client: rest,
       extraClientData,
@@ -190,13 +193,18 @@ function AddClients() {
     };
     const clientInstance = new Clients();
     try {
-      await clientInstance.createClient(data);
+      if (client) {
+        await clientInstance.updateClient(data);
+      } else {
+        await clientInstance.createClient(data);
+      }
       history.push("/admin/clients");
     } catch (error) {
       console.log(data);
       console.log(error);
       alert(error.toString());
     }
+    console.log(data);
   };
 
   if (isLoading)
@@ -233,6 +241,7 @@ function AddClients() {
             handleChange={handleChangeClientData}
             setForm={setClientData}
             values={clientData}
+            validate={setValidateData}
           />
 
           <div
@@ -242,7 +251,12 @@ function AddClients() {
               justifyContent: "flex-start",
             }}
           >
-            <Button onClick={handleSubmit} leftIcon={<AddIcon />} p={4}>
+            <Button
+              disabled={!validateData}
+              onClick={handleSubmit}
+              leftIcon={<AddIcon />}
+              p={4}
+            >
               AGREGAR
             </Button>
           </div>

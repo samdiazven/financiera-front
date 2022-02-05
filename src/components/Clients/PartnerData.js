@@ -29,11 +29,14 @@ function PartnerData({ values, handleChange, setForm, handleChangeLaboral }) {
                 { value: 2, label: "Carnet de extranjeria" },
                 { value: 3, label: "Carnet de identidad" },
               ]}
-              name="documentType"
+              name="idDocumentType"
               onChange={(e) =>
                 setForm((prev) => ({
                   ...prev,
-                  idDocumentType: e.value,
+                  spouseData: {
+                    ...prev.spouseData,
+                    idDocumentType: e.value,
+                  },
                 }))
               }
               size={"lg"}
@@ -48,7 +51,7 @@ function PartnerData({ values, handleChange, setForm, handleChangeLaboral }) {
               borderRadius={"6px"}
               name="documentNumber"
               onChange={handleChange}
-              value={values.documentNumber}
+              value={values.spouseData.documentNumber}
             />
           </Flex>
         </Flex>
@@ -89,7 +92,10 @@ function PartnerData({ values, handleChange, setForm, handleChangeLaboral }) {
               onChange={(e) =>
                 setForm((prev) => ({
                   ...prev,
-                  gender: e.value,
+                  spouseData: {
+                    ...prev.spouseData,
+                    gender: e.value,
+                  },
                 }))
               }
               size={"lg"}
@@ -105,7 +111,7 @@ function PartnerData({ values, handleChange, setForm, handleChangeLaboral }) {
               name="dateOfBirth"
               type={"date"}
               onChange={handleChange}
-              value={values.dateOfBirth}
+              value={values.dateOfBirth ? new Date(values.dateOfBirth) : null}
             />
           </Flex>
         </Flex>

@@ -93,7 +93,11 @@ function ReferenceList({
               name="dateOfBirth"
               type={"date"}
               onChange={handleChange}
-              value={values.dateOfBirth}
+              value={
+                values.dateOfBirth
+                  ? new Date(values.dateOfBirth).toISOString().split("T")[0]
+                  : null
+              }
             />
           </Flex>
         </Flex>
@@ -233,7 +237,11 @@ function ReferenceList({
               type={"date"}
               name={"dateOfBirth"}
               onChange={handleChangeSecond}
-              value={valuesSecond.dateOfBirth}
+              value={
+                values.dateOfBirth
+                  ? new Date(values.dateOfBirth).toISOString().split("T")[0]
+                  : null
+              }
             />
           </Flex>
         </Flex>

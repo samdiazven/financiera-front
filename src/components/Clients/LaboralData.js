@@ -72,7 +72,11 @@ function LaboralData({ handleChange, values, setForm }) {
               name="startDate"
               type={"date"}
               onChange={handleChange}
-              value={values.startDate}
+              value={
+                values.startDate
+                  ? new Date(values.startDate).toISOString().split("T")[0]
+                  : null
+              }
             />
           </Flex>
           <Flex flexDir={"column"} width={"45%"}>
