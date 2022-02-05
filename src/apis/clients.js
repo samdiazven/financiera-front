@@ -7,7 +7,7 @@ class Clients extends Base {
       const response = await this.get("person/clientList");
       return response.data;
     } catch (error) {
-      throw new Error("Hubo un error obteniendo los clientes", error);
+      throw new Error("Hubo un error obteniendo los clientes ", error);
     }
   }
   async createClient(data) {
