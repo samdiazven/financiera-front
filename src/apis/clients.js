@@ -24,7 +24,7 @@ class Clients extends Base {
   }
   async desactiveClient(id) {
     try {
-      const response = await this.put(`/client/changeClientState/${id}`);
+      const response = await this.put(`/person/changeClientState/${id}`);
       return response.data;
     } catch (error) {
       throw new Error("Hubo un error eliminando el cliente", error);
