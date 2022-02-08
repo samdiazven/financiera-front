@@ -344,10 +344,10 @@ function Clients({ clients, addToLoan, setRandom, idLoan }) {
             <Thead>
               <Tr my=".8rem" pl="0px" color="gray.400">
                 <Th textAlign={"center"} pl="0px" color="gray.400">
-                  Nombre
+                  Apellido
                 </Th>
                 <Th textAlign={"center"} color="gray.400">
-                  Apellido
+                  Nombre
                 </Th>
                 <Th textAlign={"center"} color="gray.400">
                   Monto del prestamo

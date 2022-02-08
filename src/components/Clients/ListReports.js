@@ -18,18 +18,18 @@ import {
   Text,
 } from "@chakra-ui/react";
 import Clients from "apis/clients";
-import { DownloadIcon } from "@chakra-ui/icons";
+import { DeleteIcon, DownloadIcon } from "@chakra-ui/icons";
 
 function ListReports({ isOpen, setOpenModal, idPerson }) {
   const [isLoading, setIsLoading] = useState(false);
   const [reports, setReports] = useState([]);
+  const [ramd, setRamd] = useState(0);
   useEffect(() => {
     setIsLoading(true);
     const getReports = async () => {
       try {
         const person = new Clients();
         const data = await person.getFiles(idPerson);
-        console.log(data);
         setReports(data);
         setIsLoading(false);
       } catch (error) {
@@ -38,7 +38,18 @@ function ListReports({ isOpen, setOpenModal, idPerson }) {
       }
     };
     getReports();
-  }, [idPerson]);
+  }, [idPerson, ramd]);
+
+  async function deleteReport(idReport) {
+    try {
+      const person = new Clients();
+      await person.deleteFiles(idReport);
+      setRamd(Math.random() * 100);
+    } catch (error) {
+      setRamd(Math.random() * 100);
+      console.log(error);
+    }
+  }
 
   return (
     <Modal isOpen={isOpen} onClose={() => setOpenModal(false)}>
@@ -50,23 +61,42 @@ function ListReports({ isOpen, setOpenModal, idPerson }) {
             <ListItem>
               <Flex justifyContent={"space-between"} alignItems={"center"}>
                 <Text>Fecha</Text>
-                <Text>Enlace</Text>
+
+                <Box display={"flex"} alignItems={"center"}>
+                  <Text>Enlace</Text>
+                  <Text pl={4}>Elimnar </Text>
+                </Box>
               </Flex>
               {isLoading ? (
-                <Spinner alignSelf={"center"} size={"lg"} />
+                <Box
+                  w={"100%"}
+                  display={"flex"}
+                  justifyContent={"center"}
+                  alignItems={"center"}
+                >
+                  <Spinner alignSelf={"center"} size={"lg"} />
+                </Box>
               ) : (
                 reports.map((report) => (
                   <Flex
                     py={4}
                     justifyContent={"space-between"}
                     alignItems={"center"}
+                    key={report.idReport}
                   >
                     <Text>{report.uploadDate}</Text>
-                    <Text>
+                    <Box display={"flex"} alignItems={"center"}>
                       <Button as="a" href={report.filePDF} target={"_blank"}>
                         <DownloadIcon />
                       </Button>
-                    </Text>
+                      <Button
+                        as="button"
+                        onClick={() => deleteReport(report.idReport)}
+                        pl={4}
+                      >
+                        <DeleteIcon />
+                      </Button>
+                    </Box>
                   </Flex>
                 ))
               )}

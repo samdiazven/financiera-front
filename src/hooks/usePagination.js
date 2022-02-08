@@ -3,7 +3,7 @@ import { useState } from "react";
 const filterData = (arr1, value) => {
   return arr1.filter((item) => {
     return Object.values(item).some((val) =>
-      val.toString().toLowerCase().includes(value.toLowerCase())
+      val ? val.toString().toLowerCase().includes(value.toLowerCase()) : false
     );
   });
 };

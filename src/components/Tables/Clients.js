@@ -46,14 +46,14 @@ function ClientsTable(props) {
       <Td textAlign={"center"}>
         <Flex direction="column">
           <Text fontSize="md" color={textColor} fontWeight="bold">
-            {name}
+            {lastname}
           </Text>
         </Flex>
       </Td>
       <Td textAlign={"center"}>
         <Flex direction="column">
           <Text fontSize="sm" color={textColor} fontWeight="normal">
-            {lastname}
+            {name}
           </Text>
         </Flex>
       </Td>
