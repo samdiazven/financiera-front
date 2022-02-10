@@ -8,6 +8,7 @@ import Landing from "layouts/Landing";
 import { ChakraProvider } from "@chakra-ui/react";
 import theme from "./theme/theme";
 import SignIn from "views/Pages/SignIn";
+import Redirection from "layouts/Redirection";
 
 export default function App() {
   return (
@@ -16,6 +17,7 @@ export default function App() {
         <Router>
           <Switch>
             <Route path="/admin" component={AdminLayout} />
+            <Route path="/redirect" component={Redirection} />
             <Route path={`/auth`} component={SignIn} />
             <Route exact path={`/`} component={Landing} />
           </Switch>

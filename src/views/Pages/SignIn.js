@@ -43,7 +43,7 @@ function SignIn() {
   const toast = useToast();
   useEffect(() => {
     if (token) {
-      history.replace("/admin/dashboard");
+      history.replace("/redirect");
     }
   }, [token]);
   useEffect(() => {
