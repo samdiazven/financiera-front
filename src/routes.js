@@ -22,7 +22,7 @@ const dashRoutes = [
     name: "Dashboard",
     rtlName: "لوحة القيادة",
     icon: <HomeIcon color="inherit" />,
-    component: ComingSoon,
+    component: Dashboard,
     layout: "/admin",
   },
   {
