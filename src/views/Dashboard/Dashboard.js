@@ -10,7 +10,9 @@ import {
   Progress,
   SimpleGrid,
   Spacer,
+  Spinner,
   Stat,
+  StatArrow,
   StatHelpText,
   StatLabel,
   StatNumber,
@@ -44,13 +46,35 @@ import {
 } from "components/Icons/Icons.js";
 import DashboardTableRow from "components/Tables/DashboardTableRow";
 import TimelineRow from "components/Tables/TimelineRow";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 // react icons
 import { BsArrowRight } from "react-icons/bs";
 import { IoCheckmarkDoneCircleSharp } from "react-icons/io5";
 import { dashboardTableData, timelineData } from "variables/general";
-
+import DashboardApi from "apis/dashboard";
+import { CreditIcon } from "components/Icons/Icons";
+import { PersonIcon } from "components/Icons/Icons";
+import { VisaIcon } from "components/Icons/Icons";
 export default function Dashboard() {
+  const [dataCards, setDataCards] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  useEffect(() => {
+    async function getDataCards() {
+      setError(null);
+      try {
+        const dashboardApi = new DashboardApi();
+        const data = await dashboardApi.getDataCards();
+        setDataCards(data);
+        setLoading(false);
+      } catch (error) {
+        setError(error);
+        setLoading(false);
+      }
+    }
+    getDataCards();
+  }, []);
+
   const value = "$100.000";
   // Chakra Color Mode
   const { colorMode, toggleColorMode } = useColorMode();
@@ -71,9 +95,31 @@ export default function Dashboard() {
   ]);
   const overlayRef = React.useRef();
 
+  if (loading) {
+    return (
+      <Box>
+        <Flex align="center" justify="center" height="100vh" p={4}>
+          <Spinner size={"xl"} />
+        </Flex>
+      </Box>
+    );
+  }
+
+  if (error) {
+    return (
+      <Box>
+        <Flex align="center" justify="center" height="100vh" p={4}>
+          <Text>{error.message}</Text>
+        </Flex>
+      </Box>
+    );
+  }
+
+  console.log(dataCards);
+
   return (
     <Flex flexDirection="column" pt={{ base: "120px", md: "75px" }}>
-      <SimpleGrid columns={{ sm: 1, md: 2, xl: 4 }} spacing="24px">
+      <SimpleGrid columns={{ sm: 1, md: 2, xl: 4 }} spacing="24px" mb={4}>
         <Card minH="83px">
           <CardBody>
             <Flex flexDirection="row" align="center" justify="center" w="100%">
@@ -84,27 +130,16 @@ export default function Dashboard() {
                   fontWeight="bold"
                   pb=".1rem"
                 >
-                  Today's Money
+                  Monto en inversiones
                 </StatLabel>
                 <Flex>
                   <StatNumber fontSize="lg" color={textColor}>
-                    $53,000
+                    S./ {dataCards.amountDisbursed}
                   </StatNumber>
-                  <StatHelpText
-                    alignSelf="flex-end"
-                    justifySelf="flex-end"
-                    m="0px"
-                    color="green.400"
-                    fontWeight="bold"
-                    ps="3px"
-                    fontSize="md"
-                  >
-                    +55%
-                  </StatHelpText>
                 </Flex>
               </Stat>
               <IconBox as="box" h={"45px"} w={"45px"} bg={iconTeal}>
-                <WalletIcon h={"24px"} w={"24px"} color={iconBoxInside} />
+                <StatsIcon h={"24px"} w={"24px"} color={iconBoxInside} />
               </IconBox>
             </Flex>
           </CardBody>
@@ -119,27 +154,19 @@ export default function Dashboard() {
                   fontWeight="bold"
                   pb=".1rem"
                 >
-                  Today's Users
+                  Usuarios Activos del sistema
                 </StatLabel>
-                <Flex>
-                  <StatNumber fontSize="lg" color={textColor}>
-                    2,300
+                <Flex alignItems={"center"}>
+                  <StatNumber fontSize="lg" color={textColor} mr={2}>
+                    {dataCards.userActive}
                   </StatNumber>
-                  <StatHelpText
-                    alignSelf="flex-end"
-                    justifySelf="flex-end"
-                    m="0px"
-                    color="green.400"
-                    fontWeight="bold"
-                    ps="3px"
-                    fontSize="md"
-                  >
-                    +5%
-                  </StatHelpText>
+
+                  <StatArrow type="increase" />
                 </Flex>
               </Stat>
+
               <IconBox as="box" h={"45px"} w={"45px"} bg={iconTeal}>
-                <GlobeIcon h={"24px"} w={"24px"} color={iconBoxInside} />
+                <PersonIcon h={"24px"} w={"24px"} color={iconBoxInside} />
               </IconBox>
             </Flex>
           </CardBody>
@@ -154,28 +181,18 @@ export default function Dashboard() {
                   fontWeight="bold"
                   pb=".1rem"
                 >
-                  New Clients
+                  Usuarios Inactivos
                 </StatLabel>
-                <Flex>
-                  <StatNumber fontSize="lg" color={textColor}>
-                    +3,020
+                <Flex alignItems={"center"}>
+                  <StatNumber fontSize="lg" color={textColor} mr={2}>
+                    {dataCards.userInactive}
                   </StatNumber>
-                  <StatHelpText
-                    alignSelf="flex-end"
-                    justifySelf="flex-end"
-                    m="0px"
-                    color="red.500"
-                    fontWeight="bold"
-                    ps="3px"
-                    fontSize="md"
-                  >
-                    -14%
-                  </StatHelpText>
+                  <StatArrow type="decrease" />
                 </Flex>
               </Stat>
               <Spacer />
               <IconBox as="box" h={"45px"} w={"45px"} bg={iconTeal}>
-                <DocumentIcon h={"24px"} w={"24px"} color={iconBoxInside} />
+                <PersonIcon h={"24px"} w={"24px"} color={iconBoxInside} />
               </IconBox>
             </Flex>
           </CardBody>
@@ -190,27 +207,16 @@ export default function Dashboard() {
                   fontWeight="bold"
                   pb=".1rem"
                 >
-                  Total Sales
+                  Usuarios en Prestamos
                 </StatLabel>
                 <Flex>
                   <StatNumber fontSize="lg" color={textColor} fontWeight="bold">
-                    $173,000
+                    {dataCards.userInLoans}
                   </StatNumber>
-                  <StatHelpText
-                    alignSelf="flex-end"
-                    justifySelf="flex-end"
-                    m="0px"
-                    color="green.400"
-                    fontWeight="bold"
-                    ps="3px"
-                    fontSize="md"
-                  >
-                    +8%
-                  </StatHelpText>
                 </Flex>
               </Stat>
               <IconBox as="box" h={"45px"} w={"45px"} bg={iconTeal}>
-                <CartIcon h={"24px"} w={"24px"} color={iconBoxInside} />
+                <CreditIcon h={"24px"} w={"24px"} color={iconBoxInside} />
               </IconBox>
             </Flex>
           </CardBody>
