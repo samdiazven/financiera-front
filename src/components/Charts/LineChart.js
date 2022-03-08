@@ -13,8 +13,15 @@ class LineChart extends React.Component {
   }
 
   componentDidMount() {
+    const chartData = this.props.data.map((data) => data.quantity);
+    console.log(this.props);
     this.setState({
-      chartData: lineChartData,
+      chartData: [
+        {
+          name: "Usuarios por mes",
+          data: chartData,
+        },
+      ],
       chartOptions: lineChartOptions,
     });
   }
