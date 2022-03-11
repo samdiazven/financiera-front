@@ -221,6 +221,30 @@ export default function Dashboard() {
             </Flex>
           </CardBody>
         </Card>
+        <Card minH="83px">
+          <CardBody>
+            <Flex flexDirection="row" align="center" justify="center" w="100%">
+              <Stat me="auto">
+                <StatLabel
+                  fontSize="sm"
+                  color="gray.400"
+                  fontWeight="bold"
+                  pb=".1rem"
+                >
+                  Monto restante por pagar
+                </StatLabel>
+                <Flex>
+                  <StatNumber fontSize="lg" color={textColor} fontWeight="bold">
+                    S./ {dataCards.missingPaymentAmount}
+                  </StatNumber>
+                </Flex>
+              </Stat>
+              <IconBox as="box" h={"45px"} w={"45px"} bg={iconTeal}>
+                <WalletIcon h={"24px"} w={"24px"} color={iconBoxInside} />
+              </IconBox>
+            </Flex>
+          </CardBody>
+        </Card>
       </SimpleGrid>
       <Card mb={{ sm: "26px", lg: "0px" }}>
         <CardHeader mb="20px" pl="22px">
