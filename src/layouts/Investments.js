@@ -38,8 +38,25 @@ import { usePagination } from "hooks/usePagination";
 import Pagination from "components/Tables/Pagination";
 import InvestmentTable from "components/Tables/Investment";
 import { useHistory } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { authenticate, signOut } from "../store/slices/auth";
+import { LoadState } from "store/slices/state";
+import { getAuthenticationState } from "store/selectors/auth";
+import { getUser } from "store/selectors/auth";
 
 function Investments() {
+  const dispatch = useDispatch();
+  const authenticationState = useSelector(getAuthenticationState);
+  const user = useSelector(getUser);
+  useEffect(() => {
+    if (!user && authenticationState !== LoadState.LOADED_SUCCESS) {
+      dispatch(authenticate());
+    } else if (authenticationState === LoadState.LOADED_FAILURE) {
+      dispatch(signOut());
+      history.replace("/auth/signin");
+    }
+  }, [user, authenticationState]);
+
   const textColor = useColorModeValue("gray.700", "white");
   const [loading, setLoading] = useState(true);
   const { isOpen, onOpen, onClose } = useDisclosure();
