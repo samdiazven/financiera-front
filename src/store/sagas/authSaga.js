@@ -27,8 +27,9 @@ function* getMe() {
   const auth = new Auth();
   const response = yield call(() => auth.getMe());
   if (!response) {
-    yield put(signOut());
-    window.location.href = "/auth";
+    // yield put(signOut());
+    // window.location.href = "/auth";
+    console.log(response);
   }
   try {
     yield put(authenticationSucess(response));

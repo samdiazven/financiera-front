@@ -30,7 +30,6 @@ const authSlice = createSlice({
       state.rol = action.payload.rol;
     },
     authenticationError(state, action) {
-      state.error = action.payload;
       state.user = null;
       state.authenticationState = LoadState.LOADED_FAILURE;
     },
@@ -38,11 +37,11 @@ const authSlice = createSlice({
       state.authenticationState = LoadState.LOADING;
     },
     signOut(state) {
+      state.error = null;
       localStorage.removeItem("token");
       state.authenticationState = LoadState.NOT_LOADED;
       state.user = null;
       state.rol = null;
-      state.error = null;
     },
   },
 });

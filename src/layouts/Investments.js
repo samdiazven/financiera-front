@@ -43,11 +43,14 @@ import { authenticate, signOut } from "../store/slices/auth";
 import { LoadState } from "store/slices/state";
 import { getAuthenticationState } from "store/selectors/auth";
 import { getUser } from "store/selectors/auth";
+import useAuth from "hooks/useAuth";
 
 function Investments() {
+  useAuth();
+  const history = useHistory();
   const dispatch = useDispatch();
-  const authenticationState = useSelector(getAuthenticationState);
   const user = useSelector(getUser);
+  const authenticationState = useSelector(getAuthenticationState);
   useEffect(() => {
     if (!user && authenticationState !== LoadState.LOADED_SUCCESS) {
       dispatch(authenticate());
@@ -62,7 +65,6 @@ function Investments() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isOpenDelete, setIsOpenDelete] = React.useState(false);
   const [investmentSelected, setInvestmentSelected] = useState(null);
-  const history = useHistory();
   const [ramnd, setRamnd] = useState(0);
   const toast = useToast();
   const [error, setError] = React.useState(null);
@@ -243,9 +245,9 @@ function Investments() {
         <Button
           alignSelf={"flex-end"}
           leftIcon={<ArrowBackIcon />}
-          onClick={() => history.replace("/redirect")}
+          onClick={() => dispatch(signOut())}
         >
-          Volver atras
+          Cerrar Sesion
         </Button>
 
         <Button
