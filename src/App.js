@@ -12,19 +12,20 @@ import Redirection from "layouts/Redirection";
 import Investments from "layouts/Investments";
 
 export default function App() {
-  return (
-    <Provider store={store}>
-      <ChakraProvider theme={theme}>
-        <Router>
-          <Switch>
-            <Route path="/admin" component={AdminLayout} />
-            <Route path="/redirect" component={Redirection} />
-            <Route path={`/auth`} component={SignIn} />
-            <Route path="/investment" component={Investments} />
-            <Route exact path={`/`} component={Landing} />
-          </Switch>
-        </Router>
-      </ChakraProvider>
-    </Provider>
-  );
+  return <h1 style={{ textAlign: "center" }}>404</h1>;
+  // return (
+  //   <Provider store={store}>
+  //     <ChakraProvider theme={theme}>
+  //       <Router>
+  //         <Switch>
+  //           <Route path="/admin" component={AdminLayout} />
+  //           <Route path="/redirect" component={Redirection} />
+  //           <Route path={`/auth`} component={SignIn} />
+  //           <Route path="/investment" component={Investments} />
+  //           <Route exact path={`/`} component={Landing} />
+  //         </Switch>
+  //       </Router>
+  //     </ChakraProvider>
+  //   </Provider>
+  // );
 }
