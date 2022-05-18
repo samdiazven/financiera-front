@@ -11,6 +11,7 @@ import Redirection from "layouts/Redirection";
 import Investments from "layouts/Investments";
 
 export default function App() {
+  return <h1 style={{ textAlign: "center" }}>404</h1>
   return (
     <Provider store={store}>
       <ChakraProvider theme={theme}>
